@@ -1,0 +1,8 @@
+{
+  "features_names": [
+    "levenshtein",
+    "freq",
+    "soundex",
+    "metaphone"
+  ]
+}
