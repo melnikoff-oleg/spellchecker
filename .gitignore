@@ -1,2 +1,4 @@
 .idea/
 venv/
+grazie/spell/main/data/noising_resources/
+__pycache__/
