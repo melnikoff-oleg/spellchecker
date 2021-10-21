@@ -2,3 +2,4 @@
 venv/
 grazie/spell/main/data/noising_resources/
 __pycache__/
+grazie/spell/main/data/traintest/test*
