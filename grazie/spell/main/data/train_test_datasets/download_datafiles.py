@@ -1,7 +1,7 @@
 #############################################
 # USAGE
 # -----
-# cd ./data/traintest
+# cd ./data/train_test_datasets
 # python download_datafiles.py
 #############################################
 
