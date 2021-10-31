@@ -1,4 +1,6 @@
 from typing import List
+from typing import Any
+from typing import Tuple
 
 from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseFeature
@@ -13,7 +15,8 @@ class QwertyFeature(BaseFeature):
         ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/'],
     ]
 
-    def index_list_2d(list_2d: List[List[object]], element: object) -> tuple[int, int]:
+    @staticmethod
+    def index_list_2d(list_2d: List[List[Any]], element: Any) -> Tuple[int, int]:
         for row_index, row in enumerate(list_2d):
             try:
                 column_index = row.index(element)
@@ -22,8 +25,9 @@ class QwertyFeature(BaseFeature):
             return row_index, column_index
         return 2, 5
 
-    def qwerty_index_of_char(char: str):
-        return QwertyFeature.index_list_2d(QwertyFeature.keyboard, char)
+    @staticmethod
+    def qwerty_index_of_symbol(symbol: str):
+        return QwertyFeature.index_list_2d(QwertyFeature.keyboard, symbol)
 
     def compute_candidates(self, text: str, spelled_word: SpelledWord, candidates: List[str]) -> List[float]:
         res = []
