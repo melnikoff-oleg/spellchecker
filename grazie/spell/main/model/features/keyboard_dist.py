@@ -43,8 +43,8 @@ class QwertyFeature(BaseFeature):
             for char_index, char_init_word in enumerate(padded_init_word):
                 char_candidate = padded_candidate[char_index]
                 if char_init_word != char_candidate:
-                    x_candidate, y_candidate = QwertyFeature.qwerty_index_of_char(char_candidate)
-                    x_init_word, y_init_word = QwertyFeature.qwerty_index_of_char(char_init_word)
+                    x_candidate, y_candidate = QwertyFeature.qwerty_index_of_symbol(char_candidate)
+                    x_init_word, y_init_word = QwertyFeature.qwerty_index_of_symbol(char_init_word)
                     dist = abs(x_candidate - x_init_word) + abs(y_candidate - y_init_word)
                     break
             res.append(dist)
