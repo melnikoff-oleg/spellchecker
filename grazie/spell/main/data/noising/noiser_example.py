@@ -1,6 +1,4 @@
-from grazie.spell.main.noising.noiser import WordReplacementNoiser
-from grazie.spell.main.noising.noiser import CharacterReplacementNoiser
-from grazie.spell.main.noising.noiser import ProbabilisticCharacterReplacementNoiser
+from grazie.spell.main.data.noising.noiser import ProbabilisticCharacterReplacementNoiser
 
 def main():
     example_texts = [
