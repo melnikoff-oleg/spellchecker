@@ -22,7 +22,8 @@ class BaseDetector(ABC):
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
         raise NotImplementedError
 
-
+# Разве норм что тут везде ищется именно первое вхождение слова в текст? если есть 2 одинаковых ошибки
+# Вторая останется пропущенной
 class IdealDetector(BaseDetector):
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
         true_spells = kwargs["true_spells"]
@@ -36,7 +37,7 @@ class WordBaseDetector(BaseDetector):
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
         intervals = []
         words = self._tokenizer.tokenize(text)
-
+        # Тут тоже только первое вхождение ошибки
         for i, word in enumerate(words):
             if self.is_spelled(word):
                 start = text.find(word)
@@ -49,7 +50,7 @@ class WordBaseDetector(BaseDetector):
     def is_spelled(self, word: str) -> bool:
         raise NotImplementedError
 
-
+# Тупо проверяем есть ли слово в словаре
 class DictionaryDetector(WordBaseDetector):
     def __init__(self):
         super().__init__()

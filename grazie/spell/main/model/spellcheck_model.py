@@ -26,6 +26,7 @@ class SpellCheckModelBase(ABC):
     def __init__(self, max_count: int = 5):
         self.max_count = max_count
 
+    # тут что ли какой-то другой max_count, не из self?
     @abstractmethod
     def check(self, text: str, max_count: Optional[int] = None, round_digits: int = None, **kwargs) -> List[SpellCheckResult]:
         raise NotImplementedError
@@ -39,6 +40,7 @@ class SpellCheckModel(SpellCheckModelBase):
         self.ranker = ranker
 
     def check(self, text: str, max_count: Optional[int] = None, round_digits: int = None, **kwargs) -> List[SpellCheckResult]:
+        # что значит конструкция int or int?
         max_count = max_count or self.max_count
         round_digits = round_digits or 100
 

@@ -13,10 +13,10 @@ class BaseCandidator(ABC):
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         raise NotImplementedError
 
-
+# этот класс возвращает по одному gt кандидату на слово
 class IdealCandidator(BaseCandidator):
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
-        true_spells = kwargs["true_spells"]
+        true_spells = kwargs["true_spells"] # spell.spelled, spell.correct
         candidates = []
         for spelled_word in spelled_words:
             cands = []
@@ -44,7 +44,7 @@ class AggregatedCandidator(BaseCandidator):
 
         return all_candidates
 
-
+# Зачем мы берем совпадающий префикс?
 class LevenshteinCandidator(BaseCandidator):
     def __init__(self, max_err: int = 2, index_prefix_len: int = 0):
         self.require_nltk()

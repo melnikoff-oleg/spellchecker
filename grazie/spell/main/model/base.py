@@ -2,7 +2,8 @@ from typing import Tuple
 
 import attr
 
-
+# класс для слова с ошибкой
+# почему такое название?
 @attr.s(auto_attribs=True)
 class SpelledWord:
     text: str
