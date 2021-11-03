@@ -1,7 +1,7 @@
 from math import log, sqrt
 from typing import Dict, List
 
-from grazie.common.main.file import read_lines
+# from grazie.common.main.file import read_lines
 from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseFeature
 
@@ -14,8 +14,12 @@ class FreqFeature(BaseFeature):
     @classmethod
     def load(cls, freqs_path: str) -> 'FreqFeature':
         freqs: Dict[str, float] = {}
-        for line in read_lines(freqs_path):
-            word, freq = line.split('\t')
+        with open(freqs_path) as f:
+            read_lines = f.readlines()
+        # for line in read_lines(freqs_path):
+        for line in read_lines:
+            # word, freq = line.split('\t')
+            word, freq = line.split(',')
             freqs[word] = int(freq)
         return FreqFeature(freqs)
 

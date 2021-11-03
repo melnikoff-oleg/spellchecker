@@ -32,6 +32,7 @@ class IdealDetector(BaseDetector):
 
 class WordBaseDetector(BaseDetector):
     def __init__(self):
+        super().__init__()
         self._tokenizer = SyntokTextTokenizer()
 
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:

@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from typing import Tuple, List
 
-from grazie.spell.main.data.base import SpelledText
+from grazie.spell.main.data.base import SpelledText, Spell
 # from grazie.spell.main.data.generate_synthetic import generate_spelling_synthetic_data
 
 
@@ -12,15 +12,29 @@ def default_args_parser():
     return parser
 
 
-def get_test_data(texts_path: str, size: int = None) -> Tuple[List[SpelledText], List[SpelledText]]:
+def get_test_data(gt_texts_path: str, noisy_texts_path: str, size: int = None) -> Tuple[List[SpelledText], List[SpelledText]]:
+
+    with open(gt_texts_path) as f:
+        gt_lines = f.readlines()
+    with open(noisy_texts_path) as f:
+        noise_lines = f.readlines()
+
     texts = []
-    with open(texts_path) as f:
-        for i, line in f:
-            texts.append(line)
-            if len(texts) >= size:
-                break
-    # spelling_data = generate_spelling_synthetic_data(texts, 1.0)
-    # sorry :(
-    spelling_data = []
-    train_data, test_data = spelling_data[:int(len(spelling_data) * 0.7)], spelling_data[int(len(spelling_data) * 0.7):]
+    ind = 0
+    for gt, noise in zip(gt_lines, noise_lines):
+        gt_words = gt.split()
+        noise_words = noise.split()
+        spells = []
+        for gt_word, noise_word in zip(gt_words, noise_words):
+            if gt_word != noise_word:
+                new_spell = Spell(spelled=noise_word, correct=gt_word)
+                spells.append(new_spell)
+        cur_spelled_text = SpelledText(noise, spells)
+        texts.append(cur_spelled_text)
+        ind += 1
+        if ind == size:
+            break
+
+    train_data: List[SpelledText] = texts[:round(len(texts) * 0.7)]
+    test_data: List[SpelledText] = texts[round(len(texts) * 0.7):]
     return train_data, test_data

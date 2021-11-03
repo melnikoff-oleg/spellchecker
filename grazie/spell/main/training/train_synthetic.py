@@ -4,14 +4,18 @@ from tqdm import tqdm
 
 from grazie.common.main.ranking.catboost_ranker import CatBoostRanker
 from grazie.common.main.ranking.ranker import RankQuery, RankVariant, Ranker
-from grazie.spell.main.data.base import SpelledText
+from grazie.spell.main.data.base import SpelledText, Spell
 from grazie.spell.main.data.utils import default_args_parser, get_test_data
 from grazie.spell.main.evaluation.evaluate import evaluate, evaluate_ranker
-from grazie.spell.main.model.candidator import BaseCandidator, HunspellCandidator, AggregatedCandidator, IdealCandidator
-from grazie.spell.main.model.detector import HunspellDetector, IdealDetector
+from grazie.spell.main.model.candidator import BaseCandidator, AggregatedCandidator, IdealCandidator, LevenshteinCandidator, HunspellCandidator
+from grazie.spell.main.model.detector import IdealDetector, DictionaryDetector, HunspellDetector
 from grazie.spell.main.model.features.features_collector import FeaturesCollector
 from grazie.spell.main.model.ranker import FeaturesSpellRanker
 from grazie.spell.main.model.spellcheck_model import SpellCheckModel
+
+from datetime import datetime
+import json
+from os.path import exists
 
 
 def prepare_ranking_training_data(spell_data: List[SpelledText], candidator: BaseCandidator,
@@ -39,52 +43,65 @@ def prepare_ranking_training_data(spell_data: List[SpelledText], candidator: Bas
     return labeled_data
 
 
-def train_ranker(train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str) -> Ranker:
-    # detector = DictionaryDetector()
-    # candidator = LevenshteinCandidator(max_err=2, index_prefix_len=2)
-    detector = HunspellDetector()
-    candidator = HunspellCandidator()
-    features_collector = FeaturesCollector(["levenshtein", "freq", "soundex", "metaphone"],
-                                           FeaturesCollector.load_freqs(freqs_path))
+def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str, experiment_save_path: str, dataset_name: str) -> None:
+
+    features_collector = FeaturesCollector(ranker_features, FeaturesCollector.load_freqs(freqs_path))
 
     train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
     test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
 
-    # ranker = NeuralRanker()
-    ranker = CatBoostRanker(iterations=100)
     ranker.fit(train_rank_data, test_rank_data, epochs=20, lr=3e-4, l2=0., l1=0.)
-    # ranker.save(save_path)
 
-    evaluate_ranker(FeaturesSpellRanker(features_collector, ranker), test_data, candidator=candidator, verbose=True)
     print("Evaluate ranker")
+    ranker_metrics = evaluate_ranker(FeaturesSpellRanker(features_collector, ranker), test_data, candidator=candidator, verbose=True)
     print()
 
     model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
     print("Evaluate all")
-    evaluate(model, test_data, verbose=True)
-
-    return ranker
-
-
-def parse_args():
-    parser = default_args_parser()
-
-    parser.add_argument("--freqs_path", type=str, required=True, help="Path to freqs dictionary")
-    parser.add_argument("--ranker_path", type=str, required=True, help="Saved CatBoost ranker")
-    # parser.add_argument("--seed", type=int, required=False, default=0)
-
-    return parser.parse_args()
+    pipeline_metrics = evaluate(model, test_data, verbose=True)
+    print()
+    experiment_results = {'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__, 'Ranker':  type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}, 'Dataset': dataset_name, 'Ranker Metrics': ranker_metrics, 'Pipeline Metrics': pipeline_metrics}
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    experiment_packed = {'name': type(detector).__name__[:4] + type(candidator).__name__[:4] + type(ranker).__name__[:4], 'date': dt_string, 'experiment_results': experiment_results}
+    if exists(experiment_save_path):
+        with open(experiment_save_path) as f:
+            exp_res_dict = json.load(f)
+    else:
+        exp_res_dict = []
+    exp_res_dict.append(experiment_packed)
+    with open(experiment_save_path, 'w') as f:
+        json.dump(exp_res_dict, f)
+    print(experiment_results)
 
 
 def main():
-    args = parse_args()
 
-    # fix_seed(args.seed)
+    gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/train_test_datasets/test.bea4k'
+    noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/train_test_datasets/test.bea4k.noise'
+    freqs_table_path = '/Users/olegmelnikov/Downloads/unigram_freq_no_header.csv'
+    # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
+    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
+    dataset_name = gt_texts_path.split('/')[-1]
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path)
 
-    train_data, test_data = get_test_data(args.texts_path, args.size)
+    detectors = [HunspellDetector(), DictionaryDetector()]
+    candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
+    rankers = [CatBoostRanker(iterations=100)]
+    features = ["levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
 
-    ranker = train_ranker(train_data, test_data, args.freqs_path)
-    ranker.save(args.ranker_path)
+    detector = HunspellDetector()
+    candidator = HunspellCandidator()
+    ranker = CatBoostRanker(iterations=100)
+    ranker_features = [
+        ["levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],
+        ["levenshtein", "log_freq", "soundex", "cands_less_dist"],
+        ["levenshtein", "sqrt_freq", "soundex", "metaphone", "keyboard_dist"],
+        ["levenshtein", "freq", "cands_less_dist", "metaphone"],
+        ["levenshtein", "freq", "soundex", "metaphone"]
+    ]
+    for rf in ranker_features:
+        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, experiment_save_path, dataset_name)
 
 
 if __name__ == '__main__':

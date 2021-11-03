@@ -1,7 +1,8 @@
 import os
 from typing import List, Dict, Callable
 
-from grazie.common.main.file import read_lines, read_json
+import json
+# from grazie.common.main.file import read_lines, read_json
 from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseFeature
 from grazie.spell.main.model.features.bert import BertProbFeature
@@ -9,7 +10,8 @@ from grazie.spell.main.model.features.edit_dist import LevenshteinFeature, JaroW
 from grazie.spell.main.model.features.freq import FreqFeature, SqrtFreqFeature, LogFreqFeature
 from grazie.spell.main.model.features.phonetic import MetaphonePhoneticFeature, SoundexPhoneticFeature
 from grazie.spell.main.model.features.suffix_prob import SuffixProbFeature
-
+from grazie.spell.main.model.features.keyboard_dist import QwertyFeature
+from grazie.spell.main.model.features.count_candidates_less_edit_dist import CountCandidatesLessEditDistFeature
 
 class FeaturesCollector:
     def __init__(self, features_names: List[str], freqs: Dict[str, float]):
@@ -25,7 +27,10 @@ class FeaturesCollector:
             "metaphone": lambda: MetaphonePhoneticFeature(),
 
             "bert_prob": lambda: BertProbFeature(),
-            "suffix_prob": lambda: SuffixProbFeature()
+            "suffix_prob": lambda: SuffixProbFeature(),
+
+            "keyboard_dist": lambda: QwertyFeature(),
+            "cands_less_dist": lambda: CountCandidatesLessEditDistFeature()
         }
 
         self._features = {fname: self._all_features[fname]() for fname in features_names}
@@ -33,7 +38,8 @@ class FeaturesCollector:
 
     @classmethod
     def load(cls, path: str):
-        config = read_json(os.path.join(path, "config.json"))
+        config = json.load(os.path.join(path, "config.json"))
+        # config = read_json(os.path.join(path, "config.json"))
         freqs = FeaturesCollector.load_freqs(os.path.join(path, "freqs.dic"))
         return FeaturesCollector(config["features_names"], freqs)
 
@@ -51,10 +57,16 @@ class FeaturesCollector:
     def features_names(self):
         return self._features_names
 
+
+
     @classmethod
     def load_freqs(cls, freqs_path: str) -> Dict[str, float]:
         freqs: Dict[str, float] = {}
-        for line in read_lines(freqs_path):
-            word, freq = line.split('\t')
+        with open(freqs_path) as f:
+            read_lines = f.readlines()
+        # for line in read_lines(freqs_path):
+        for line in read_lines:
+            # word, freq = line.split('\t')
+            word, freq = line.split(',')
             freqs[word] = float(freq)
         return freqs

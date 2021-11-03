@@ -7,7 +7,7 @@ from grazie.common.main.ranking.catboost_ranker import CatBoostRanker
 from grazie.spell.main.data.base import SpelledText
 from grazie.spell.main.data.utils import get_test_data, default_args_parser
 from grazie.spell.main.model.candidator import AggregatedCandidator, BaseCandidator, IdealCandidator, LevenshteinCandidator, HunspellCandidator
-from grazie.spell.main.model.detector import BaseDetector, DictionaryDetector, HunspellDetector, IdealDetector
+from grazie.spell.main.model.detector import BaseDetector, DictionaryDetector, IdealDetector, HunspellDetector
 from grazie.spell.main.model.features.features_collector import FeaturesCollector
 from grazie.spell.main.model.ranker import SpellRanker, FeaturesSpellRanker, RandomSpellRanker
 from grazie.spell.main.model.spellcheck_model import SpellCheckModelBase, SpellCheckModel
@@ -88,17 +88,20 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
 
 def evaluate_detector(detector: BaseDetector, data: List[SpelledText], verbose: bool = False):
     model = SpellCheckModel(detector, IdealCandidator(), RandomSpellRanker())
-    evaluate(model, data, verbose)
+    metric_values = evaluate(model, data, verbose)
+    return metric_values
 
 
 def evaluate_candidator(candidator: BaseCandidator, data: List[SpelledText], verbose: bool = False):
     model = SpellCheckModel(IdealDetector(), candidator, RandomSpellRanker())
-    evaluate(model, data, verbose)
+    metric_values = evaluate(model, data, verbose)
+    return metric_values
 
 
 def evaluate_ranker(ranker: SpellRanker, data: List[SpelledText], candidator: BaseCandidator, verbose: bool = False):
     model = SpellCheckModel(IdealDetector(), AggregatedCandidator([IdealCandidator(), candidator]), ranker)
-    evaluate(model, data, verbose)
+    metric_values = evaluate(model, data, verbose)
+    return metric_values
 
 
 def run_detector():
