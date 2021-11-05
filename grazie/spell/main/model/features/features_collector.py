@@ -12,6 +12,8 @@ from grazie.spell.main.model.features.phonetic import MetaphonePhoneticFeature, 
 from grazie.spell.main.model.features.suffix_prob import SuffixProbFeature
 from grazie.spell.main.model.features.keyboard_dist import QwertyFeature
 from grazie.spell.main.model.features.count_candidates_less_edit_dist import CountCandidatesLessEditDistFeature
+from grazie.spell.main.model.features.n_grams import BiGramsFeature, TriGramsFeature
+from grazie.spell.main.model.features.words_length import CandidateLength, InitWordLength
 
 class FeaturesCollector:
     def __init__(self, features_names: List[str], freqs: Dict[str, float]):
@@ -30,7 +32,13 @@ class FeaturesCollector:
             "suffix_prob": lambda: SuffixProbFeature(),
 
             "keyboard_dist": lambda: QwertyFeature(),
-            "cands_less_dist": lambda: CountCandidatesLessEditDistFeature()
+            "cands_less_dist": lambda: CountCandidatesLessEditDistFeature(),
+
+            "bigram_freq": lambda: BiGramsFeature(),
+            "trigram_freq": lambda: TriGramsFeature(),
+
+            "cand_length": lambda: CandidateLength(),
+            "init_word_length": lambda: InitWordLength(),
         }
 
         self._features = {fname: self._all_features[fname]() for fname in features_names}

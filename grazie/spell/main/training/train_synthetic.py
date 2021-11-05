@@ -43,7 +43,22 @@ def prepare_ranking_training_data(spell_data: List[SpelledText], candidator: Bas
     return labeled_data
 
 
-def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str, experiment_save_path: str, dataset_name: str) -> None:
+def sort_experiments():
+    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
+    if exists(experiment_save_path):
+        with open(experiment_save_path) as f:
+            exp_res_dict = json.load(f)
+        arr_to_sort = []
+        for ind, exp in enumerate(exp_res_dict):
+            arr_to_sort.append([exp['experiment_results']["Pipeline Metrics"]["acc@1"], ind])
+        arr_to_sort.sort(reverse=True)
+        new_exp_dict = []
+        for val in arr_to_sort:
+            new_exp_dict.append(exp_res_dict[val[1]])
+        with open(experiment_save_path, 'w') as f:
+            json.dump(new_exp_dict, f)
+
+def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str, experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
 
     features_collector = FeaturesCollector(ranker_features, FeaturesCollector.load_freqs(freqs_path))
 
@@ -70,16 +85,18 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
     else:
         exp_res_dict = []
     exp_res_dict.append(experiment_packed)
-    with open(experiment_save_path, 'w') as f:
-        json.dump(exp_res_dict, f)
+    if save_experiment:
+        with open(experiment_save_path, 'w') as f:
+            json.dump(exp_res_dict, f)
+    sort_experiments()
     print(experiment_results)
 
 
 def main():
 
-    gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/train_test_datasets/test.bea4k'
-    noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/train_test_datasets/test.bea4k.noise'
-    freqs_table_path = '/Users/olegmelnikov/Downloads/unigram_freq_no_header.csv'
+    gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k'
+    noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k.noise'
+    freqs_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/1_grams.csv'
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
     dataset_name = gt_texts_path.split('/')[-1]
@@ -88,20 +105,26 @@ def main():
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
     rankers = [CatBoostRanker(iterations=100)]
-    features = ["levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
+    features = ["bigram_freq", "trigram_freq", "cand_length", "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
 
     detector = HunspellDetector()
     candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        ["levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],
+        ["cand_length", "init_word_length", "levenshtein", "freq", "soundex",
+         "metaphone", "keyboard_dist"],
+        ["cand_length", "init_word_length", "levenshtein", "freq", "soundex",
+         "metaphone"],
+        ["bigram_freq", "trigram_freq", "cand_length", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
+        ["bigram_freq", "cand_length", "levenshtein", "freq"],
+        ["bigram_freq", "trigram_freq", "cand_length", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],
         ["levenshtein", "log_freq", "soundex", "cands_less_dist"],
         ["levenshtein", "sqrt_freq", "soundex", "metaphone", "keyboard_dist"],
         ["levenshtein", "freq", "cands_less_dist", "metaphone"],
         ["levenshtein", "freq", "soundex", "metaphone"]
     ]
     for rf in ranker_features:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, experiment_save_path, dataset_name)
+        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, experiment_save_path, dataset_name, save_experiment=False)
 
 
 if __name__ == '__main__':

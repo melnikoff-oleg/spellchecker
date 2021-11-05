@@ -1,7 +1,7 @@
 #############################################
 # USAGE
 # -----
-# cd ./data/train_test_datasets
+# cd ./data/datasets
 # python download_datafiles.py
 #############################################
 
@@ -65,13 +65,13 @@ if __name__ == "__main__":
     # download_file_from_google_drive('1aT3mUfsNtTl51vc-V7kJZeflxZ4BMicD', 'test.1blm.noise.word')
 
     # download_file_from_google_drive('1QxVnFgp0pgEWmS-113SWEjT8tEhXCVF5', 'test.bea4k')
-    download_file_from_google_drive('1pnCU3OUSE0lNN1T6qY4WWhtHZsW3cg1c', 'test.bea4k.noise')
+    # download_file_from_google_drive('1pnCU3OUSE0lNN1T6qY4WWhtHZsW3cg1c', 'test.bea4k.noise')
+    #
+    # download_file_from_google_drive('1eXrAPKzfU7E9EZNKMyyanuxL9NMpkvdv', 'test.bea20k')
+    # download_file_from_google_drive('178AWu05IzYFBOFYQ0lhkkBQaIACSJzAC', 'test.bea20k.noise')
 
-    download_file_from_google_drive('1eXrAPKzfU7E9EZNKMyyanuxL9NMpkvdv', 'test.bea20k')
-    download_file_from_google_drive('178AWu05IzYFBOFYQ0lhkkBQaIACSJzAC', 'test.bea20k.noise')
-
-    # download_file_from_google_drive('10VtrEThrDIiuFJf0gj4LeGDdP-y-yR--', 'test.bea60k')
-    # download_file_from_google_drive('16AMIb6FVltgRR8xv8h7qacDUX8cOQK9d', 'test.bea60k.noise')
+    download_file_from_google_drive('10VtrEThrDIiuFJf0gj4LeGDdP-y-yR--', 'test.bea60k')
+    download_file_from_google_drive('16AMIb6FVltgRR8xv8h7qacDUX8cOQK9d', 'test.bea60k.noise')
     #
     # download_file_from_google_drive('192g_5oJn4dro5QJ88Dd8-lN_xKE_lLf0', 'test.bea322')
     # download_file_from_google_drive('1_hka2FOT4FrMvsV3d4Zfi9W8v3oFBRYc', 'test.bea322.noise')
