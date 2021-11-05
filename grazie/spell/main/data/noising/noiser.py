@@ -3,13 +3,13 @@ from abc import ABC, abstractmethod
 
 from tqdm.autonotebook import tqdm
 
-from ._util import is_module_available, get_module_or_attr
-from .crn_utils import get_line_representation
-from .downloads import download_file_from_google_drive
-from .pcrn_utils import load_stats, noisyfy_backoff_homophones
-from .wrn_utils import _load_assorted_mistakes, _load_assorted_mistakes_mappings
-from .wrn_utils import noisyfy_word_tokens
-from .commons import DEFAULT_DATA_PATH, _load_spacy_tokenizer
+from grazie.spell.main.data.noising._util import is_module_available, get_module_or_attr
+from grazie.spell.main.data.noising.crn_utils import get_line_representation
+from grazie.spell.main.data.noising.downloads import download_file_from_google_drive
+from grazie.spell.main.data.noising.pcrn_utils import load_stats, noisyfy_backoff_homophones
+from grazie.spell.main.data.noising.wrn_utils import _load_assorted_mistakes, _load_assorted_mistakes_mappings
+from grazie.spell.main.data.noising.wrn_utils import noisyfy_word_tokens
+from grazie.spell.main.data.noising.commons import DEFAULT_DATA_PATH, _load_spacy_tokenizer
 
 DEFAULT_NOISING_RESOURCES_PATH = os.path.join(DEFAULT_DATA_PATH, "noising_resources")
 
