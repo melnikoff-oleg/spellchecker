@@ -3,3 +3,4 @@ venv/
 grazie/spell/main/data/noising_resources/
 __pycache__/
 grazie/spell/main/data/train_test_datasets/test*
+grazie/spell/main/training/catboost_info/*
