@@ -1,1 +1,377 @@
-[{"name": "HunsHunsCatB", "date": "05/11/2021 20:44:44", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["bigram_freq", "trigram_freq", "cand_length", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.8482849604221636, "acc@3": 0.9802110817941952, "mrr": 0.9141378209155253}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.760027662517289, "acc@3": 0.8208852005532503, "mrr": 0.7905782783376145}}}, {"name": "HunsHunsCatB", "date": "05/11/2021 20:37:36", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["cand_length", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.8232189973614775, "acc@3": 0.9775725593667546, "mrr": 0.8991037400008375}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7544951590594744, "acc@3": 0.8201936376210235, "mrr": 0.7862790621089376}}}, {"name": "HunsHunsCatB", "date": "05/11/2021 20:40:31", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["bigram_freq", "trigram_freq", "cand_length", "init_word_length", "levenshtein", "freq", "keyboard_dist"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.8225593667546174, "acc@3": 0.9709762532981531, "mrr": 0.8971174384103144}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7461964038727524, "acc@3": 0.8188105117565698, "mrr": 0.7822813597191189}}}, {"name": "HunsHunsCatB", "date": "05/11/2021 20:37:42", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["cand_length", "init_word_length", "levenshtein", "freq", "soundex", "metaphone"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.8192612137203166, "acc@3": 0.9795514511873351, "mrr": 0.8971751057503037}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7420470262793915, "acc@3": 0.8208852005532503, "mrr": 0.7800484094052559}}}, {"name": "HunsHunsCatB", "date": "05/11/2021 20:41:54", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["bigram_freq", "cand_length", "levenshtein", "freq"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.8172823218997362, "acc@3": 0.9676781002638523, "mrr": 0.8929761119487373}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7392807745504841, "acc@3": 0.818118948824343, "mrr": 0.7780801993457594}}}, {"name": "HunsHunsCatB", "date": "03/11/2021 23:48:47", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["levenshtein", "log_freq", "soundex", "cands_less_dist"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.7664907651715039, "acc@3": 0.9736147757255936, "mrr": 0.8680432529212213}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7316735822959889, "acc@3": 0.8174273858921162, "mrr": 0.7743603042876903}}}, {"name": "HunsHunsCatB", "date": "03/11/2021 23:48:53", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["levenshtein", "sqrt_freq", "soundex", "metaphone", "keyboard_dist"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.7862796833773087, "acc@3": 0.9716358839050132, "mrr": 0.8761593507635724}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7233748271092669, "acc@3": 0.8201936376210235, "mrr": 0.7693464730290456}}}, {"name": "HunsHunsCatB", "date": "03/11/2021 23:48:39", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.7862796833773087, "acc@3": 0.9716358839050132, "mrr": 0.8761593507635724}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7233748271092669, "acc@3": 0.8201936376210235, "mrr": 0.7693464730290456}}}, {"name": "HunsHunsCatB", "date": "04/11/2021 00:00:15", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["levenshtein", "freq", "soundex", "metaphone"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.762532981530343, "acc@3": 0.9683377308707124, "mrr": 0.8643042826420134}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7226832641770401, "acc@3": 0.8174273858921162, "mrr": 0.7694847856154909}}}, {"name": "HunsHunsCatB", "date": "03/11/2021 23:49:01", "experiment_results": {"Detector": "HunspellDetector", "Candidator": "HunspellCandidator", "Ranker": "CatBoostRanker", "Features": {"RankerFeatures": ["levenshtein", "freq", "cands_less_dist", "metaphone"]}, "Dataset": "test.bea4k", "Ranker Metrics": {"texts_num": 1284, "spells_num": 1500, "candidator_acc (acc@inf)": 1.0, "acc@1": 0.7420844327176781, "acc@3": 0.9683377308707124, "mrr": 0.8515323323700631}, "Pipeline Metrics": {"texts_num": 1284, "spells_num": 1500, "detector_precision": 0.8339100346020761, "detector_recall": 0.964, "candidator_acc (acc@inf)": 0.8278008298755186, "acc@1": 0.7102351313969572, "acc@3": 0.8146611341632088, "mrr": 0.7619261674240928}}}]
+[
+  {
+    "name": "HunsHunsCatB",
+    "date": "05/11/2021 20:44:44",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "bigram_freq",
+          "trigram_freq",
+          "cand_length",
+          "init_word_length",
+          "levenshtein",
+          "freq",
+          "soundex",
+          "metaphone",
+          "keyboard_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.8482849604221636,
+        "acc@3": 0.9802110817941952,
+        "mrr": 0.9141378209155253
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.760027662517289,
+        "acc@3": 0.8208852005532503,
+        "mrr": 0.7905782783376145
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "05/11/2021 20:37:36",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "cand_length",
+          "init_word_length",
+          "levenshtein",
+          "freq",
+          "soundex",
+          "metaphone",
+          "keyboard_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.8232189973614775,
+        "acc@3": 0.9775725593667546,
+        "mrr": 0.8991037400008375
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7544951590594744,
+        "acc@3": 0.8201936376210235,
+        "mrr": 0.7862790621089376
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "05/11/2021 20:40:31",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "bigram_freq",
+          "trigram_freq",
+          "cand_length",
+          "init_word_length",
+          "levenshtein",
+          "freq",
+          "keyboard_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.8225593667546174,
+        "acc@3": 0.9709762532981531,
+        "mrr": 0.8971174384103144
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7461964038727524,
+        "acc@3": 0.8188105117565698,
+        "mrr": 0.7822813597191189
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "05/11/2021 20:37:42",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "cand_length",
+          "init_word_length",
+          "levenshtein",
+          "freq",
+          "soundex",
+          "metaphone"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.8192612137203166,
+        "acc@3": 0.9795514511873351,
+        "mrr": 0.8971751057503037
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7420470262793915,
+        "acc@3": 0.8208852005532503,
+        "mrr": 0.7800484094052559
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "05/11/2021 20:41:54",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "bigram_freq",
+          "cand_length",
+          "levenshtein",
+          "freq"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.8172823218997362,
+        "acc@3": 0.9676781002638523,
+        "mrr": 0.8929761119487373
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7392807745504841,
+        "acc@3": 0.818118948824343,
+        "mrr": 0.7780801993457594
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "03/11/2021 23:48:47",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "levenshtein",
+          "log_freq",
+          "soundex",
+          "cands_less_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.7664907651715039,
+        "acc@3": 0.9736147757255936,
+        "mrr": 0.8680432529212213
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7316735822959889,
+        "acc@3": 0.8174273858921162,
+        "mrr": 0.7743603042876903
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "03/11/2021 23:48:39",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "levenshtein",
+          "freq",
+          "soundex",
+          "metaphone",
+          "keyboard_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.7862796833773087,
+        "acc@3": 0.9716358839050132,
+        "mrr": 0.8761593507635724
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7233748271092669,
+        "acc@3": 0.8201936376210235,
+        "mrr": 0.7693464730290456
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "03/11/2021 23:48:53",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "levenshtein",
+          "sqrt_freq",
+          "soundex",
+          "metaphone",
+          "keyboard_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.7862796833773087,
+        "acc@3": 0.9716358839050132,
+        "mrr": 0.8761593507635724
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7233748271092669,
+        "acc@3": 0.8201936376210235,
+        "mrr": 0.7693464730290456
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "04/11/2021 00:00:15",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "levenshtein",
+          "freq",
+          "soundex",
+          "metaphone"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.762532981530343,
+        "acc@3": 0.9683377308707124,
+        "mrr": 0.8643042826420134
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7226832641770401,
+        "acc@3": 0.8174273858921162,
+        "mrr": 0.7694847856154909
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "03/11/2021 23:49:01",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "levenshtein",
+          "freq",
+          "cands_less_dist",
+          "metaphone"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.7420844327176781,
+        "acc@3": 0.9683377308707124,
+        "mrr": 0.8515323323700631
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7102351313969572,
+        "acc@3": 0.8146611341632088,
+        "mrr": 0.7619261674240928
+      }
+    }
+  }
+]

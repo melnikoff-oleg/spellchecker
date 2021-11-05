@@ -4,7 +4,7 @@ from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseFeature
 
 
-class CandidateLength(BaseFeature):
+class CandidateLengthDiff(BaseFeature):
     def compute_candidates(self, text: str, spelled_word: SpelledWord, candidates: List[str]) -> List[float]:
         res = []
         for candidate in candidates:

@@ -13,7 +13,7 @@ from grazie.spell.main.model.features.suffix_prob import SuffixProbFeature
 from grazie.spell.main.model.features.keyboard_dist import QwertyFeature
 from grazie.spell.main.model.features.count_candidates_less_edit_dist import CountCandidatesLessEditDistFeature
 from grazie.spell.main.model.features.n_grams import BiGramsFeature, TriGramsFeature
-from grazie.spell.main.model.features.words_length import CandidateLength, InitWordLength
+from grazie.spell.main.model.features.words_length import CandidateLengthDiff, InitWordLength
 
 class FeaturesCollector:
     def __init__(self, features_names: List[str], freqs: Dict[str, float]):
@@ -37,7 +37,7 @@ class FeaturesCollector:
             "bigram_freq": lambda: BiGramsFeature(),
             "trigram_freq": lambda: TriGramsFeature(),
 
-            "cand_length": lambda: CandidateLength(),
+            "cand_length_diff": lambda: CandidateLengthDiff(),
             "init_word_length": lambda: InitWordLength(),
         }
 

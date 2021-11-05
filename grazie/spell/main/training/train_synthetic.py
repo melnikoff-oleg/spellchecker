@@ -105,19 +105,19 @@ def main():
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
     rankers = [CatBoostRanker(iterations=100)]
-    features = ["bigram_freq", "trigram_freq", "cand_length", "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
+    features = ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
 
     detector = HunspellDetector()
     candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        ["cand_length", "init_word_length", "levenshtein", "freq", "soundex",
+        ["cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex",
          "metaphone", "keyboard_dist"],
-        ["cand_length", "init_word_length", "levenshtein", "freq", "soundex",
+        ["cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex",
          "metaphone"],
-        ["bigram_freq", "trigram_freq", "cand_length", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
-        ["bigram_freq", "cand_length", "levenshtein", "freq"],
-        ["bigram_freq", "trigram_freq", "cand_length", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],
+        ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
+        ["bigram_freq", "cand_length_diff", "levenshtein", "freq"],
+        ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],
         ["levenshtein", "log_freq", "soundex", "cands_less_dist"],
         ["levenshtein", "sqrt_freq", "soundex", "metaphone", "keyboard_dist"],
         ["levenshtein", "freq", "cands_less_dist", "metaphone"],
