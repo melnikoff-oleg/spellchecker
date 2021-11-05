@@ -1,7 +1,7 @@
 import os
 from string import punctuation
 
-from .util import is_module_available, get_module_or_attr
+from grazie.spell.main.data.noising.util import is_module_available, get_module_or_attr
 
 """ default paths """
 
