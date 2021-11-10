@@ -230,7 +230,7 @@
   },
   {
     "name": "HunsHunsCatB",
-    "date": "03/11/2021 23:48:39",
+    "date": "03/11/2021 23:48:53",
     "experiment_results": {
       "Detector": "HunspellDetector",
       "Candidator": "HunspellCandidator",
@@ -238,7 +238,7 @@
       "Features": {
         "RankerFeatures": [
           "levenshtein",
-          "freq",
+          "sqrt_freq",
           "soundex",
           "metaphone",
           "keyboard_dist"
@@ -267,7 +267,7 @@
   },
   {
     "name": "HunsHunsCatB",
-    "date": "03/11/2021 23:48:53",
+    "date": "03/11/2021 23:48:39",
     "experiment_results": {
       "Detector": "HunspellDetector",
       "Candidator": "HunspellCandidator",
@@ -275,7 +275,7 @@
       "Features": {
         "RankerFeatures": [
           "levenshtein",
-          "sqrt_freq",
+          "freq",
           "soundex",
           "metaphone",
           "keyboard_dist"
