@@ -3,6 +3,7 @@ from typing import List
 from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseFeature
 from grazie.spell.main.model.features.fill_text_prob import FillTextProbComputer
+from grazie.spell.main.model.features.feature_tester import test_feature
 
 
 class BartProbFeature(BaseFeature):
@@ -13,3 +14,7 @@ class BartProbFeature(BaseFeature):
         request = (spelled_word.text, spelled_word.interval[0], spelled_word.interval[1])
         scores = self._model.log_probs([request], [candidates])[0]
         return scores
+
+
+if __name__ == '__main__':
+    test_feature(BartProbFeature())

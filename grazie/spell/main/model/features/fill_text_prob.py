@@ -63,6 +63,9 @@ class FillTextProbComputer:
         texts_inds, cands_ranges, outs = self.preprocess(texts_with_ranges, candidates)
         input_prompts = [self.create_prompt(*texts_with_ranges[i]) for i in texts_inds]
 
+        if len(input_prompts) == 0:
+            return [[1.0 for cand in cands] for cands in candidates]
+
         encoded_input = self.encode_prompt(input_prompts)
         output_ids = self.encode_prompt(outs)['input_ids']
 

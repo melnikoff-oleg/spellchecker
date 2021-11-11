@@ -3,8 +3,8 @@ from typing import List
 from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseFeature
 from typing import Dict, Tuple
-from time import sleep
 from grazie.spell.main.preprocessing.tokenizer import SyntokTextTokenizer
+from grazie.spell.main.model.features.feature_tester import test_feature
 
 
 class NGramsFeature(BaseFeature):
@@ -19,9 +19,6 @@ class NGramsFeature(BaseFeature):
                 text_line = line[:-1]
                 words = ','.join(text_line.split(',')[:-1])
                 tokens = words.split(' ')
-                # print(words, tokens)
-                # print(self.n)
-                # sleep(1)
                 freq = int(text_line.split(',')[-1])
                 ngram_freqs[tuple(tokens)] = freq
 
@@ -31,7 +28,7 @@ class NGramsFeature(BaseFeature):
         except Exception as e:
             print(tokens, '\n', spelled_word.word)
             return [0 for candidate in candidates]
-            # raise e
+
         res = []
         for candidate in candidates:
             tokens[ind] = candidate
@@ -62,3 +59,7 @@ class TriGramsFeature(NGramsFeature):
     def __init__(self):
         super(NGramsFeature, self).__init__()
         self.n = 3
+
+
+if __name__ == '__main__':
+    test_feature(BiGramsFeature())

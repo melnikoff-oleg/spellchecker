@@ -32,9 +32,9 @@ class CatBoostRanker(Ranker):
         train_pool = create_pool(train_data)
         test_pool = create_pool(test_data)
 
-        self.model.fit(train_pool, eval_set=test_pool, plot=False, verbose=True)
+        self.model.fit(train_pool, eval_set=test_pool, plot=False, verbose=False)
 
-        print(self.model.eval_metrics(test_pool, ['PrecisionAt:top=1', 'PrecisionAt:top=3', 'NDCG', 'PFound', 'AverageGain:top=10']))
+        # print(self.model.eval_metrics(test_pool, ['PrecisionAt:top=1', 'PrecisionAt:top=3', 'NDCG', 'PFound', 'AverageGain:top=10']))
 
         return self
 

@@ -1,6 +1,9 @@
 from typing import List
-
 from tqdm import tqdm
+import json
+from os.path import exists
+import time
+import datetime
 
 from grazie.common.main.ranking.catboost_ranker import CatBoostRanker
 from grazie.common.main.ranking.ranker import RankQuery, RankVariant, Ranker
@@ -12,10 +15,6 @@ from grazie.spell.main.model.detector import IdealDetector, DictionaryDetector, 
 from grazie.spell.main.model.features.features_collector import FeaturesCollector
 from grazie.spell.main.model.ranker import FeaturesSpellRanker
 from grazie.spell.main.model.spellcheck_model import SpellCheckModel
-
-from datetime import datetime
-import json
-from os.path import exists
 
 
 def prepare_ranking_training_data(spell_data: List[SpelledText], candidator: BaseCandidator,
@@ -58,25 +57,38 @@ def sort_experiments():
         with open(experiment_save_path, 'w') as f:
             json.dump(new_exp_dict, f)
 
+
+def get_time_diff(start):
+    return str(datetime.timedelta(seconds=round(time.time() - start)))
+
+
 def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str, experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
 
+    start = time.time()
     features_collector = FeaturesCollector(ranker_features, FeaturesCollector.load_freqs(freqs_path))
-
     train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
     test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
+    data_prep_time = get_time_diff(start)
 
+    start = time.time()
     ranker.fit(train_rank_data, test_rank_data, epochs=20, lr=3e-4, l2=0., l1=0.)
+    ranker_train_time = get_time_diff(start)
 
+    start = time.time()
     print("Evaluate ranker")
     ranker_metrics = evaluate_ranker(FeaturesSpellRanker(features_collector, ranker), test_data, candidator=candidator, verbose=True)
     print()
+    ranker_eval_time = get_time_diff(start)
 
+    start = time.time()
     model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
     print("Evaluate all")
     pipeline_metrics = evaluate(model, test_data, verbose=True)
     print()
-    experiment_results = {'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__, 'Ranker':  type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}, 'Dataset': dataset_name, 'Ranker Metrics': ranker_metrics, 'Pipeline Metrics': pipeline_metrics}
-    now = datetime.now()
+    pipeline_eval_time = get_time_diff(start)
+
+    experiment_results = {'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__, 'Ranker':  type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}, 'Dataset': dataset_name, 'Dataset Size': len(train_data) + len(test_data),  'Ranker Metrics': ranker_metrics, 'Pipeline Metrics': pipeline_metrics, 'Data Preparation Time': data_prep_time, 'Ranker Train Time': ranker_train_time, 'Ranker Eval Time': ranker_eval_time, 'Pipeline Eval Time': pipeline_eval_time}
+    now = datetime.datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     experiment_packed = {'name': type(detector).__name__[:4] + type(candidator).__name__[:4] + type(ranker).__name__[:4], 'date': dt_string, 'experiment_results': experiment_results}
     if exists(experiment_save_path):
@@ -100,7 +112,7 @@ def main():
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=100)
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
@@ -111,12 +123,12 @@ def main():
     candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        # ["bart_prob", "cand_length_diff", "levenshtein", "freq"],
-        ["suffix_prob", "cand_length_diff", "levenshtein", "freq"],
-        ["bert_prob", "cand_length_diff", "levenshtein", "freq"],
-        ["bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
-        ["bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex",
-         "metaphone", "keyboard_dist"],
+        ["bart_prob", "cand_length_diff", "levenshtein", "freq"],
+        # ["suffix_prob", "cand_length_diff", "levenshtein", "freq"],
+        # ["bert_prob", "cand_length_diff", "levenshtein", "freq"],
+        # ["bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
+        # ["bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex",
+        #  "metaphone", "keyboard_dist"],
         # ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
         # ["bigram_freq", "cand_length_diff", "levenshtein", "freq"],
         # ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],
