@@ -2,7 +2,7 @@
 venv/
 grazie/spell/main/data/noising_resources/
 __pycache__/
-grazie/spell/main/data/datasets/test*
 grazie/spell/main/training/catboost_info/*
-*.csv
 *.DS_store
+grazie/spell/main/data/datasets/test*
+*.csv
