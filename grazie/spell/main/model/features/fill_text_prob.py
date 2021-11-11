@@ -71,3 +71,8 @@ class FillTextProbComputer:
 
         scores = self.candidate_scores(texts_inds, cands_ranges, output_ids, all_logits)
         return list(scores.values())
+
+
+class SynFillTextProbComputer(FillTextProbComputer):
+    def create_prompt(self, text: str, start: int, end: int) -> str:
+        return text[start:end] + ' <sep> ' + text[:start] + '<mask>' + text[end:]
