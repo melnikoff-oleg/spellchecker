@@ -100,7 +100,7 @@ def main():
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=100)
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
@@ -111,10 +111,7 @@ def main():
     candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        ["cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex",
-         "metaphone", "keyboard_dist"],
-        ["cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex",
-         "metaphone"],
+        ["bert_prob", "cand_length_diff", "levenshtein", "freq"],
         ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
         ["bigram_freq", "cand_length_diff", "levenshtein", "freq"],
         ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],

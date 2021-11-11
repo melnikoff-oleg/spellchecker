@@ -18,6 +18,7 @@ class BertProbFeature(BaseTransformerFeature):
         candidates_ids, masked_token_ids, left_idx = self.prepare(text, spelled_word, candidates)
         true_candidates_ids = copy.deepcopy(candidates_ids)
 
+        # здесь мы просто подсчитали длины кандидатов в токенах
         word_token_lens = []
         for cand_i in range(len(candidates)):
             seq = candidates_ids["input_ids"][cand_i]
@@ -25,6 +26,10 @@ class BertProbFeature(BaseTransformerFeature):
             # l = len(seq) - len(masked_token_ids) + 1 - (len(seq) - pad_pos)
             word_token_lens.append(pad_pos - len(masked_token_ids) + 1)
 
+        # я вообще не понял почему в этом форе всегда вызывается idx, а не cand_i
+        # мы прибавляем к idx word_len текущего кандидата и потом вызываем
+        # candidates_ids["input_ids"][idx] не странно ли это
+        # и зачем нам обновлять постонно candidates_ids["token_type_ids"]
         idx = 0
         for cand_i, word_len in enumerate(word_token_lens):
             candidates_ids["input_ids"][idx][left_idx + word_len - 1] = masked_token_ids[left_idx]
