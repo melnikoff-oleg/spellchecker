@@ -14,23 +14,23 @@ class FillTextProbComputer:
     def create_prompt(self, text: str, start: int, end: int) -> str:
         return text[:start] + '<mask>' + text[end:]
 
-    def preprocess(self, texts_with_ranges: List[Tuple[str, int, int]], candidates: List[List[str]]) -> Tuple[
-        List[int], List[Tuple[int, int]], List[str]]:
+    def preprocess(self, texts_with_ranges: List[Tuple[str, int, int]],
+                   candidates: List[List[str]]) -> Tuple[List[int], List[Tuple[int, int]], List[str]]:
         outs = []
         texts_inds = []
         cands_ranges = []
         for i, ((text, start, finish), cands) in enumerate(zip(texts_with_ranges, candidates)):
             text_start = text[:start]
-            # remove if it is not separate phrase (space or start_of_text in the begin and end_of_text or not alpha after phrase
+            # remove if it is not separate phrase (space or start_of_text in the begin and end_of_text or not alpha after phrase)
             if (start == 0 or text[start - 1] == ' ') and (finish == len(text) or not text[finish].isalpha()):
                 texts_inds += [i for _ in cands]
 
-                output_texts = [text_start + syn + text[finish:] for syn in cands]
-                outs += output_texts
+                outs += [text_start + cand for cand in cands]
 
                 start_tokens_len = len(self.tokenizer.encode(text_start[:-1])) - 1
-                cands_ranges += [(start_tokens_len, len(self.tokenizer.encode(syn, add_special_tokens=False))) for syn
-                                 in cands]
+                cands_ranges += [
+                    (start_tokens_len, len(self.tokenizer.encode(cand, add_special_tokens=False))) for cand in cands
+                ]
         return texts_inds, cands_ranges, outs
 
     def encode_prompt(self, texts):
@@ -49,11 +49,11 @@ class FillTextProbComputer:
         for i, logits in enumerate(all_logits):
             ind = texts_inds[i]
 
-            syn_range = cands_ranges[i]
-            word_logits = logits[syn_range[0] - 1:syn_range[0] + syn_range[1] - 1]
+            cand_range = cands_ranges[i]
+            word_logits = logits[cand_range[0] - 1:cand_range[0] + cand_range[1] - 1]
             log_probs = torch.log_softmax(word_logits, dim=1)
             word_log_prob = torch.tensor(0.0)
-            for j, token_idx in enumerate(encoded_output[i][syn_range[0]:syn_range[0] + syn_range[1]]):
+            for j, token_idx in enumerate(encoded_output[i][cand_range[0]:cand_range[0] + cand_range[1]]):
                 word_log_prob += log_probs[j, token_idx]
 
             scores[ind].append(word_log_prob.item())
