@@ -230,7 +230,7 @@
   },
   {
     "name": "HunsHunsCatB",
-    "date": "03/11/2021 23:48:53",
+    "date": "03/11/2021 23:48:39",
     "experiment_results": {
       "Detector": "HunspellDetector",
       "Candidator": "HunspellCandidator",
@@ -238,7 +238,7 @@
       "Features": {
         "RankerFeatures": [
           "levenshtein",
-          "sqrt_freq",
+          "freq",
           "soundex",
           "metaphone",
           "keyboard_dist"
@@ -267,7 +267,7 @@
   },
   {
     "name": "HunsHunsCatB",
-    "date": "03/11/2021 23:48:39",
+    "date": "03/11/2021 23:48:53",
     "experiment_results": {
       "Detector": "HunspellDetector",
       "Candidator": "HunspellCandidator",
@@ -275,7 +275,7 @@
       "Features": {
         "RankerFeatures": [
           "levenshtein",
-          "freq",
+          "sqrt_freq",
           "soundex",
           "metaphone",
           "keyboard_dist"
@@ -371,6 +371,42 @@
         "acc@1": 0.7102351313969572,
         "acc@3": 0.8146611341632088,
         "mrr": 0.7619261674240928
+      }
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "11/11/2021 17:22:31",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "suffix_prob",
+          "cand_length_diff",
+          "levenshtein",
+          "freq"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Ranker Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.7519788918205804,
+        "acc@3": 0.9656992084432717,
+        "mrr": 0.8577801074255561
+      },
+      "Pipeline Metrics": {
+        "texts_num": 1284,
+        "spells_num": 1500,
+        "detector_precision": 0.8339100346020761,
+        "detector_recall": 0.964,
+        "candidator_acc (acc@inf)": 0.8278008298755186,
+        "acc@1": 0.7047026279391425,
+        "acc@3": 0.8160442600276625,
+        "mrr": 0.759743078882083
       }
     }
   }
