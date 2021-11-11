@@ -4,6 +4,7 @@ from typing import List, Dict, Callable
 import json
 # from grazie.common.main.file import read_lines, read_json
 from grazie.spell.main.model.base import SpelledWord
+from grazie.spell.main.model.features.bart_prob import BartProbFeature
 from grazie.spell.main.model.features.base import BaseFeature
 from grazie.spell.main.model.features.bert import BertProbFeature
 from grazie.spell.main.model.features.edit_dist import LevenshteinFeature, JaroWinklerFeature
@@ -31,6 +32,7 @@ class FeaturesCollector:
             "bert_prob": lambda: BertProbFeature(),
             "suffix_prob": lambda: SuffixProbFeature(),
 
+
             "keyboard_dist": lambda: QwertyFeature(),
             "cands_less_dist": lambda: CountCandidatesLessEditDistFeature(),
 
@@ -39,6 +41,9 @@ class FeaturesCollector:
 
             "cand_length_diff": lambda: CandidateLengthDiff(),
             "init_word_length": lambda: InitWordLength(),
+
+            "bart_prob": lambda: BartProbFeature()
+
         }
 
         self._features = {fname: self._all_features[fname]() for fname in features_names}
