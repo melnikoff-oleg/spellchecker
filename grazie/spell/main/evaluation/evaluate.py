@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Any
 
 import numpy as np
 from tqdm import tqdm
@@ -31,8 +31,8 @@ def remove_specific_metrics(model: SpellCheckModelBase, metric_values: Dict[str,
     return metric_values
 
 
-def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool = False):
-    metric_values: Dict[str, float] = {"texts_num": len(data)}
+def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool = False, max_not_found: int = 5, max_not_correct: int = 5):
+    metric_values: Dict[str, Any] = {"texts_num": len(data)}
 
     detector_matches = 0
     detector_precision_denom, detector_recall_denom = 0, 0
@@ -40,6 +40,9 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
     detector_recall_denom = 0
 
     matched_positions = []
+
+    not_found_errors = []
+    not_correct_cands = []
 
     for spell_text in tqdm(data):
         text = spell_text.text
@@ -60,14 +63,21 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
                     for pos, variant in enumerate(pred_spell.variants):
                         if variant.substitution == true_spell.correct:
                             matched_position = pos + 1
+                            if pos > 0:
+                                not_correct_cands.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
                             break
                     matched_positions.append(matched_position)
             if not found:
+                not_found_errors.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct})
                 not_found_spells.append(true_spell)
+
+
 
     metric_values["spells_num"] = detector_recall_denom
     metric_values["detector_precision"] = detector_matches / detector_precision_denom
     metric_values["detector_recall"] = detector_matches / detector_recall_denom
+    metric_values["examples_not_found"] = not_found_errors[:max_not_found]
+    metric_values["examples_not_correct_cands"] = not_correct_cands[:max_not_correct]
 
     metric_values[f"candidator_acc (acc@inf)"] = float(np.mean([pos < float("inf") for pos in matched_positions]))
 
@@ -83,6 +93,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
         for name, value in metric_values.items():
             print(f"{name}: {value}")
 
+    # print('Not found spells:\n', not_found_spells)
     return metric_values
 
 
