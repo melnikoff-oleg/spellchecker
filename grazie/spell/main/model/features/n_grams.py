@@ -29,9 +29,13 @@ class NGramsFeature(BaseFeature):
             print(tokens, '\n', spelled_word.word)
             return [0 for candidate in candidates]
 
+        # lower casing all token for normal n-grams behaviour
+        for i in range(len(tokens)):
+            tokens[i] = tokens[i].lower()
+
         res = []
         for candidate in candidates:
-            tokens[ind] = candidate
+            tokens[ind] = candidate.lower()
             avg = 0
             cnt = 0
             for st in range(ind - self.n + 1, ind + 1):

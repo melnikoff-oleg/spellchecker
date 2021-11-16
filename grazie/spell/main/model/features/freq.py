@@ -16,9 +16,7 @@ class FreqFeature(BaseFeature):
         freqs: Dict[str, float] = {}
         with open(freqs_path) as f:
             read_lines = f.readlines()
-        # for line in read_lines(freqs_path):
         for line in read_lines:
-            # word, freq = line.split('\t')
             word, freq = line.split(',')
             freqs[word] = int(freq)
         return FreqFeature(freqs)
@@ -27,7 +25,7 @@ class FreqFeature(BaseFeature):
         return freq
 
     def compute_candidates(self, text: str, spelled_word: SpelledWord, candidates: List[str]) -> List[float]:
-        return [self.transform(self._freqs.get(candidate, self._eps)) for candidate in candidates]
+        return [self.transform(self._freqs.get(candidate.lower(), self._eps)) for candidate in candidates]
 
 
 class LogFreqFeature(FreqFeature):

@@ -1,317 +1,6 @@
 [
   {
     "name": "HunsHunsCatB",
-    "date": "12/11/2021 05:37:58",
-    "experiment_results": {
-      "Detector": "HunspellDetector",
-      "Candidator": "HunspellCandidator",
-      "Ranker": "CatBoostRanker",
-      "Features": {
-        "RankerFeatures": [
-          "bart_prob",
-          "bert_prob",
-          "bigram_freq",
-          "trigram_freq",
-          "cand_length_diff",
-          "init_word_length",
-          "levenshtein",
-          "freq",
-          "soundex",
-          "metaphone",
-          "keyboard_dist"
-        ]
-      },
-      "Dataset": "test.bea4k",
-      "Dataset Size": 500,
-      "Ranker Metrics": {
-        "texts_num": 150,
-        "spells_num": 197,
-        "examples_not_found": [],
-        "examples_not_correct_cands": [
-          {
-            "Text": "I hope when you visit you will be favorite place .\n",
-            "Incorrect Word": "favorite",
-            "Corrected Word": "favourite",
-            "Candidates": [
-              {
-                "Word": "favorite",
-                "Score": 0.68
-              },
-              {
-                "Word": "favourite",
-                "Score": 0.61
-              },
-              {
-                "Word": "favorites",
-                "Score": 0.39
-              }
-            ]
-          },
-          {
-            "Text": "First of all we need the telephone in our house because it 's important to make a call if you need something or if something happend to your house and nobody is with you .\n",
-            "Incorrect Word": "happend",
-            "Corrected Word": "happens",
-            "Candidates": [
-              {
-                "Word": "happened",
-                "Score": 0.98
-              },
-              {
-                "Word": "happen",
-                "Score": 0.96
-              },
-              {
-                "Word": "happens",
-                "Score": 0.96
-              },
-              {
-                "Word": "append",
-                "Score": 0.41
-              },
-              {
-                "Word": "happed",
-                "Score": 0.27
-              }
-            ]
-          },
-          {
-            "Text": "You must have a TV because you can liten about what is happening in the world and you can see some places that you haven't been to .\n",
-            "Incorrect Word": "liten",
-            "Corrected Word": "learn",
-            "Candidates": [
-              {
-                "Word": "listen",
-                "Score": 0.97
-              },
-              {
-                "Word": "learn",
-                "Score": 0.95
-              },
-              {
-                "Word": "lighten",
-                "Score": 0.3
-              },
-              {
-                "Word": "liven",
-                "Score": 0.28
-              },
-              {
-                "Word": "liter",
-                "Score": 0.24
-              }
-            ]
-          },
-          {
-            "Text": "However , there was one persone wich told me he was n't happy at all with the phone , because he used to writte a lot , especially at Christmas when he wanted to wish all his friends a very nice Christmas but now everybody phones him , ending a very old tradition .\n",
-            "Incorrect Word": "wich",
-            "Corrected Word": "who",
-            "Candidates": [
-              {
-                "Word": "which",
-                "Score": 0.98
-              },
-              {
-                "Word": "who",
-                "Score": 0.95
-              },
-              {
-                "Word": "with",
-                "Score": 0.79
-              },
-              {
-                "Word": "wish",
-                "Score": 0.45
-              },
-              {
-                "Word": "wick",
-                "Score": 0.37
-              }
-            ]
-          },
-          {
-            "Text": "Firstly , about your accomodation , the college which I belong to offers visitors free accomodations with full of facilities\n",
-            "Incorrect Word": "accomodations",
-            "Corrected Word": "accommodation",
-            "Candidates": [
-              {
-                "Word": "accommodations",
-                "Score": 0.97
-              },
-              {
-                "Word": "accommodation",
-                "Score": 0.95
-              },
-              {
-                "Word": "accommodative",
-                "Score": 0.33
-              },
-              {
-                "Word": "accommodating",
-                "Score": 0.33
-              },
-              {
-                "Word": "commendations",
-                "Score": 0.23
-              }
-            ]
-          }
-        ],
-        "candidator_acc (acc@inf)": 1.0,
-        "acc@1": 0.9468599033816425,
-        "acc@3": 1.0,
-        "mrr": 0.9726247987117551
-      },
-      "Pipeline Metrics": {
-        "texts_num": 150,
-        "spells_num": 197,
-        "detector_precision": 0.9009433962264151,
-        "detector_recall": 0.9695431472081218,
-        "examples_not_found": [
-          {
-            "Text": "When you are in the bus station you will catch bus number 37 , which will go to the town center .\n",
-            "Incorrect Word": "center",
-            "Corrected Word": "centre"
-          },
-          {
-            "Text": "Anyway the college is the first road on your right from the town center .\n",
-            "Incorrect Word": "center",
-            "Corrected Word": "centre"
-          },
-          {
-            "Text": "Architecture : It is a typical from this epoque with beautiful drawing on the wall and first kind of writing in the sports center .\n",
-            "Incorrect Word": "center",
-            "Corrected Word": "centre"
-          },
-          {
-            "Text": "I hope when you visit you will be favorite place .\n",
-            "Incorrect Word": "favorite",
-            "Corrected Word": "favourite"
-          },
-          {
-            "Text": "First , I 'd like to tell you that the hotel where you are going to stay is \" The Palace Hotel \" , wich is situated at the center of the town .\n",
-            "Incorrect Word": "center",
-            "Corrected Word": "centre"
-          }
-        ],
-        "examples_not_correct_cands": [
-          {
-            "Text": "First of all we need the telephone in our house because it 's important to make a call if you need something or if something happend to your house and nobody is with you .\n",
-            "Incorrect Word": "happend",
-            "Corrected Word": "happens",
-            "Candidates": [
-              {
-                "Word": "happened",
-                "Score": 0.98
-              },
-              {
-                "Word": "happen",
-                "Score": 0.96
-              },
-              {
-                "Word": "happens",
-                "Score": 0.96
-              },
-              {
-                "Word": "append",
-                "Score": 0.41
-              },
-              {
-                "Word": "happed",
-                "Score": 0.27
-              }
-            ]
-          },
-          {
-            "Text": "Firstly , about your accomodation , the college which I belong to offers visitors free accomodations with full of facilities\n",
-            "Incorrect Word": "accomodations",
-            "Corrected Word": "accommodation",
-            "Candidates": [
-              {
-                "Word": "accommodations",
-                "Score": 0.97
-              },
-              {
-                "Word": "accommodation",
-                "Score": 0.95
-              },
-              {
-                "Word": "accommodative",
-                "Score": 0.33
-              },
-              {
-                "Word": "accommodating",
-                "Score": 0.33
-              },
-              {
-                "Word": "commendations",
-                "Score": 0.23
-              }
-            ]
-          },
-          {
-            "Text": "When you take the class on computer programming , you will definetly need one and that holds true for the class on politics , because you have to study statistics on your computer to do social research and some analysys .\n",
-            "Incorrect Word": "analysys",
-            "Corrected Word": "analyses",
-            "Candidates": [
-              {
-                "Word": "analysis",
-                "Score": 0.97
-              },
-              {
-                "Word": "analyses",
-                "Score": 0.96
-              },
-              {
-                "Word": "analysts",
-                "Score": 0.66
-              },
-              {
-                "Word": "analyst",
-                "Score": 0.4
-              },
-              {
-                "Word": "analysand",
-                "Score": 0.19
-              }
-            ]
-          },
-          {
-            "Text": "You can inform all the students that they can take some tradional food to the party .\n",
-            "Incorrect Word": "tradional",
-            "Corrected Word": "traditional",
-            "Candidates": [
-              {
-                "Word": "additional",
-                "Score": 0.93
-              },
-              {
-                "Word": "traditional",
-                "Score": 0.84
-              },
-              {
-                "Word": "tradition",
-                "Score": 0.36
-              },
-              {
-                "Word": "tridiagonal",
-                "Score": 0.19
-              }
-            ]
-          }
-        ],
-        "candidator_acc (acc@inf)": 0.8795811518324608,
-        "acc@1": 0.8586387434554974,
-        "acc@3": 0.8795811518324608,
-        "mrr": 0.868237347294939
-      },
-      "Data Preparation Time": "0:23:39",
-      "Ranker Train Time": "0:00:00",
-      "Ranker Eval Time": "0:08:37",
-      "Pipeline Eval Time": "0:09:07"
-    }
-  },
-  {
-    "name": "HunsHunsCatB",
     "date": "12/11/2021 02:54:53",
     "experiment_results": {
       "Detector": "HunspellDetector",
@@ -626,6 +315,654 @@
       "Ranker Train Time": "0:00:00",
       "Ranker Eval Time": "0:02:57",
       "Pipeline Eval Time": "0:03:01"
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "12/11/2021 05:37:58",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "bart_prob",
+          "bert_prob",
+          "bigram_freq",
+          "trigram_freq",
+          "cand_length_diff",
+          "init_word_length",
+          "levenshtein",
+          "freq",
+          "soundex",
+          "metaphone",
+          "keyboard_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Dataset Size": 500,
+      "Ranker Metrics": {
+        "texts_num": 150,
+        "spells_num": 197,
+        "examples_not_found": [],
+        "examples_not_correct_cands": [
+          {
+            "Text": "I hope when you visit you will be favorite place .\n",
+            "Incorrect Word": "favorite",
+            "Corrected Word": "favourite",
+            "Candidates": [
+              {
+                "Word": "favorite",
+                "Score": 0.68
+              },
+              {
+                "Word": "favourite",
+                "Score": 0.61
+              },
+              {
+                "Word": "favorites",
+                "Score": 0.39
+              }
+            ]
+          },
+          {
+            "Text": "First of all we need the telephone in our house because it 's important to make a call if you need something or if something happend to your house and nobody is with you .\n",
+            "Incorrect Word": "happend",
+            "Corrected Word": "happens",
+            "Candidates": [
+              {
+                "Word": "happened",
+                "Score": 0.98
+              },
+              {
+                "Word": "happen",
+                "Score": 0.96
+              },
+              {
+                "Word": "happens",
+                "Score": 0.96
+              },
+              {
+                "Word": "append",
+                "Score": 0.41
+              },
+              {
+                "Word": "happed",
+                "Score": 0.27
+              }
+            ]
+          },
+          {
+            "Text": "You must have a TV because you can liten about what is happening in the world and you can see some places that you haven't been to .\n",
+            "Incorrect Word": "liten",
+            "Corrected Word": "learn",
+            "Candidates": [
+              {
+                "Word": "listen",
+                "Score": 0.97
+              },
+              {
+                "Word": "learn",
+                "Score": 0.95
+              },
+              {
+                "Word": "lighten",
+                "Score": 0.3
+              },
+              {
+                "Word": "liven",
+                "Score": 0.28
+              },
+              {
+                "Word": "liter",
+                "Score": 0.24
+              }
+            ]
+          },
+          {
+            "Text": "However , there was one persone wich told me he was n't happy at all with the phone , because he used to writte a lot , especially at Christmas when he wanted to wish all his friends a very nice Christmas but now everybody phones him , ending a very old tradition .\n",
+            "Incorrect Word": "wich",
+            "Corrected Word": "who",
+            "Candidates": [
+              {
+                "Word": "which",
+                "Score": 0.98
+              },
+              {
+                "Word": "who",
+                "Score": 0.95
+              },
+              {
+                "Word": "with",
+                "Score": 0.79
+              },
+              {
+                "Word": "wish",
+                "Score": 0.45
+              },
+              {
+                "Word": "wick",
+                "Score": 0.37
+              }
+            ]
+          },
+          {
+            "Text": "Firstly , about your accomodation , the college which I belong to offers visitors free accomodations with full of facilities\n",
+            "Incorrect Word": "accomodations",
+            "Corrected Word": "accommodation",
+            "Candidates": [
+              {
+                "Word": "accommodations",
+                "Score": 0.97
+              },
+              {
+                "Word": "accommodation",
+                "Score": 0.95
+              },
+              {
+                "Word": "accommodative",
+                "Score": 0.33
+              },
+              {
+                "Word": "accommodating",
+                "Score": 0.33
+              },
+              {
+                "Word": "commendations",
+                "Score": 0.23
+              }
+            ]
+          }
+        ],
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.9468599033816425,
+        "acc@3": 1.0,
+        "mrr": 0.9726247987117551
+      },
+      "Pipeline Metrics": {
+        "texts_num": 150,
+        "spells_num": 197,
+        "detector_precision": 0.9009433962264151,
+        "detector_recall": 0.9695431472081218,
+        "examples_not_found": [
+          {
+            "Text": "When you are in the bus station you will catch bus number 37 , which will go to the town center .\n",
+            "Incorrect Word": "center",
+            "Corrected Word": "centre"
+          },
+          {
+            "Text": "Anyway the college is the first road on your right from the town center .\n",
+            "Incorrect Word": "center",
+            "Corrected Word": "centre"
+          },
+          {
+            "Text": "Architecture : It is a typical from this epoque with beautiful drawing on the wall and first kind of writing in the sports center .\n",
+            "Incorrect Word": "center",
+            "Corrected Word": "centre"
+          },
+          {
+            "Text": "I hope when you visit you will be favorite place .\n",
+            "Incorrect Word": "favorite",
+            "Corrected Word": "favourite"
+          },
+          {
+            "Text": "First , I 'd like to tell you that the hotel where you are going to stay is \" The Palace Hotel \" , wich is situated at the center of the town .\n",
+            "Incorrect Word": "center",
+            "Corrected Word": "centre"
+          }
+        ],
+        "examples_not_correct_cands": [
+          {
+            "Text": "First of all we need the telephone in our house because it 's important to make a call if you need something or if something happend to your house and nobody is with you .\n",
+            "Incorrect Word": "happend",
+            "Corrected Word": "happens",
+            "Candidates": [
+              {
+                "Word": "happened",
+                "Score": 0.98
+              },
+              {
+                "Word": "happen",
+                "Score": 0.96
+              },
+              {
+                "Word": "happens",
+                "Score": 0.96
+              },
+              {
+                "Word": "append",
+                "Score": 0.41
+              },
+              {
+                "Word": "happed",
+                "Score": 0.27
+              }
+            ]
+          },
+          {
+            "Text": "Firstly , about your accomodation , the college which I belong to offers visitors free accomodations with full of facilities\n",
+            "Incorrect Word": "accomodations",
+            "Corrected Word": "accommodation",
+            "Candidates": [
+              {
+                "Word": "accommodations",
+                "Score": 0.97
+              },
+              {
+                "Word": "accommodation",
+                "Score": 0.95
+              },
+              {
+                "Word": "accommodative",
+                "Score": 0.33
+              },
+              {
+                "Word": "accommodating",
+                "Score": 0.33
+              },
+              {
+                "Word": "commendations",
+                "Score": 0.23
+              }
+            ]
+          },
+          {
+            "Text": "When you take the class on computer programming , you will definetly need one and that holds true for the class on politics , because you have to study statistics on your computer to do social research and some analysys .\n",
+            "Incorrect Word": "analysys",
+            "Corrected Word": "analyses",
+            "Candidates": [
+              {
+                "Word": "analysis",
+                "Score": 0.97
+              },
+              {
+                "Word": "analyses",
+                "Score": 0.96
+              },
+              {
+                "Word": "analysts",
+                "Score": 0.66
+              },
+              {
+                "Word": "analyst",
+                "Score": 0.4
+              },
+              {
+                "Word": "analysand",
+                "Score": 0.19
+              }
+            ]
+          },
+          {
+            "Text": "You can inform all the students that they can take some tradional food to the party .\n",
+            "Incorrect Word": "tradional",
+            "Corrected Word": "traditional",
+            "Candidates": [
+              {
+                "Word": "additional",
+                "Score": 0.93
+              },
+              {
+                "Word": "traditional",
+                "Score": 0.84
+              },
+              {
+                "Word": "tradition",
+                "Score": 0.36
+              },
+              {
+                "Word": "tridiagonal",
+                "Score": 0.19
+              }
+            ]
+          }
+        ],
+        "candidator_acc (acc@inf)": 0.8795811518324608,
+        "acc@1": 0.8586387434554974,
+        "acc@3": 0.8795811518324608,
+        "mrr": 0.868237347294939
+      },
+      "Data Preparation Time": "0:23:39",
+      "Ranker Train Time": "0:00:00",
+      "Ranker Eval Time": "0:08:37",
+      "Pipeline Eval Time": "0:09:07"
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "12/11/2021 03:09:08",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "bart_prob",
+          "bigram_freq",
+          "cand_length_diff",
+          "levenshtein",
+          "freq",
+          "keyboard_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Dataset Size": 500,
+      "Ranker Metrics": {
+        "texts_num": 150,
+        "spells_num": 197,
+        "examples_not_found": [],
+        "examples_not_correct_cands": [
+          {
+            "Text": "I hope when you visit you will be favorite place .\n",
+            "Incorrect Word": "favorite",
+            "Corrected Word": "favourite",
+            "Candidates": [
+              {
+                "Word": "favorites",
+                "Score": 0.53
+              },
+              {
+                "Word": "favourite",
+                "Score": 0.52
+              },
+              {
+                "Word": "favorite",
+                "Score": 0.52
+              }
+            ]
+          },
+          {
+            "Text": "First of all we need the telephone in our house because it 's important to make a call if you need something or if something happend to your house and nobody is with you .\n",
+            "Incorrect Word": "happend",
+            "Corrected Word": "happens",
+            "Candidates": [
+              {
+                "Word": "happened",
+                "Score": 0.98
+              },
+              {
+                "Word": "happens",
+                "Score": 0.96
+              },
+              {
+                "Word": "happen",
+                "Score": 0.96
+              },
+              {
+                "Word": "happed",
+                "Score": 0.44
+              },
+              {
+                "Word": "append",
+                "Score": 0.33
+              }
+            ]
+          },
+          {
+            "Text": "You must have a TV because you can liten about what is happening in the world and you can see some places that you haven't been to .\n",
+            "Incorrect Word": "liten",
+            "Corrected Word": "learn",
+            "Candidates": [
+              {
+                "Word": "listen",
+                "Score": 0.97
+              },
+              {
+                "Word": "learn",
+                "Score": 0.95
+              },
+              {
+                "Word": "liven",
+                "Score": 0.41
+              },
+              {
+                "Word": "lighten",
+                "Score": 0.39
+              },
+              {
+                "Word": "lite",
+                "Score": 0.33
+              }
+            ]
+          },
+          {
+            "Text": "However , there was one persone wich told me he was n't happy at all with the phone , because he used to writte a lot , especially at Christmas when he wanted to wish all his friends a very nice Christmas but now everybody phones him , ending a very old tradition .\n",
+            "Incorrect Word": "wich",
+            "Corrected Word": "who",
+            "Candidates": [
+              {
+                "Word": "which",
+                "Score": 0.97
+              },
+              {
+                "Word": "with",
+                "Score": 0.95
+              },
+              {
+                "Word": "who",
+                "Score": 0.94
+              },
+              {
+                "Word": "rich",
+                "Score": 0.52
+              },
+              {
+                "Word": "witch",
+                "Score": 0.52
+              }
+            ]
+          },
+          {
+            "Text": "Firstly , about your accomodation , the college which I belong to offers visitors free accomodations with full of facilities\n",
+            "Incorrect Word": "accomodations",
+            "Corrected Word": "accommodation",
+            "Candidates": [
+              {
+                "Word": "accommodations",
+                "Score": 0.96
+              },
+              {
+                "Word": "accommodation",
+                "Score": 0.96
+              },
+              {
+                "Word": "accommodating",
+                "Score": 0.39
+              },
+              {
+                "Word": "accommodative",
+                "Score": 0.32
+              },
+              {
+                "Word": "commendations",
+                "Score": 0.18
+              }
+            ]
+          }
+        ],
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.9420289855072463,
+        "acc@3": 1.0,
+        "mrr": 0.9702093397745573
+      },
+      "Pipeline Metrics": {
+        "texts_num": 150,
+        "spells_num": 197,
+        "detector_precision": 0.9009433962264151,
+        "detector_recall": 0.9695431472081218,
+        "examples_not_found": [
+          {
+            "Text": "When you are in the bus station you will catch bus number 37 , which will go to the town center .\n",
+            "Incorrect Word": "center",
+            "Corrected Word": "centre"
+          },
+          {
+            "Text": "Anyway the college is the first road on your right from the town center .\n",
+            "Incorrect Word": "center",
+            "Corrected Word": "centre"
+          },
+          {
+            "Text": "Architecture : It is a typical from this epoque with beautiful drawing on the wall and first kind of writing in the sports center .\n",
+            "Incorrect Word": "center",
+            "Corrected Word": "centre"
+          },
+          {
+            "Text": "I hope when you visit you will be favorite place .\n",
+            "Incorrect Word": "favorite",
+            "Corrected Word": "favourite"
+          },
+          {
+            "Text": "First , I 'd like to tell you that the hotel where you are going to stay is \" The Palace Hotel \" , wich is situated at the center of the town .\n",
+            "Incorrect Word": "center",
+            "Corrected Word": "centre"
+          }
+        ],
+        "examples_not_correct_cands": [
+          {
+            "Text": "First of all we need the telephone in our house because it 's important to make a call if you need something or if something happend to your house and nobody is with you .\n",
+            "Incorrect Word": "happend",
+            "Corrected Word": "happens",
+            "Candidates": [
+              {
+                "Word": "happened",
+                "Score": 0.98
+              },
+              {
+                "Word": "happens",
+                "Score": 0.96
+              },
+              {
+                "Word": "happen",
+                "Score": 0.96
+              },
+              {
+                "Word": "happed",
+                "Score": 0.44
+              },
+              {
+                "Word": "append",
+                "Score": 0.33
+              }
+            ]
+          },
+          {
+            "Text": "Firstly , about your accomodation , the college which I belong to offers visitors free accomodations with full of facilities\n",
+            "Incorrect Word": "accomodations",
+            "Corrected Word": "accommodation",
+            "Candidates": [
+              {
+                "Word": "accommodations",
+                "Score": 0.96
+              },
+              {
+                "Word": "accommodation",
+                "Score": 0.96
+              },
+              {
+                "Word": "accommodating",
+                "Score": 0.39
+              },
+              {
+                "Word": "accommodative",
+                "Score": 0.32
+              },
+              {
+                "Word": "commendations",
+                "Score": 0.18
+              }
+            ]
+          },
+          {
+            "Text": "When you take the class on computer programming , you will definetly need one and that holds true for the class on politics , because you have to study statistics on your computer to do social research and some analysys .\n",
+            "Incorrect Word": "analysys",
+            "Corrected Word": "analyses",
+            "Candidates": [
+              {
+                "Word": "analysis",
+                "Score": 0.94
+              },
+              {
+                "Word": "analyses",
+                "Score": 0.91
+              },
+              {
+                "Word": "analysts",
+                "Score": 0.87
+              },
+              {
+                "Word": "analyst",
+                "Score": 0.53
+              },
+              {
+                "Word": "analysand",
+                "Score": 0.17
+              }
+            ]
+          },
+          {
+            "Text": "Nowdays everyone has a telephone .\n",
+            "Incorrect Word": "Nowdays",
+            "Corrected Word": "Nowadays",
+            "Candidates": [
+              {
+                "Word": "Noways",
+                "Score": 0.26
+              },
+              {
+                "Word": "Nowadays",
+                "Score": 0.2
+              },
+              {
+                "Word": "Now days",
+                "Score": 0.2
+              },
+              {
+                "Word": "Noondays",
+                "Score": 0.2
+              },
+              {
+                "Word": "Now-days",
+                "Score": 0.2
+              }
+            ]
+          },
+          {
+            "Text": "On the other hand one of the main advantages is that we can save time and money as cars have long last and allowe us to get about quickly .\n",
+            "Incorrect Word": "allowe",
+            "Corrected Word": "allow",
+            "Candidates": [
+              {
+                "Word": "allowed",
+                "Score": 0.97
+              },
+              {
+                "Word": "allow",
+                "Score": 0.96
+              },
+              {
+                "Word": "allows",
+                "Score": 0.87
+              },
+              {
+                "Word": "all-owe",
+                "Score": 0.21
+              },
+              {
+                "Word": "allow e",
+                "Score": 0.2
+              }
+            ]
+          }
+        ],
+        "candidator_acc (acc@inf)": 0.8795811518324608,
+        "acc@1": 0.8534031413612565,
+        "acc@3": 0.8795811518324608,
+        "mrr": 0.8664921465968587
+      },
+      "Data Preparation Time": "0:08:22",
+      "Ranker Train Time": "0:00:00",
+      "Ranker Eval Time": "0:02:56",
+      "Pipeline Eval Time": "0:02:58"
     }
   },
   {
@@ -970,19 +1307,17 @@
   },
   {
     "name": "HunsHunsCatB",
-    "date": "12/11/2021 03:09:08",
+    "date": "12/11/2021 04:01:18",
     "experiment_results": {
       "Detector": "HunspellDetector",
       "Candidator": "HunspellCandidator",
       "Ranker": "CatBoostRanker",
       "Features": {
         "RankerFeatures": [
-          "bart_prob",
-          "bigram_freq",
+          "bert_prob",
           "cand_length_diff",
           "levenshtein",
-          "freq",
-          "keyboard_dist"
+          "freq"
         ]
       },
       "Dataset": "test.bea4k",
@@ -998,16 +1333,16 @@
             "Corrected Word": "favourite",
             "Candidates": [
               {
+                "Word": "favorite",
+                "Score": 0.59
+              },
+              {
                 "Word": "favorites",
-                "Score": 0.53
+                "Score": 0.58
               },
               {
                 "Word": "favourite",
-                "Score": 0.52
-              },
-              {
-                "Word": "favorite",
-                "Score": 0.52
+                "Score": 0.58
               }
             ]
           },
@@ -1022,19 +1357,19 @@
               },
               {
                 "Word": "happens",
-                "Score": 0.96
+                "Score": 0.97
               },
               {
                 "Word": "happen",
                 "Score": 0.96
               },
               {
-                "Word": "happed",
-                "Score": 0.44
+                "Word": "append",
+                "Score": 0.35
               },
               {
-                "Word": "append",
-                "Score": 0.33
+                "Word": "happed",
+                "Score": 0.26
               }
             ]
           },
@@ -1045,23 +1380,23 @@
             "Candidates": [
               {
                 "Word": "listen",
-                "Score": 0.97
+                "Score": 0.96
               },
               {
                 "Word": "learn",
-                "Score": 0.95
-              },
-              {
-                "Word": "liven",
-                "Score": 0.41
-              },
-              {
-                "Word": "lighten",
-                "Score": 0.39
+                "Score": 0.94
               },
               {
                 "Word": "lite",
-                "Score": 0.33
+                "Score": 0.4
+              },
+              {
+                "Word": "lien",
+                "Score": 0.36
+              },
+              {
+                "Word": "linen",
+                "Score": 0.35
               }
             ]
           },
@@ -1072,58 +1407,58 @@
             "Candidates": [
               {
                 "Word": "which",
-                "Score": 0.97
-              },
-              {
-                "Word": "with",
-                "Score": 0.95
+                "Score": 0.96
               },
               {
                 "Word": "who",
-                "Score": 0.94
+                "Score": 0.93
               },
               {
-                "Word": "rich",
-                "Score": 0.52
+                "Word": "with",
+                "Score": 0.54
               },
               {
                 "Word": "witch",
-                "Score": 0.52
+                "Score": 0.46
+              },
+              {
+                "Word": "rich",
+                "Score": 0.44
               }
             ]
           },
           {
-            "Text": "Firstly , about your accomodation , the college which I belong to offers visitors free accomodations with full of facilities\n",
-            "Incorrect Word": "accomodations",
-            "Corrected Word": "accommodation",
+            "Text": "When you take the class on computer programming , you will definetly need one and that holds true for the class on politics , because you have to study statistics on your computer to do social research and some analysys .\n",
+            "Incorrect Word": "analysys",
+            "Corrected Word": "analyses",
             "Candidates": [
               {
-                "Word": "accommodations",
-                "Score": 0.96
+                "Word": "analysis",
+                "Score": 0.95
               },
               {
-                "Word": "accommodation",
-                "Score": 0.96
+                "Word": "analyses",
+                "Score": 0.89
               },
               {
-                "Word": "accommodating",
-                "Score": 0.39
+                "Word": "analysts",
+                "Score": 0.47
               },
               {
-                "Word": "accommodative",
-                "Score": 0.32
+                "Word": "analyst",
+                "Score": 0.44
               },
               {
-                "Word": "commendations",
-                "Score": 0.18
+                "Word": "analysand",
+                "Score": 0.17
               }
             ]
           }
         ],
         "candidator_acc (acc@inf)": 1.0,
-        "acc@1": 0.9420289855072463,
+        "acc@1": 0.9371980676328503,
         "acc@3": 1.0,
-        "mrr": 0.9702093397745573
+        "mrr": 0.9677938808373592
       },
       "Pipeline Metrics": {
         "texts_num": 150,
@@ -1169,46 +1504,19 @@
               },
               {
                 "Word": "happens",
-                "Score": 0.96
+                "Score": 0.97
               },
               {
                 "Word": "happen",
                 "Score": 0.96
               },
               {
-                "Word": "happed",
-                "Score": 0.44
-              },
-              {
                 "Word": "append",
-                "Score": 0.33
-              }
-            ]
-          },
-          {
-            "Text": "Firstly , about your accomodation , the college which I belong to offers visitors free accomodations with full of facilities\n",
-            "Incorrect Word": "accomodations",
-            "Corrected Word": "accommodation",
-            "Candidates": [
-              {
-                "Word": "accommodations",
-                "Score": 0.96
+                "Score": 0.35
               },
               {
-                "Word": "accommodation",
-                "Score": 0.96
-              },
-              {
-                "Word": "accommodating",
-                "Score": 0.39
-              },
-              {
-                "Word": "accommodative",
-                "Score": 0.32
-              },
-              {
-                "Word": "commendations",
-                "Score": 0.18
+                "Word": "happed",
+                "Score": 0.26
               }
             ]
           },
@@ -1219,50 +1527,23 @@
             "Candidates": [
               {
                 "Word": "analysis",
-                "Score": 0.94
+                "Score": 0.95
               },
               {
                 "Word": "analyses",
-                "Score": 0.91
+                "Score": 0.89
               },
               {
                 "Word": "analysts",
-                "Score": 0.87
+                "Score": 0.47
               },
               {
                 "Word": "analyst",
-                "Score": 0.53
+                "Score": 0.44
               },
               {
                 "Word": "analysand",
                 "Score": 0.17
-              }
-            ]
-          },
-          {
-            "Text": "Nowdays everyone has a telephone .\n",
-            "Incorrect Word": "Nowdays",
-            "Corrected Word": "Nowadays",
-            "Candidates": [
-              {
-                "Word": "Noways",
-                "Score": 0.26
-              },
-              {
-                "Word": "Nowadays",
-                "Score": 0.2
-              },
-              {
-                "Word": "Now days",
-                "Score": 0.2
-              },
-              {
-                "Word": "Noondays",
-                "Score": 0.2
-              },
-              {
-                "Word": "Now-days",
-                "Score": 0.2
               }
             ]
           },
@@ -1277,32 +1558,70 @@
               },
               {
                 "Word": "allow",
-                "Score": 0.96
+                "Score": 0.97
               },
               {
                 "Word": "allows",
-                "Score": 0.87
-              },
-              {
-                "Word": "all-owe",
-                "Score": 0.21
+                "Score": 0.97
               },
               {
                 "Word": "allow e",
-                "Score": 0.2
+                "Score": 0.21
+              },
+              {
+                "Word": "all owe",
+                "Score": 0.18
+              }
+            ]
+          },
+          {
+            "Text": "It contains lots of archeological Etruscans founded and some remains from the Estruscans ' neoropolis .\n",
+            "Incorrect Word": "neoropolis",
+            "Corrected Word": "necropolis",
+            "Candidates": [
+              {
+                "Word": "metropolis",
+                "Score": 0.61
+              },
+              {
+                "Word": "necropolis",
+                "Score": 0.36
+              }
+            ]
+          },
+          {
+            "Text": "This is an International student party , so I suggest you wear tradional costume .\n",
+            "Incorrect Word": "tradional",
+            "Corrected Word": "traditional",
+            "Candidates": [
+              {
+                "Word": "additional",
+                "Score": 0.76
+              },
+              {
+                "Word": "traditional",
+                "Score": 0.71
+              },
+              {
+                "Word": "tradition",
+                "Score": 0.32
+              },
+              {
+                "Word": "tridiagonal",
+                "Score": 0.19
               }
             ]
           }
         ],
         "candidator_acc (acc@inf)": 0.8795811518324608,
-        "acc@1": 0.8534031413612565,
+        "acc@1": 0.8429319371727748,
         "acc@3": 0.8795811518324608,
-        "mrr": 0.8664921465968587
+        "mrr": 0.8612565445026178
       },
-      "Data Preparation Time": "0:08:22",
+      "Data Preparation Time": "0:15:02",
       "Ranker Train Time": "0:00:00",
-      "Ranker Eval Time": "0:02:56",
-      "Pipeline Eval Time": "0:02:58"
+      "Ranker Eval Time": "0:05:40",
+      "Pipeline Eval Time": "0:06:08"
     }
   },
   {
@@ -1632,325 +1951,6 @@
   },
   {
     "name": "HunsHunsCatB",
-    "date": "12/11/2021 04:01:18",
-    "experiment_results": {
-      "Detector": "HunspellDetector",
-      "Candidator": "HunspellCandidator",
-      "Ranker": "CatBoostRanker",
-      "Features": {
-        "RankerFeatures": [
-          "bert_prob",
-          "cand_length_diff",
-          "levenshtein",
-          "freq"
-        ]
-      },
-      "Dataset": "test.bea4k",
-      "Dataset Size": 500,
-      "Ranker Metrics": {
-        "texts_num": 150,
-        "spells_num": 197,
-        "examples_not_found": [],
-        "examples_not_correct_cands": [
-          {
-            "Text": "I hope when you visit you will be favorite place .\n",
-            "Incorrect Word": "favorite",
-            "Corrected Word": "favourite",
-            "Candidates": [
-              {
-                "Word": "favorite",
-                "Score": 0.59
-              },
-              {
-                "Word": "favorites",
-                "Score": 0.58
-              },
-              {
-                "Word": "favourite",
-                "Score": 0.58
-              }
-            ]
-          },
-          {
-            "Text": "First of all we need the telephone in our house because it 's important to make a call if you need something or if something happend to your house and nobody is with you .\n",
-            "Incorrect Word": "happend",
-            "Corrected Word": "happens",
-            "Candidates": [
-              {
-                "Word": "happened",
-                "Score": 0.98
-              },
-              {
-                "Word": "happens",
-                "Score": 0.97
-              },
-              {
-                "Word": "happen",
-                "Score": 0.96
-              },
-              {
-                "Word": "append",
-                "Score": 0.35
-              },
-              {
-                "Word": "happed",
-                "Score": 0.26
-              }
-            ]
-          },
-          {
-            "Text": "You must have a TV because you can liten about what is happening in the world and you can see some places that you haven't been to .\n",
-            "Incorrect Word": "liten",
-            "Corrected Word": "learn",
-            "Candidates": [
-              {
-                "Word": "listen",
-                "Score": 0.96
-              },
-              {
-                "Word": "learn",
-                "Score": 0.94
-              },
-              {
-                "Word": "lite",
-                "Score": 0.4
-              },
-              {
-                "Word": "lien",
-                "Score": 0.36
-              },
-              {
-                "Word": "linen",
-                "Score": 0.35
-              }
-            ]
-          },
-          {
-            "Text": "However , there was one persone wich told me he was n't happy at all with the phone , because he used to writte a lot , especially at Christmas when he wanted to wish all his friends a very nice Christmas but now everybody phones him , ending a very old tradition .\n",
-            "Incorrect Word": "wich",
-            "Corrected Word": "who",
-            "Candidates": [
-              {
-                "Word": "which",
-                "Score": 0.96
-              },
-              {
-                "Word": "who",
-                "Score": 0.93
-              },
-              {
-                "Word": "with",
-                "Score": 0.54
-              },
-              {
-                "Word": "witch",
-                "Score": 0.46
-              },
-              {
-                "Word": "rich",
-                "Score": 0.44
-              }
-            ]
-          },
-          {
-            "Text": "When you take the class on computer programming , you will definetly need one and that holds true for the class on politics , because you have to study statistics on your computer to do social research and some analysys .\n",
-            "Incorrect Word": "analysys",
-            "Corrected Word": "analyses",
-            "Candidates": [
-              {
-                "Word": "analysis",
-                "Score": 0.95
-              },
-              {
-                "Word": "analyses",
-                "Score": 0.89
-              },
-              {
-                "Word": "analysts",
-                "Score": 0.47
-              },
-              {
-                "Word": "analyst",
-                "Score": 0.44
-              },
-              {
-                "Word": "analysand",
-                "Score": 0.17
-              }
-            ]
-          }
-        ],
-        "candidator_acc (acc@inf)": 1.0,
-        "acc@1": 0.9371980676328503,
-        "acc@3": 1.0,
-        "mrr": 0.9677938808373592
-      },
-      "Pipeline Metrics": {
-        "texts_num": 150,
-        "spells_num": 197,
-        "detector_precision": 0.9009433962264151,
-        "detector_recall": 0.9695431472081218,
-        "examples_not_found": [
-          {
-            "Text": "When you are in the bus station you will catch bus number 37 , which will go to the town center .\n",
-            "Incorrect Word": "center",
-            "Corrected Word": "centre"
-          },
-          {
-            "Text": "Anyway the college is the first road on your right from the town center .\n",
-            "Incorrect Word": "center",
-            "Corrected Word": "centre"
-          },
-          {
-            "Text": "Architecture : It is a typical from this epoque with beautiful drawing on the wall and first kind of writing in the sports center .\n",
-            "Incorrect Word": "center",
-            "Corrected Word": "centre"
-          },
-          {
-            "Text": "I hope when you visit you will be favorite place .\n",
-            "Incorrect Word": "favorite",
-            "Corrected Word": "favourite"
-          },
-          {
-            "Text": "First , I 'd like to tell you that the hotel where you are going to stay is \" The Palace Hotel \" , wich is situated at the center of the town .\n",
-            "Incorrect Word": "center",
-            "Corrected Word": "centre"
-          }
-        ],
-        "examples_not_correct_cands": [
-          {
-            "Text": "First of all we need the telephone in our house because it 's important to make a call if you need something or if something happend to your house and nobody is with you .\n",
-            "Incorrect Word": "happend",
-            "Corrected Word": "happens",
-            "Candidates": [
-              {
-                "Word": "happened",
-                "Score": 0.98
-              },
-              {
-                "Word": "happens",
-                "Score": 0.97
-              },
-              {
-                "Word": "happen",
-                "Score": 0.96
-              },
-              {
-                "Word": "append",
-                "Score": 0.35
-              },
-              {
-                "Word": "happed",
-                "Score": 0.26
-              }
-            ]
-          },
-          {
-            "Text": "When you take the class on computer programming , you will definetly need one and that holds true for the class on politics , because you have to study statistics on your computer to do social research and some analysys .\n",
-            "Incorrect Word": "analysys",
-            "Corrected Word": "analyses",
-            "Candidates": [
-              {
-                "Word": "analysis",
-                "Score": 0.95
-              },
-              {
-                "Word": "analyses",
-                "Score": 0.89
-              },
-              {
-                "Word": "analysts",
-                "Score": 0.47
-              },
-              {
-                "Word": "analyst",
-                "Score": 0.44
-              },
-              {
-                "Word": "analysand",
-                "Score": 0.17
-              }
-            ]
-          },
-          {
-            "Text": "On the other hand one of the main advantages is that we can save time and money as cars have long last and allowe us to get about quickly .\n",
-            "Incorrect Word": "allowe",
-            "Corrected Word": "allow",
-            "Candidates": [
-              {
-                "Word": "allowed",
-                "Score": 0.97
-              },
-              {
-                "Word": "allow",
-                "Score": 0.97
-              },
-              {
-                "Word": "allows",
-                "Score": 0.97
-              },
-              {
-                "Word": "allow e",
-                "Score": 0.21
-              },
-              {
-                "Word": "all owe",
-                "Score": 0.18
-              }
-            ]
-          },
-          {
-            "Text": "It contains lots of archeological Etruscans founded and some remains from the Estruscans ' neoropolis .\n",
-            "Incorrect Word": "neoropolis",
-            "Corrected Word": "necropolis",
-            "Candidates": [
-              {
-                "Word": "metropolis",
-                "Score": 0.61
-              },
-              {
-                "Word": "necropolis",
-                "Score": 0.36
-              }
-            ]
-          },
-          {
-            "Text": "This is an International student party , so I suggest you wear tradional costume .\n",
-            "Incorrect Word": "tradional",
-            "Corrected Word": "traditional",
-            "Candidates": [
-              {
-                "Word": "additional",
-                "Score": 0.76
-              },
-              {
-                "Word": "traditional",
-                "Score": 0.71
-              },
-              {
-                "Word": "tradition",
-                "Score": 0.32
-              },
-              {
-                "Word": "tridiagonal",
-                "Score": 0.19
-              }
-            ]
-          }
-        ],
-        "candidator_acc (acc@inf)": 0.8795811518324608,
-        "acc@1": 0.8429319371727748,
-        "acc@3": 0.8795811518324608,
-        "mrr": 0.8612565445026178
-      },
-      "Data Preparation Time": "0:15:02",
-      "Ranker Train Time": "0:00:00",
-      "Ranker Eval Time": "0:05:40",
-      "Pipeline Eval Time": "0:06:08"
-    }
-  },
-  {
-    "name": "HunsHunsCatB",
     "date": "12/11/2021 04:28:28",
     "experiment_results": {
       "Detector": "HunspellDetector",
@@ -2274,6 +2274,236 @@
       "Ranker Train Time": "0:00:00",
       "Ranker Eval Time": "0:05:44",
       "Pipeline Eval Time": "0:06:12"
+    }
+  },
+  {
+    "name": "HunsHunsCatB",
+    "date": "12/11/2021 18:26:22",
+    "experiment_results": {
+      "Detector": "HunspellDetector",
+      "Candidator": "HunspellCandidator",
+      "Ranker": "CatBoostRanker",
+      "Features": {
+        "RankerFeatures": [
+          "bart_prob",
+          "bert_prob",
+          "bigram_freq",
+          "trigram_freq",
+          "cand_length_diff",
+          "init_word_length",
+          "levenshtein",
+          "freq",
+          "soundex",
+          "metaphone",
+          "keyboard_dist"
+        ]
+      },
+      "Dataset": "test.bea4k",
+      "Dataset Size": 1000,
+      "Ranker Metrics": {
+        "texts_num": 300,
+        "spells_num": 355,
+        "examples_not_found": [],
+        "examples_not_correct_cands": [
+          {
+            "Text": "IT IS ONLY POSSIBLE FOR ME TO TRAVEL IN JULY BECAUSE OF MY UNREGULAR WORK .\n",
+            "Incorrect Word": "UNREGULAR",
+            "Corrected Word": "IRREGULAR",
+            "Candidates": [
+              {
+                "Word": "REGULAR",
+                "Score": 0.91
+              },
+              {
+                "Word": "IRREGULAR",
+                "Score": 0.3
+              },
+              {
+                "Word": "UNREGULATED",
+                "Score": 0.09
+              }
+            ]
+          },
+          {
+            "Text": "GREATING AND HOPE TO SEE YOU SOON\n",
+            "Incorrect Word": "GREATING",
+            "Corrected Word": "GREETINGS",
+            "Candidates": [
+              {
+                "Word": "GREETING",
+                "Score": 0.35
+              },
+              {
+                "Word": "GRATING",
+                "Score": 0.23
+              },
+              {
+                "Word": "GREETINGS",
+                "Score": 0.08
+              },
+              {
+                "Word": "TREATING",
+                "Score": 0.06
+              },
+              {
+                "Word": "GREASING",
+                "Score": 0.05
+              }
+            ]
+          },
+          {
+            "Text": "He did it some more times , and in the end nobody took any notice of the shoutings .\n",
+            "Incorrect Word": "shoutings",
+            "Corrected Word": "shouts",
+            "Candidates": [
+              {
+                "Word": "shootings",
+                "Score": 0.96
+              },
+              {
+                "Word": "shouting",
+                "Score": 0.87
+              },
+              {
+                "Word": "shutting",
+                "Score": 0.4
+              },
+              {
+                "Word": "scoutings",
+                "Score": 0.31
+              },
+              {
+                "Word": "shouts",
+                "Score": 0.25
+              }
+            ]
+          },
+          {
+            "Text": "If I could go in July that would be greate .\n",
+            "Incorrect Word": "greate",
+            "Corrected Word": "grate",
+            "Candidates": [
+              {
+                "Word": "great",
+                "Score": 1.0
+              },
+              {
+                "Word": "greater",
+                "Score": 0.81
+              },
+              {
+                "Word": "grate",
+                "Score": 0.61
+              },
+              {
+                "Word": "greats",
+                "Score": 0.21
+              },
+              {
+                "Word": "create",
+                "Score": 0.16
+              }
+            ]
+          },
+          {
+            "Text": "fortunetly nothing had happend .\n",
+            "Incorrect Word": "fortunetly",
+            "Corrected Word": "Fortunately",
+            "Candidates": [
+              {
+                "Word": "fortunately",
+                "Score": 0.3
+              },
+              {
+                "Word": "Fortunately",
+                "Score": 0.23
+              },
+              {
+                "Word": "fortune",
+                "Score": 0.06
+              },
+              {
+                "Word": "fortuneteller",
+                "Score": 0.03
+              }
+            ]
+          }
+        ],
+        "candidator_acc (acc@inf)": 1.0,
+        "acc@1": 0.958904109589041,
+        "acc@3": 0.9945205479452055,
+        "mrr": 0.9761394769613948
+      },
+      "Pipeline Metrics": {
+        "texts_num": 300,
+        "spells_num": 355,
+        "detector_precision": 0.8148148148148148,
+        "detector_recall": 0.9915492957746479,
+        "examples_not_found": [
+          {
+            "Text": "Nowdays we have many big shopping centers .\n",
+            "Incorrect Word": "centers",
+            "Corrected Word": "centres"
+          },
+          {
+            "Text": "Because of that , shopping centers are overcrowded .\n",
+            "Incorrect Word": "centers",
+            "Corrected Word": "centres"
+          },
+          {
+            "Text": "However such centers are very useful and necessary .\n",
+            "Incorrect Word": "centers",
+            "Corrected Word": "centres"
+          },
+          {
+            "Text": "Then , there was only one hour left to install the different color lights ; it was just enought time .\n",
+            "Incorrect Word": "color",
+            "Corrected Word": "coloured"
+          },
+          {
+            "Text": "At first I could n't belive that I was a winer\n",
+            "Incorrect Word": "winer",
+            "Corrected Word": "winner"
+          }
+        ],
+        "examples_not_correct_cands": [
+          {
+            "Text": "If I could go in July that would be greate .\n",
+            "Incorrect Word": "greate",
+            "Corrected Word": "grate",
+            "Candidates": [
+              {
+                "Word": "great",
+                "Score": 1.0
+              },
+              {
+                "Word": "greater",
+                "Score": 0.81
+              },
+              {
+                "Word": "grate",
+                "Score": 0.61
+              },
+              {
+                "Word": "greats",
+                "Score": 0.21
+              },
+              {
+                "Word": "create",
+                "Score": 0.16
+              }
+            ]
+          }
+        ],
+        "candidator_acc (acc@inf)": 0.8238636363636364,
+        "acc@1": 0.8210227272727273,
+        "acc@3": 0.8238636363636364,
+        "mrr": 0.8219696969696971
+      },
+      "Data Preparation Time": "1:51:20",
+      "Ranker Train Time": "0:00:02",
+      "Ranker Eval Time": "1:06:51",
+      "Pipeline Eval Time": "0:16:43"
     }
   },
   {
@@ -4806,7 +5036,7 @@
   },
   {
     "name": "HunsHunsCatB",
-    "date": "03/11/2021 23:48:39",
+    "date": "03/11/2021 23:48:53",
     "experiment_results": {
       "Detector": "HunspellDetector",
       "Candidator": "HunspellCandidator",
@@ -4814,7 +5044,7 @@
       "Features": {
         "RankerFeatures": [
           "levenshtein",
-          "freq",
+          "sqrt_freq",
           "soundex",
           "metaphone",
           "keyboard_dist"
@@ -4843,7 +5073,7 @@
   },
   {
     "name": "HunsHunsCatB",
-    "date": "03/11/2021 23:48:53",
+    "date": "03/11/2021 23:48:39",
     "experiment_results": {
       "Detector": "HunspellDetector",
       "Candidator": "HunspellCandidator",
@@ -4851,7 +5081,7 @@
       "Features": {
         "RankerFeatures": [
           "levenshtein",
-          "sqrt_freq",
+          "freq",
           "soundex",
           "metaphone",
           "keyboard_dist"

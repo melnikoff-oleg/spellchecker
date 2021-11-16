@@ -55,7 +55,7 @@ def sort_experiments():
         for val in arr_to_sort:
             new_exp_dict.append(exp_res_dict[val[1]])
         with open(experiment_save_path, 'w') as f:
-            json.dump(new_exp_dict, f)
+            json.dump(new_exp_dict, f, indent=4)
 
 
 def get_time_diff(start):
@@ -112,7 +112,7 @@ def main():
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=1000)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
@@ -121,7 +121,7 @@ def main():
 
     detector = HunspellDetector()
     candidator = HunspellCandidator()
-    ranker = CatBoostRanker(iterations=200)
+    ranker = CatBoostRanker(iterations=100)
     ranker_features = [
         ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq",
          "soundex", "metaphone", "keyboard_dist"],
@@ -154,4 +154,3 @@ if __name__ == '__main__':
     main()
 
 # Сделать отдельный файл с экспериментами на 500 сэмплах, чтобы удобнее сравнивать с тем что было раньше
-
