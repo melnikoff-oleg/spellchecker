@@ -5,4 +5,6 @@ __pycache__/
 grazie/spell/main/training/catboost_info/*
 *.DS_store
 grazie/spell/main/data/datasets/test*
-*.csv
+grazie/spell/main/data/n_gram_freqs/1_grams.csv
+grazie/spell/main/data/n_gram_freqs/2_grams.csv
+grazie/spell/main/data/n_gram_freqs/3_grams.csv
