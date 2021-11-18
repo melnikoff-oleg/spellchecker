@@ -79,18 +79,18 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
 
     start = time.time()
     print("Evaluate ranker")
-    ranker_metrics, ranker_mistakes = evaluate_ranker(FeaturesSpellRanker(features_collector, ranker), test_data, candidator=candidator, verbose=True)
+    ranker_metrics = evaluate_ranker(FeaturesSpellRanker(features_collector, ranker), test_data, candidator=candidator, verbose=True)
     print()
     ranker_eval_time = get_time_diff(start)
 
     start = time.time()
     model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
     print("Evaluate all")
-    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True)
+    pipeline_metrics = evaluate(model, test_data, verbose=True)
     print()
     pipeline_eval_time = get_time_diff(start)
 
-    experiment_results = {'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__, 'Ranker':  type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}, 'Dataset': dataset_name, 'Dataset Size': len(train_data) + len(test_data),  'Ranker Metrics': ranker_metrics, 'Ranker Mistakes': ranker_mistakes, 'Pipeline Metrics': pipeline_metrics, 'Pipeline Mistakes': pipeline_mistakes, 'Data Preparation Time': data_prep_time, 'Ranker Train Time': ranker_train_time, 'Ranker Eval Time': ranker_eval_time, 'Pipeline Eval Time': pipeline_eval_time}
+    experiment_results = {'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__, 'Ranker':  type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}, 'Dataset': dataset_name, 'Dataset Size': len(train_data) + len(test_data),  'Ranker Metrics': ranker_metrics, 'Pipeline Metrics': pipeline_metrics, 'Data Preparation Time': data_prep_time, 'Ranker Train Time': ranker_train_time, 'Ranker Eval Time': ranker_eval_time, 'Pipeline Eval Time': pipeline_eval_time}
     now = datetime.datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     experiment_packed = {'name': type(detector).__name__[:4] + type(candidator).__name__[:4] + type(ranker).__name__[:4], 'date': dt_string, 'experiment_results': experiment_results}
@@ -115,16 +115,15 @@ def main():
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=1000)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=100)
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
-    rankers = [CatBoostRanker(iterations=10), CatBoostRanker(iterations=100), CatBoostRanker(iterations=1000)]
     features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
 
     detector = HunspellDetector()
     candidator = HunspellCandidator()
-    ranker = CatBoostRanker(iterations=200)
+    ranker = CatBoostRanker(iterations=100)
     ranker_features = [
         ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"],
         # ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq",
@@ -150,9 +149,10 @@ def main():
         # ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq",
         #  "soundex", "metaphone", "keyboard_dist"],
     ]
-    # for ranker in rankers:
-    for rf in ranker_features:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, experiment_save_path, dataset_name, save_experiment=False)
+    rankers = [CatBoostRanker(iterations=10), CatBoostRanker(iterations=100), CatBoostRanker(iterations=200), CatBoostRanker(iterations=1000)]
+    for ranker in rankers:
+        for rf in ranker_features:
+            train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, experiment_save_path, dataset_name, save_experiment=False)
 
 
 if __name__ == '__main__':

@@ -95,10 +95,14 @@ class HunspellCandidator(BaseCandidator):
         return all_candidates
 
 
-if __name__ == '__main__':
+def main():
     candidator = LevenshteinCandidator(max_err=1, index_prefix_len=1)
     text = 'hillo i am oleg'
     sw = SpelledWord(text, (0, 5))
     print(sw.word)
     all_candidates = candidator.get_candidates(text=text, spelled_words=[sw])
     print(all_candidates)
+
+
+if __name__ == '__main__':
+    main()

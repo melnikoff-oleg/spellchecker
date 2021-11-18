@@ -1,8 +1,8 @@
 from typing import List, Dict, Any
-
 import numpy as np
+import pandas as pd
 from tqdm import tqdm
-
+from functools import cmp_to_key
 from grazie.common.main.ranking.catboost_ranker import CatBoostRanker
 from grazie.spell.main.data.base import SpelledText
 from grazie.spell.main.data.utils import get_test_data, default_args_parser
@@ -31,7 +31,16 @@ def remove_specific_metrics(model: SpellCheckModelBase, metric_values: Dict[str,
     return metric_values
 
 
-def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool = False, max_not_found: int = 5, max_not_correct: int = 5):
+def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool = False, max_not_found: int = 10, max_not_correct: int = 10):
+
+    # adding dialects mappings
+    br2am = {}
+    am2br = {}
+    df_dialects = pd.read_csv('/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/british_american_spell/mapping.csv')
+    for i, row in df_dialects.iterrows():
+        br2am[row['british']] = row['american']
+        am2br[row['american']] = row['british']
+
     metric_values: Dict[str, Any] = {"texts_num": len(data)}
 
     detector_matches = 0
@@ -49,22 +58,43 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
         spells = spell_text.spells
         spell_results = model.check(text, true_spells=spells)
 
+        # тут при подсчете учтены ошибки диалекта
         detector_precision_denom += len(spell_results)
         detector_recall_denom += len(spells)
 
         not_found_spells = []
         for true_spell in spells:
+
+            # проверка что это ошибка диалекта
+            if (true_spell.correct in br2am.keys() and br2am[true_spell.correct] == true_spell.spelled) \
+                    or (true_spell.correct in am2br.keys() and am2br[true_spell.correct] == true_spell.spelled):
+                detector_recall_denom -= 1
+                for pred_spell in spell_results:
+                    if true_spell.spelled == text[pred_spell.start:pred_spell.finish]:
+                        detector_precision_denom -= 1
+                        break
+                continue
+
             found = False
             for pred_spell in spell_results:
                 if true_spell.spelled == text[pred_spell.start:pred_spell.finish]:
                     found = True
                     detector_matches += 1
                     matched_position = float("inf")
+                    correct_spells = ()
+
+                    if true_spell.correct in br2am.keys():
+                        correct_spells = (true_spell.correct, br2am[true_spell.correct])
+                    elif true_spell.correct in am2br.keys():
+                        correct_spells = (true_spell.correct, am2br[true_spell.correct])
+                    else:
+                        correct_spells = (true_spell.correct)
+
                     for pos, variant in enumerate(pred_spell.variants):
-                        if variant.substitution == true_spell.correct:
+                        if variant.substitution in correct_spells:
                             matched_position = pos + 1
                             if pos > 0:
-                                not_correct_cands.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
+                                not_correct_cands.append({'Bad Ratio': round(variant.score / pred_spell.variants[0].score, 2), 'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
                             break
                     matched_positions.append(matched_position)
             if not found:
@@ -76,8 +106,24 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
     metric_values["spells_num"] = detector_recall_denom
     metric_values["detector_precision"] = detector_matches / detector_precision_denom
     metric_values["detector_recall"] = detector_matches / detector_recall_denom
-    metric_values["examples_not_found"] = not_found_errors[:max_not_found]
-    metric_values["examples_not_correct_cands"] = not_correct_cands[:max_not_correct]
+
+
+    mistakes_examples = {}
+    mistakes_examples["examples_not_found"] = not_found_errors[:max_not_found]
+
+    def compare(item1, item2):
+        if item1['Bad Ratio'] < item2['Bad Ratio']:
+            return -1
+        elif item1['Bad Ratio'] > item2['Bad Ratio']:
+            return 1
+        else:
+            return 0
+
+    # Calling
+    not_correct_cands = sorted(not_correct_cands, key=cmp_to_key(compare))
+
+
+    mistakes_examples["examples_not_correct_cands"] = not_correct_cands[:max_not_correct]
 
     metric_values[f"candidator_acc (acc@inf)"] = float(np.mean([pos < float("inf") for pos in matched_positions]))
 
@@ -94,7 +140,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
             print(f"{name}: {value}")
 
     # print('Not found spells:\n', not_found_spells)
-    return metric_values
+    return metric_values, mistakes_examples
 
 
 def evaluate_detector(detector: BaseDetector, data: List[SpelledText], verbose: bool = False):

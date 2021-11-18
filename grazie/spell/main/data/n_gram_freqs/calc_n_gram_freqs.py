@@ -1,7 +1,7 @@
 from typing import Tuple
 from collections import Counter
-
 from grazie.spell.main.preprocessing.tokenizer import SyntokTextTokenizer
+
 
 def calc_n_grams_freqs(texts_path: str, n: int = 2, size: int = None) -> None:
     tokenizer = SyntokTextTokenizer()
@@ -24,12 +24,10 @@ def calc_n_grams_freqs(texts_path: str, n: int = 2, size: int = None) -> None:
             f.write(' '.join(key) + ',' + str(value) + '\n')
 
 
-
-
-
 def main():
     calc_n_grams_freqs('/grazie/spell/main/data/datasets/test.bea60k', n=2, size=10000)
     calc_n_grams_freqs('/grazie/spell/main/data/datasets/test.bea60k', n=3, size=10000)
+
 
 if __name__ == '__main__':
     main()

@@ -8,7 +8,7 @@ class CandidateLengthDiff(BaseFeature):
     def compute_candidates(self, text: str, spelled_word: SpelledWord, candidates: List[str]) -> List[float]:
         res = []
         for candidate in candidates:
-            res.append(len(spelled_word.word) - len(candidate))
+            res.append(abs(len(spelled_word.word) - len(candidate)))
         return res
 
 

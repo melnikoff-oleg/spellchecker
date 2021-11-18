@@ -28,14 +28,18 @@ class CatBoostRanker(Ranker):
         pool = Pool(features)
         return self.model.predict(pool, prediction_type='Probability')[:, 1].tolist()
 
+    def get_feature_importance(self, train_data: List[RankQuery], feartures_names: List[str]):
+        train_pool = create_pool(train_data)
+        feature_importance = self.model.get_feature_importance(data=train_pool)
+        fi_dict = {}
+        for fn, fi in zip(feartures_names, feature_importance):
+            fi_dict[fn] = fi
+        return {k: v for k, v in sorted(fi_dict.items(), key=lambda item: item[1], reverse=True)}
+
     def fit(self, train_data: List[RankQuery], test_data: List[RankQuery], **kwargs) -> 'CatBoostRanker':
         train_pool = create_pool(train_data)
         test_pool = create_pool(test_data)
-
-        self.model.fit(train_pool, eval_set=test_pool, plot=False, verbose=False)
-
-        # print(self.model.eval_metrics(test_pool, ['PrecisionAt:top=1', 'PrecisionAt:top=3', 'NDCG', 'PFound', 'AverageGain:top=10']))
-
+        self.model.fit(train_pool, eval_set=test_pool, plot=False, verbose=True)
         return self
 
     def importance_info(self, train_data: List[RankQuery]):
