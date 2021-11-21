@@ -122,7 +122,6 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
     # Calling
     not_correct_cands = sorted(not_correct_cands, key=cmp_to_key(compare))
 
-
     mistakes_examples["examples_not_correct_cands"] = not_correct_cands[:max_not_correct]
 
     metric_values[f"candidator_acc (acc@inf)"] = float(np.mean([pos < float("inf") for pos in matched_positions]))

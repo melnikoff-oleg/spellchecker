@@ -115,18 +115,21 @@ def main():
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=1000)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
-    rankers = [CatBoostRanker(iterations=10), CatBoostRanker(iterations=100), CatBoostRanker(iterations=1000)]
+    # rankers = [CatBoostRanker(iterations=10), CatBoostRanker(iterations=100), CatBoostRanker(iterations=1000)]
     features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
 
     detector = HunspellDetector()
     candidator = HunspellCandidator()
-    ranker = CatBoostRanker(iterations=200)
+    ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"],
+        ['bart_prob'],
+        # ["bart_prob", "bert_prob"],
+        # ["bart_prob", "bert_prob", "bigram_freq", "soundex", "freq"],
+        # ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"],
         # ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq",
         #  "soundex", "metaphone", "keyboard_dist"],
         # ["bart_prob", "cand_length_diff", "bigram_freq", "levenshtein", "freq"],
@@ -152,7 +155,7 @@ def main():
     ]
     # for ranker in rankers:
     for rf in ranker_features:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, experiment_save_path, dataset_name, save_experiment=False)
+        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, experiment_save_path, dataset_name, save_experiment=True)
 
 
 if __name__ == '__main__':
