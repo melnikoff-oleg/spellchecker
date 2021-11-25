@@ -9,6 +9,10 @@ def test_feature(feature: BaseFeature):
     passed_test_cases = True
     for text, spelled_word, cands in zip(texts, spelled_words, candidates):
         res = feature.compute_candidates(text, spelled_word, cands)
+        norm_coeff = sum(res)
+        if norm_coeff == 0:
+            norm_coeff = 1
+        res = [round(elem / norm_coeff, 2) for elem in res]
 
         for i in range(1, len(cands)):
             diff = abs(res[0] - res[i])

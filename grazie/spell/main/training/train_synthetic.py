@@ -44,8 +44,7 @@ def prepare_ranking_training_data(spell_data: List[SpelledText], candidator: Bas
     return labeled_data
 
 
-def sort_experiments():
-    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
+def sort_experiments(experiment_save_path):
     if exists(experiment_save_path):
         with open(experiment_save_path) as f:
             exp_res_dict = json.load(f)
@@ -64,10 +63,10 @@ def get_time_diff(start):
     return str(datetime.timedelta(seconds=round(time.time() - start)))
 
 
-def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str, experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
+def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str, experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
 
     start = time.time()
-    features_collector = FeaturesCollector(ranker_features, FeaturesCollector.load_freqs(freqs_path))
+    features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path, FeaturesCollector.load_freqs(freqs_path))
     train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
     test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
     data_prep_time = get_time_diff(start)
@@ -103,7 +102,7 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
     if save_experiment:
         with open(experiment_save_path, 'w') as f:
             json.dump(exp_res_dict, f)
-    sort_experiments()
+    sort_experiments(experiment_save_path)
     print(experiment_results)
 
 
@@ -112,6 +111,8 @@ def main():
     gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k'
     noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k.noise'
     freqs_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/1_grams.csv'
+    bigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/2_grams.csv'
+    trigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/3_grams.csv'
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments.json'
     dataset_name = gt_texts_path.split('/')[-1]
@@ -126,7 +127,7 @@ def main():
     candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        ['bart_prob'],
+        # ['bart_prob'],
         # ["bart_prob", "bert_prob"],
         # ["bart_prob", "bert_prob", "bigram_freq", "soundex", "freq"],
         # ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"],
@@ -143,7 +144,7 @@ def main():
         # ["bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
         # ["bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex",
         #  "metaphone", "keyboard_dist"],
-        # ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
+        ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
         # ["bigram_freq", "cand_length_diff", "levenshtein", "freq"],
         # ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],
         # ["levenshtein", "log_freq", "soundex", "cands_less_dist"],
@@ -155,7 +156,7 @@ def main():
     ]
     # for ranker in rankers:
     for rf in ranker_features:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, experiment_save_path, dataset_name, save_experiment=True)
+        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path, trigrams_table_path, experiment_save_path, dataset_name, save_experiment=False)
 
 
 if __name__ == '__main__':

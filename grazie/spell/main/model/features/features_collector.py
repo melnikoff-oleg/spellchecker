@@ -13,11 +13,11 @@ from grazie.spell.main.model.features.phonetic import MetaphonePhoneticFeature, 
 from grazie.spell.main.model.features.suffix_prob import SuffixProbFeature
 from grazie.spell.main.model.features.keyboard_dist import QwertyFeature
 from grazie.spell.main.model.features.count_candidates_less_edit_dist import CountCandidatesLessEditDistFeature
-from grazie.spell.main.model.features.n_grams import BiGramsFeature, TriGramsFeature
+from grazie.spell.main.model.features.n_grams import NGramsFeature
 from grazie.spell.main.model.features.words_length import CandidateLengthDiff, InitWordLength
 
 class FeaturesCollector:
-    def __init__(self, features_names: List[str], freqs: Dict[str, float]):
+    def __init__(self, features_names: List[str], bigrams_path: str, trigrams_path: str, freqs: Dict[str, float]):
         self._all_features: Dict[str, Callable[[], BaseFeature]] = {
             "levenshtein": lambda: LevenshteinFeature(),
             "jaro_winkler": lambda: JaroWinklerFeature(),
@@ -36,8 +36,8 @@ class FeaturesCollector:
             "keyboard_dist": lambda: QwertyFeature(),
             "cands_less_dist": lambda: CountCandidatesLessEditDistFeature(),
 
-            "bigram_freq": lambda: BiGramsFeature(),
-            "trigram_freq": lambda: TriGramsFeature(),
+            "bigram_freq": lambda: NGramsFeature(bigrams_path, 2),
+            "trigram_freq": lambda: NGramsFeature(trigrams_path, 3),
 
             "cand_length_diff": lambda: CandidateLengthDiff(),
             "init_word_length": lambda: InitWordLength(),

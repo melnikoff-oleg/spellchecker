@@ -58,9 +58,3 @@ class SpellCheckModel(SpellCheckModelBase):
         assert len(spelled_words) == len(scored_candidates)
 
         return scored_candidates
-
-
-# class JemSpellModel(SpellCheckModelBase):
-#     def __init__(self):
-#         self._jsp = jamspell.TSpellCorrector()
-#         assert self._jsp.LoadLangModel('en.bin')
