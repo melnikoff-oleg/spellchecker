@@ -52,6 +52,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
     not_found_errors = []
     not_correct_cands = []
     not_correct_detection = []
+    not_correct_cand_found = []
 
     for spell_text in tqdm(data):
         text = spell_text.text
@@ -92,12 +93,16 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
                     else:
                         correct_spells = tuple([true_spell.correct])
 
+                    correct_cand_found = False
                     for pos, variant in enumerate(pred_spell.variants):
                         if variant.substitution in correct_spells:
                             matched_position = pos + 1
+                            correct_cand_found = True
                             if pos > 0:
                                 not_correct_cands.append({'Bad Ratio': round(variant.score / pred_spell.variants[0].score, 2), 'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
                             break
+                    if not correct_cand_found:
+                        not_correct_cand_found.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
                     matched_positions.append(matched_position)
 
             if not found:
@@ -131,6 +136,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
     mistakes_examples = {}
     mistakes_examples["examples_not_found"] = not_found_errors[:max_not_found]
     mistakes_examples["examples_not_correct_detection"] = not_correct_detection[:max_not_correct_detection]
+    mistakes_examples["examples_not_correct_cand_found"] = not_correct_cand_found[:max_not_correct_detection]
 
     def compare(item1, item2):
         if item1['Bad Ratio'] < item2['Bad Ratio']:
