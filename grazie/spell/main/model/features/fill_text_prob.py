@@ -60,20 +60,23 @@ class FillTextProbComputer:
         return scores
 
     def log_probs(self, texts_with_ranges: List[Tuple[str, int, int]], candidates: List[List[str]]) -> List[List[float]]:
+        response: List[List[float]] = [[1.0 for _ in cands] for cands in candidates]
+
         texts_inds, cands_ranges, outs = self.preprocess(texts_with_ranges, candidates)
-        input_prompts = [self.create_prompt(*texts_with_ranges[i]) for i in texts_inds]
+        if texts_inds:
+            input_prompts = [self.create_prompt(*texts_with_ranges[i]) for i in texts_inds]
 
-        if len(input_prompts) == 0:
-            return [[1.0 for cand in cands] for cands in candidates]
+            encoded_input = self.encode_prompt(input_prompts)
+            output_ids = self.encode_prompt(outs)['input_ids']
 
-        encoded_input = self.encode_prompt(input_prompts)
-        output_ids = self.encode_prompt(outs)['input_ids']
+            all_logits = self.model(encoded_input['input_ids'], attention_mask=encoded_input['attention_mask'],
+                                    decoder_input_ids=output_ids).logits.cpu()
 
-        all_logits = self.model(encoded_input['input_ids'], attention_mask=encoded_input['attention_mask'],
-                                decoder_input_ids=output_ids).logits.cpu()
+            scores = self.candidate_scores(texts_inds, cands_ranges, output_ids, all_logits)
+            for ind, score in scores.items():
+                response[ind] = score
 
-        scores = self.candidate_scores(texts_inds, cands_ranges, output_ids, all_logits)
-        return list(scores.values())
+        return response
 
 
 class SynFillTextProbComputer(FillTextProbComputer):
