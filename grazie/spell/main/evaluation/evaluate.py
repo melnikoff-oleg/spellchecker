@@ -44,8 +44,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
     metric_values: Dict[str, Any] = {"texts_num": len(data)}
 
     detector_matches = 0
-    detector_precision_denom, detector_recall_denom = 0, 0
-
+    detector_precision_denom = 0
     detector_recall_denom = 0
 
     matched_positions = []
@@ -63,9 +62,11 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
         detector_recall_denom += len(spells)
 
         not_found_spells = []
+
+        # идем по всем GT опечаткам
         for true_spell in spells:
 
-            # проверка что это ошибка диалекта
+            # проверка что это ошибка диалекта, чтобы не учитывать ее
             if (true_spell.correct in br2am.keys() and br2am[true_spell.correct] == true_spell.spelled) \
                     or (true_spell.correct in am2br.keys() and am2br[true_spell.correct] == true_spell.spelled):
                 detector_recall_denom -= 1
@@ -77,18 +78,18 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
 
             found = False
             for pred_spell in spell_results:
-                if true_spell.spelled == text[pred_spell.start:pred_spell.finish]:
+                if true_spell.start == pred_spell.start and true_spell.spelled == text[pred_spell.start:pred_spell.finish]:
                     found = True
                     detector_matches += 1
                     matched_position = float("inf")
                     correct_spells = ()
 
                     if true_spell.correct in br2am.keys():
-                        correct_spells = (true_spell.correct, br2am[true_spell.correct])
+                        correct_spells = tuple([true_spell.correct, br2am[true_spell.correct]])
                     elif true_spell.correct in am2br.keys():
-                        correct_spells = (true_spell.correct, am2br[true_spell.correct])
+                        correct_spells = tuple([true_spell.correct, am2br[true_spell.correct]])
                     else:
-                        correct_spells = (true_spell.correct)
+                        correct_spells = tuple([true_spell.correct])
 
                     for pos, variant in enumerate(pred_spell.variants):
                         if variant.substitution in correct_spells:
@@ -97,6 +98,10 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
                                 not_correct_cands.append({'Bad Ratio': round(variant.score / pred_spell.variants[0].score, 2), 'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
                             break
                     matched_positions.append(matched_position)
+
+                    # break
+
+
             if not found:
                 not_found_errors.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct})
                 not_found_spells.append(true_spell)

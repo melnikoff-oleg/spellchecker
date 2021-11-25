@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List
 
 import attr
 
@@ -7,6 +7,7 @@ import attr
 class Spell:
     spelled: str
     correct: str
+    start: int
 
 
 @attr.s(auto_attribs=True, frozen=True)

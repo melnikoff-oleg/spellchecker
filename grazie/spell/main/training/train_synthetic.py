@@ -120,41 +120,14 @@ def main():
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
-    # rankers = [CatBoostRanker(iterations=10), CatBoostRanker(iterations=100), CatBoostRanker(iterations=1000)]
     features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
 
     detector = HunspellDetector()
     candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        # ['bart_prob'],
-        # ["bart_prob", "bert_prob"],
-        # ["bart_prob", "bert_prob", "bigram_freq", "soundex", "freq"],
-        # ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"],
-        # ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq",
-        #  "soundex", "metaphone", "keyboard_dist"],
-        # ["bart_prob", "cand_length_diff", "bigram_freq", "levenshtein", "freq"],
-        # ["bart_prob", "cand_length_diff", "init_word_length", "levenshtein", "freq"],
-        # ["bart_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq",
-        #  "soundex", "metaphone", "keyboard_dist"],
-        # ["bart_prob", "bigram_freq", "cand_length_diff", "levenshtein", "freq", "keyboard_dist"],
-        # ["bart_prob", "cand_length_diff", "levenshtein", "freq", "metaphone", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length"],
-        # ["suffix_prob", "cand_length_diff", "levenshtein", "freq"],
-        # ["bert_prob", "cand_length_diff", "levenshtein", "freq"],
-        # ["bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
-        # ["bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex",
-        #  "metaphone", "keyboard_dist"],
-        ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "keyboard_dist"],
-        # ["bigram_freq", "cand_length_diff", "levenshtein", "freq"],
-        # ["bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq", "soundex", "metaphone", "keyboard_dist"],
-        # ["levenshtein", "log_freq", "soundex", "cands_less_dist"],
-        # ["levenshtein", "sqrt_freq", "soundex", "metaphone", "keyboard_dist"],
-        # ["levenshtein", "freq", "cands_less_dist", "metaphone"],
-        # ["levenshtein", "freq", "soundex", "metaphone"],
-        # ["bart_prob", "bert_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "freq",
-        #  "soundex", "metaphone", "keyboard_dist"],
+        ["levenshtein", "freq"],
     ]
-    # for ranker in rankers:
     for rf in ranker_features:
         train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path, trigrams_table_path, experiment_save_path, dataset_name, save_experiment=False)
 
