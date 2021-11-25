@@ -31,7 +31,7 @@ def remove_specific_metrics(model: SpellCheckModelBase, metric_values: Dict[str,
     return metric_values
 
 
-def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool = False, max_not_found: int = 10, max_not_correct: int = 10):
+def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool = False, max_not_found: int = 10, max_not_correct: int = 10, max_not_correct_detection: int = 5):
 
     # adding dialects mappings
     br2am = {}
@@ -51,6 +51,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
 
     not_found_errors = []
     not_correct_cands = []
+    not_correct_detection = []
 
     for spell_text in tqdm(data):
         text = spell_text.text
@@ -99,12 +100,26 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
                             break
                     matched_positions.append(matched_position)
 
-                    # break
-
-
             if not found:
                 not_found_errors.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct})
                 not_found_spells.append(true_spell)
+
+
+        # идем по всем НЕ GT опечатка и смотрим на false positives
+
+        for pred_spell in spell_results:
+
+            real = False
+            for true_spell in spells:
+                if true_spell.start == pred_spell.start and true_spell.spelled == text[
+                                                                                  pred_spell.start:pred_spell.finish]:
+                    real = True
+                    break
+
+            if real:
+                continue
+
+            not_correct_detection.append({'Text': text, 'Fake Incorrect Word': text[pred_spell.start: pred_spell.finish], 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:3]]})
 
 
 
@@ -115,6 +130,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
 
     mistakes_examples = {}
     mistakes_examples["examples_not_found"] = not_found_errors[:max_not_found]
+    mistakes_examples["examples_not_correct_detection"] = not_correct_detection[:max_not_correct_detection]
 
     def compare(item1, item2):
         if item1['Bad Ratio'] < item2['Bad Ratio']:
