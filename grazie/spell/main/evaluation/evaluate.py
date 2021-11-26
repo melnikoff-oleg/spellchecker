@@ -31,7 +31,7 @@ def remove_specific_metrics(model: SpellCheckModelBase, metric_values: Dict[str,
     return metric_values
 
 
-def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool = False, max_not_found: int = 10, max_not_correct: int = 10, max_not_correct_detection: int = 5):
+def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool = False, max_mistakes_log: int = 100):
 
     # adding dialects mappings
     br2am = {}
@@ -49,10 +49,11 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
 
     matched_positions = []
 
-    not_found_errors = []
-    not_correct_cands = []
-    not_correct_detection = []
-    not_correct_cand_found = []
+    mistake_not_found = []
+    false_detection = []
+    correct_cand_not_found = []
+    ranking_mistake = []
+
 
     for spell_text in tqdm(data):
         text = spell_text.text
@@ -99,14 +100,14 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
                             matched_position = pos + 1
                             correct_cand_found = True
                             if pos > 0:
-                                not_correct_cands.append({'Bad Ratio': round(variant.score / pred_spell.variants[0].score, 2), 'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
+                                ranking_mistake.append({'Bad Ratio': round(variant.score / pred_spell.variants[0].score, 2), 'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
                             break
                     if not correct_cand_found:
-                        not_correct_cand_found.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
+                        correct_cand_not_found.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct, 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:5]]})
                     matched_positions.append(matched_position)
 
             if not found:
-                not_found_errors.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct})
+                mistake_not_found.append({'Text': text, 'Incorrect Word': true_spell.spelled, 'Corrected Word': true_spell.correct})
                 not_found_spells.append(true_spell)
 
 
@@ -124,19 +125,19 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
             if real:
                 continue
 
-            not_correct_detection.append({'Text': text, 'Fake Incorrect Word': text[pred_spell.start: pred_spell.finish], 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:3]]})
+            false_detection.append({'Text': text, 'Fake Incorrect Word': text[pred_spell.start: pred_spell.finish], 'Candidates': [{'Word': variant.substitution, 'Score': round(variant.score, 2)} for variant in pred_spell.variants[:3]]})
 
 
 
     metric_values["spells_num"] = detector_recall_denom
-    metric_values["detector_precision"] = detector_matches / detector_precision_denom
-    metric_values["detector_recall"] = detector_matches / detector_recall_denom
+    metric_values["detector_precision"] = round(detector_matches / detector_precision_denom, 2)
+    metric_values["detector_recall"] = round(detector_matches / detector_recall_denom, 2)
 
 
     mistakes_examples = {}
-    mistakes_examples["examples_not_found"] = not_found_errors[:max_not_found]
-    mistakes_examples["examples_not_correct_detection"] = not_correct_detection[:max_not_correct_detection]
-    mistakes_examples["examples_not_correct_cand_found"] = not_correct_cand_found[:max_not_correct_detection]
+    mistakes_examples["mistake_not_found"] = mistake_not_found[: max_mistakes_log]
+    mistakes_examples["false_detection"] = false_detection[: max_mistakes_log]
+    mistakes_examples["correct_cand_not_found"] = correct_cand_not_found[: max_mistakes_log]
 
     def compare(item1, item2):
         if item1['Bad Ratio'] < item2['Bad Ratio']:
@@ -147,16 +148,27 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
             return 0
 
     # Calling
-    not_correct_cands = sorted(not_correct_cands, key=cmp_to_key(compare))
+    ranking_mistake = sorted(ranking_mistake, key=cmp_to_key(compare))
 
-    mistakes_examples["examples_not_correct_cands"] = not_correct_cands[:max_not_correct]
+    mistakes_examples["ranking_mistake"] = ranking_mistake[: max_mistakes_log]
 
-    metric_values[f"candidator_acc (acc@inf)"] = float(np.mean([pos < float("inf") for pos in matched_positions]))
+    metric_values[f"candidator_acc (acc@inf)"] = round(float(np.mean([pos < float("inf") for pos in matched_positions])), 2)
+
+    #  + [False for i in range(len(mistake_not_found))]
+    for k in [1, 3]:
+        accuracy_k = float(np.mean([pos <= k for pos in matched_positions] + [False for i in range(len(mistake_not_found))]))
+        metric_values[f"pipeline_acc@{k}"] = round(accuracy_k, 2)
+    # metric_values[f"mrr"] = float(np.mean([1 / pos for pos in matched_positions]))
+
+    ranker_matched_positions = []
+    for pos in matched_positions:
+        if pos < float("inf"):
+            ranker_matched_positions.append(pos)
+    # [pos < float("inf") for pos in matched_positions]
 
     for k in [1, 3]:
-        accuracy_k = float(np.mean([pos <= k for pos in matched_positions]))
-        metric_values[f"acc@{k}"] = accuracy_k
-    metric_values[f"mrr"] = float(np.mean([1 / pos for pos in matched_positions]))
+        accuracy_k = float(np.mean([pos <= k for pos in ranker_matched_positions]))
+        metric_values[f"ranker_acc@{k}"] = round(accuracy_k, 2)
 
     remove_specific_metrics(model, metric_values, ["detector_precision", "detector_recall"],
                             ["candidator_acc (acc@inf)"], ["acc@1", "acc@3", "mrr"])
@@ -165,7 +177,6 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
         for name, value in metric_values.items():
             print(f"{name}: {value}")
 
-    # print('Not found spells:\n', not_found_spells)
     return metric_values, mistakes_examples
 
 
