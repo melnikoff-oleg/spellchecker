@@ -15,10 +15,9 @@ class FreqFeature(BaseFeature):
     def load(cls, freqs_path: str) -> 'FreqFeature':
         freqs: Dict[str, float] = {}
         with open(freqs_path) as f:
-            read_lines = f.readlines()
-        for line in read_lines:
-            word, freq = line.split(',')
-            freqs[word] = int(freq)
+            for line in f:
+                word, freq = line.split(',')
+                freqs[word] = int(freq)
         return FreqFeature(freqs)
 
     def transform(self, freq: float) -> float:
