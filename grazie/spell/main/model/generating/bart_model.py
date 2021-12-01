@@ -33,17 +33,17 @@ class BartGenerationModel(GenerationModel):
         return scores
 
     def next_probs(self, input_ids: torch.Tensor, state: GenerationModel.GenerationState,
-                   encoder_input_ids: Optional[torch.Tensor] = None, **kwargs) -> torch.Tensor:
-        assert encoder_input_ids is not None
+                   encoder_ids: Optional[torch.Tensor] = None, **kwargs) -> torch.Tensor:
+        assert encoder_ids is not None
         assert isinstance(state, self.BartState)
 
         if state.past is not None:
             inputs = input_ids[:, state.past[0][0].shape[-2]:]
             model_out = self.model(
-                encoder_input_ids, decoder_input_ids=inputs, past_key_values=state.past, use_cache=True
+                encoder_ids, decoder_input_ids=inputs, past_key_values=state.past, use_cache=True
             )
         else:
-            model_out = self.model(input_ids)
+            model_out = self.model(encoder_ids, decoder_input_ids=input_ids)
         logits, state.past = model_out.logits, model_out.past_key_values
         last_logits = logits[:, -1, :]
         scores = F.softmax(last_logits, dim=1)

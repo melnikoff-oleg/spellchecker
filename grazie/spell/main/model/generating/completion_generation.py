@@ -1,8 +1,8 @@
 from abc import ABC
-from typing import List, Iterable, Tuple
+from typing import List, Iterable
 
 import torch
-from transformers import GPT2Tokenizer
+from transformers import PreTrainedTokenizer
 
 from grazie.spell.main.model.generating.beam_search import BeamSearch
 from grazie.spell.main.model.generating.info import GenerationInfo
@@ -12,7 +12,7 @@ from grazie.spell.main.model.generating.search import Search
 
 
 class CompletionGeneration(ABC):
-    def __init__(self, model: GenerationModel, tokenizer: GPT2Tokenizer,
+    def __init__(self, model: GenerationModel, tokenizer: PreTrainedTokenizer,
                  # prefix_err_limit: int = 0
                  ):
         self.model = model
@@ -24,7 +24,8 @@ class CompletionGeneration(ABC):
         self.vocab_size = self.tokenizer.vocab_size
         self._verbose = False
 
-        self._contexts: torch.Tensor
+        self._encoder_ids: torch.Tensor
+        self._decoder_ids: torch.Tensor
         self._gen_state: GenerationModel.GenerationState
         self._each_step_probs: torch.Tensor
         # self._prefixes: List[Tuple[str, int]]
@@ -53,14 +54,16 @@ class CompletionGeneration(ABC):
 
         return scores
 
-    def init_state(self, context: torch.Tensor, prefix: str):
-        self._contexts = context
+    def init_state(self, encoder_ids: torch.Tensor, decoder_ids: torch.Tensor):
+        self._encoder_ids = encoder_ids
+        self._decoder_ids = decoder_ids
         self._gen_state = self.model.create_state()
-        self._each_step_probs = torch.empty(1, 0, dtype=torch.float, device=context.device)
+        self._each_step_probs = torch.empty(1, 0, dtype=torch.float, device=encoder_ids.device)
         # self._prefixes = [(prefix, self.prefix_err_limit) if len(prefix) >= 3 else (prefix, 0)]
 
     def _sort_state(self, sort_mask: torch.Tensor) -> None:
-        self._contexts = self._contexts[sort_mask]
+        self._encoder_ids = self._encoder_ids[sort_mask]
+        self._decoder_ids = self._decoder_ids[sort_mask]
         self._each_step_probs = self._each_step_probs[sort_mask]
         self._gen_state.update(sort_mask)
         # self._prefixes = [self._prefixes[i] for i in sort_mask.tolist()]
@@ -77,7 +80,7 @@ class CompletionGeneration(ABC):
     def update_state(self, sort_mask: torch.Tensor, new_ids: torch.Tensor) -> None:
         self._sort_state(sort_mask)
 
-        self._contexts = torch.cat((self._contexts, new_ids.unsqueeze(1)), 1)
+        self._decoder_ids = torch.cat((self._decoder_ids, new_ids.unsqueeze(1)), 1)
         last_tokens_probs = torch.exp(self._next_log_probs[sort_mask, new_ids]).unsqueeze(1)
         self._each_step_probs = torch.cat((self._each_step_probs, last_tokens_probs), 1)
 
@@ -85,7 +88,7 @@ class CompletionGeneration(ABC):
 
     def update_scores(self) -> torch.Tensor:
         with torch.no_grad():
-            scores = self.model.next_probs(self._contexts, self._gen_state)
+            scores = self.model.next_probs(self._decoder_ids, self._gen_state, encoder_ids=self._encoder_ids)
             scores = torch.log(scores)
 
             self._next_log_probs = self.modify_score(scores)
@@ -114,14 +117,13 @@ class CompletionGeneration(ABC):
         ], key=lambda x: x.ids)
         return ans
 
-    def generate(self, context: torch.Tensor, prefix: str, num_beams: int, num_iterations: int, min_len: int = 1,
-                 repetition_penalty: float = 1.0, **kwargs) -> Iterable[List[GenerationInfo]]:
-        search = BeamSearch(self.vocab_size, num_beams, repetition_penalty)
-        self.init_state(context, prefix)
+    def generate(self, encoder_ids: torch.Tensor, decoder_ids: torch.Tensor,
+                 num_beams: int, max_iterations: int) -> Iterable[List[GenerationInfo]]:
+        search = BeamSearch(self.vocab_size, num_beams)
+        self.init_state(encoder_ids, decoder_ids)
         self.update_scores()
-        for iter_num in range(num_iterations):
-            sort_mask, new_tokens = search.step(self._next_log_probs, context)
+        for iter_num in range(max_iterations):
+            sort_mask, new_tokens = search.step(self._next_log_probs)
             self.update_state(sort_mask, new_tokens)
             self.update_scores()
-            if iter_num + 1 >= min_len:
-                yield self.current_hypothesis(search, self.is_end_of_words())
+            yield self.current_hypothesis(search, self.is_end_of_words())
