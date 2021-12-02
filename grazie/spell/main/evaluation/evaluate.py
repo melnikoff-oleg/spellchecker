@@ -67,7 +67,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
 
                     correct_cand_found = False
                     for pos, variant in enumerate(pred_spell.variants):
-                        if variant.substitution in true_spell.correct:
+                        if variant.substitution == true_spell.correct:
                             matched_position = pos + 1
                             correct_cand_found = True
                             if pos > 0:
