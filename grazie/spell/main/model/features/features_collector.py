@@ -76,10 +76,7 @@ class FeaturesCollector:
     def load_freqs(cls, freqs_path: str) -> Dict[str, float]:
         freqs: Dict[str, float] = {}
         with open(freqs_path) as f:
-            read_lines = f.readlines()
-        # for line in read_lines(freqs_path):
-        for line in read_lines:
-            # word, freq = line.split('\t')
-            word, freq = line.split(',')
-            freqs[word] = float(freq)
-        return freqs
+            for line in f:
+                word, freq = line.split(',')
+                freqs[word] = float(freq)
+            return freqs
