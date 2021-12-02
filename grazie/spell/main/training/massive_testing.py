@@ -145,7 +145,7 @@ def main():
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments_v2.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=50)
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
@@ -155,10 +155,10 @@ def main():
     candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        ['bigram_freq', 'levenshtein', 'freq', 'soundex'],
+        ['freq'],
     ]
     for rf in ranker_features:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path, trigrams_table_path, experiment_save_path, dataset_name, save_experiment=True)
+        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path, trigrams_table_path, experiment_save_path, dataset_name, save_experiment=False)
 
 
 if __name__ == '__main__':

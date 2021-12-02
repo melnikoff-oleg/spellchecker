@@ -64,10 +64,12 @@ def get_time_diff(start):
     return str(datetime.timedelta(seconds=round(time.time() - start)))
 
 
-def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str, experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
-
+def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText],
+                test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str,
+                experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
     start = time.time()
-    features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path, FeaturesCollector.load_freqs(freqs_path))
+    features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path,
+                                           FeaturesCollector.load_freqs(freqs_path))
     train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
     test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
     data_prep_time = get_time_diff(start)
@@ -92,8 +94,13 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
 
     now = datetime.datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-    experiment_packed = {'Date': dt_string, 'Model Config': {'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__, 'Ranker':  type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}},
-                                                             'Dataset': {'Dataset Name': dataset_name, 'Dataset Size': len(train_data) + len(test_data), 'Train Size': len(train_data), 'Test Size': len(train_data)},
+    experiment_packed = {'Date': dt_string,
+                         'Model Config': {
+                             'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__,
+                             'Ranker': type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}
+                         },
+                         'Dataset': {'Dataset Name': dataset_name, 'Dataset Size': len(train_data) + len(test_data),
+                                     'Train Size': len(train_data), 'Test Size': len(test_data)},
                          'Pipeline Results': {
                              'All Together': {
                                  'acc@1': pipeline_metrics['pipeline_acc@1'],
@@ -115,7 +122,7 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
                                  'Ranking Mistake': pipeline_mistakes['ranking_mistake']
                              }
                          },
-                         'Runtime':{
+                         'Runtime': {
                              'Data Preparation': data_prep_time,
                              'Ranker Train': ranker_train_time,
                              'Pipeline Eval': pipeline_eval_time,
@@ -136,7 +143,6 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
 
 
 def main():
-
     gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k'
     noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k.noise'
     freqs_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/1_grams.csv'
@@ -149,7 +155,9 @@ def main():
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
-    features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
+    features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff",
+                "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex",
+                "metaphone", "keyboard_dist", "cands_less_dist"]
 
     detector = HunspellDetector()
     candidator = HunspellCandidator()
@@ -158,7 +166,8 @@ def main():
         ["bart_prob", "bert_prob"],
     ]
     for rf in ranker_features:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path, trigrams_table_path, experiment_save_path, dataset_name, save_experiment=True)
+        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path,
+                    trigrams_table_path, experiment_save_path, dataset_name, save_experiment=True)
 
 
 if __name__ == '__main__':
