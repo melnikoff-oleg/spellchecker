@@ -2,7 +2,6 @@ from argparse import ArgumentParser
 from typing import Tuple, List
 
 from grazie.spell.main.data.base import SpelledText, Spell
-# from grazie.spell.main.data.generate_synthetic import generate_spelling_synthetic_data
 
 
 def default_args_parser():

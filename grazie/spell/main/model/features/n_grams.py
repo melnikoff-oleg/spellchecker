@@ -4,7 +4,7 @@ from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseFeature
 from typing import Dict, Tuple
 from grazie.spell.main.preprocessing.tokenizer import SyntokTextTokenizer
-from grazie.spell.main.model.features.feature_tester import test_feature
+from grazie.spell.test.feature_tester import test_feature
 
 
 class NGramsFeature(BaseFeature):

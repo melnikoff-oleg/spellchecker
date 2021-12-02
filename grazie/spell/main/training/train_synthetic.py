@@ -64,43 +64,14 @@ def get_time_diff(start):
     return str(datetime.timedelta(seconds=round(time.time() - start)))
 
 
-def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText],
-                test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str,
-                experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
-    start = time.time()
-    features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path,
-                                           FeaturesCollector.load_freqs(freqs_path))
-    train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
-    test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
-    data_prep_time = get_time_diff(start)
-
-    start = time.time()
-    ranker.fit(train_rank_data, test_rank_data, epochs=20, lr=3e-4, l2=0., l1=0.)
-    ranker_train_time = get_time_diff(start)
-    print("Ranker's feature importancies:\n", ranker.get_feature_importance(train_rank_data, ranker_features))
-
-    # start = time.time()
-    # print("Evaluate ranker")
-    # ranker_metrics, ranker_mistakes = evaluate_ranker(FeaturesSpellRanker(features_collector, ranker), test_data, candidator=candidator, verbose=True)
-    # print()
-    # ranker_eval_time = get_time_diff(start)
-
-    start = time.time()
-    model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
-    print("Evaluate all")
-    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=100)
-    print()
-    pipeline_eval_time = get_time_diff(start)
-
-    now = datetime.datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+def save_experiment_results(dt_string: str, detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes, data_prep_time, ranker_train_time, pipeline_eval_time, experiment_save_path, save_experiment):
     experiment_packed = {'Date': dt_string,
                          'Model Config': {
-                             'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__,
-                             'Ranker': type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}
+                             'Detector': detector_name, 'Candidator': candidator_name,
+                             'Ranker': ranker_name, 'Features': {'RankerFeatures': ranker_features}
                          },
-                         'Dataset': {'Dataset Name': dataset_name, 'Dataset Size': len(train_data) + len(test_data),
-                                     'Train Size': len(train_data), 'Test Size': len(test_data)},
+                         'Dataset': {'Dataset Name': dataset_name, 'Dataset Size': train_data_len + test_data_len,
+                                     'Train Size': train_data_len, 'Test Size': test_data_len},
                          'Pipeline Results': {
                              'All Together': {
                                  'acc@1': pipeline_metrics['pipeline_acc@1'],
@@ -142,9 +113,43 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
     print(experiment_packed)
 
 
+def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText],
+                test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str,
+                experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
+    start = time.time()
+    features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path,
+                                           FeaturesCollector.load_freqs(freqs_path))
+    train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
+    test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
+    data_prep_time = get_time_diff(start)
+
+    start = time.time()
+    ranker.fit(train_rank_data, test_rank_data, epochs=20, lr=3e-4, l2=0., l1=0.)
+    ranker_train_time = get_time_diff(start)
+    print("Ranker's feature importancies:\n", ranker.get_feature_importance(train_rank_data, ranker_features))
+
+    start = time.time()
+    model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
+    print("Evaluate all")
+    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=100)
+    print()
+    pipeline_eval_time = get_time_diff(start)
+
+    now = datetime.datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+
+    detector_name = type(detector).__name__
+    candidator_name = type(candidator).__name__
+    ranker_name = type(ranker).__name__
+    train_data_len = len(train_data)
+    test_data_len = len(test_data)
+
+    save_experiment_results(dt_string, detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes, data_prep_time, ranker_train_time, pipeline_eval_time, experiment_save_path, save_experiment)
+
+
 def main():
     gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k'
-    noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k.noise'
+    noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k.noise_cleaned'
     freqs_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/1_grams.csv'
     bigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/2_grams.csv'
     trigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/3_grams.csv'
@@ -163,7 +168,8 @@ def main():
     candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        ["bart_prob", "bert_prob"],
+        # ['bart_prob', 'bert_prob'],
+        ['bigram_freq', 'levenshtein']
     ]
     for rf in ranker_features:
         train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path,
