@@ -7,6 +7,9 @@ from nltk.corpus import words as nltk_words
 
 from grazie.spell.main.model.base import SpelledWord
 
+import pkg_resources
+from symspellpy import SymSpell, Verbosity
+
 
 class BaseCandidator(ABC):
     @abstractmethod
@@ -94,9 +97,26 @@ class HunspellCandidator(BaseCandidator):
             all_candidates[i] = list(candidates)
         return all_candidates
 
+class SymSpellCandidator(BaseCandidator):
+    def __init__(self):
+        self.sym_spell = SymSpell(max_dictionary_edit_distance=3, prefix_length=7)
+        dictionary_path = pkg_resources.resource_filename(
+            "symspellpy", "frequency_dictionary_en_82_765.txt"
+        )
+        self.sym_spell.load_dictionary(dictionary_path, term_index=0, count_index=1)
+
+    def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
+        all_candidates: List[List[str]] = [[] for _ in spelled_words]
+        for i, spelled_word in enumerate(spelled_words):
+            candidates = self.sym_spell.lookup(spelled_word.word, Verbosity.ALL, max_edit_distance=3, transfer_casing=True)
+            all_candidates[i] = []
+            for cand in candidates:
+                all_candidates[i].append(cand.term)
+        return all_candidates
 
 def main():
-    candidator = LevenshteinCandidator(max_err=1, index_prefix_len=1)
+    # candidator = SymSpellCandidator(max_err=1, index_prefix_len=1)
+    candidator = SymSpellCandidator()
     text = 'hillo i am oleg'
     sw = SpelledWord(text, (0, 5))
     print(sw.word)
