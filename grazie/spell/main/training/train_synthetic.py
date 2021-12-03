@@ -153,7 +153,7 @@ def main():
     freqs_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/1_grams.csv'
     bigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/2_grams.csv'
     trigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/3_grams.csv'
-    # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
+    # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/best_model_full_detail2.json'
     dataset_name = gt_texts_path.split('/')[-1]
     train_data, test_data = get_test_data(gt_texts_path, noise_texts_path)
