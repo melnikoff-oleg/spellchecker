@@ -27,7 +27,19 @@ class BaseDetector(ABC):
 class IdealDetector(BaseDetector):
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
         true_spells = kwargs["true_spells"]
-        return [SpelledWord(text, (text.index(spell.spelled), text.index(spell.spelled) + len(spell.spelled))) for spell in true_spells]
+
+        res = []
+        fict_text = text
+
+        for spell in true_spells:
+            start = fict_text.index(spell.spelled)
+            finish = start + len(spell.spelled)
+            # mark this occurrence of word
+            gap = ''.join('#' for ind in range(start, finish))
+            fict_text = fict_text[:start] + gap + fict_text[finish:]
+            res.append(SpelledWord(text, (start, finish)))
+
+        return res
 
 
 class WordBaseDetector(BaseDetector):
@@ -36,14 +48,19 @@ class WordBaseDetector(BaseDetector):
         self._tokenizer = SyntokTextTokenizer()
 
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
+        fict_text = text
         intervals = []
         words = self._tokenizer.tokenize(text)
+
         # Тут тоже только первое вхождение ошибки
         for i, word in enumerate(words):
             if self.is_spelled(word):
-                start = text.find(word)
+                start = fict_text.find(word)
                 finish = start + len(word)
-                assert text[start:finish] == word
+                assert fict_text[start:finish] == word
+                # mark this occurrence of word
+                gap = ''.join('#' for ind in range(start, finish))
+                fict_text = fict_text[:start] + gap + fict_text[finish:]
                 intervals.append(SpelledWord(text, (start, finish)))
 
         return intervals

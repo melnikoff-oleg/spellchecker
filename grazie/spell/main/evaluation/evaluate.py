@@ -55,6 +55,8 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
         detector_recall_denom += len(spells)
 
         not_found_spells = []
+
+        # идем по всем GT опечаткам
         for true_spell in spells:
 
             found = False
@@ -145,6 +147,7 @@ def evaluate(model: SpellCheckModelBase, data: List[SpelledText], verbose: bool 
         for name, value in metric_values.items():
             print(f"{name}: {value}")
 
+    # print('Not found spells:\n', not_found_spells)
     return metric_values, mistakes_examples
 
 

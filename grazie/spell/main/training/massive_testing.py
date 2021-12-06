@@ -12,7 +12,7 @@ from grazie.spell.main.data.base import SpelledText
 from grazie.spell.main.data.utils import get_test_data
 from grazie.spell.main.evaluation.evaluate import evaluate, evaluate_ranker
 from grazie.spell.main.model.candidator import BaseCandidator, AggregatedCandidator, IdealCandidator, \
-    LevenshteinCandidator, HunspellCandidator, SymSpellCandidator
+    LevenshteinCandidator, HunspellCandidator
 from grazie.spell.main.model.detector import IdealDetector, DictionaryDetector, HunspellDetector
 from grazie.spell.main.model.features.features_collector import FeaturesCollector
 from grazie.spell.main.model.ranker import FeaturesSpellRanker
@@ -64,14 +64,36 @@ def get_time_diff(start):
     return str(datetime.timedelta(seconds=round(time.time() - start)))
 
 
-def save_experiment_results(dt_string: str, detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes, data_prep_time, ranker_train_time, pipeline_eval_time, experiment_save_path, save_experiment):
-    experiment_packed = {'Date': dt_string,
-                         'Model Config': {
-                             'Detector': detector_name, 'Candidator': candidator_name,
-                             'Ranker': ranker_name, 'Features': {'RankerFeatures': ranker_features}
-                         },
-                         'Dataset': {'Dataset Name': dataset_name, 'Dataset Size': train_data_len + test_data_len,
-                                     'Train Size': train_data_len, 'Test Size': test_data_len},
+def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText], test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str, experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
+
+    start = time.time()
+    features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path, FeaturesCollector.load_freqs(freqs_path))
+    train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
+    test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
+    data_prep_time = get_time_diff(start)
+
+    start = time.time()
+    ranker.fit(train_rank_data, test_rank_data, epochs=20, lr=3e-4, l2=0., l1=0.)
+    ranker_train_time = get_time_diff(start)
+    print("Ranker's feature importancies:\n", ranker.get_feature_importance(train_rank_data, ranker_features))
+
+    # start = time.time()
+    # print("Evaluate ranker")
+    # ranker_metrics, ranker_mistakes = evaluate_ranker(FeaturesSpellRanker(features_collector, ranker), test_data, candidator=candidator, verbose=True)
+    # print()
+    # ranker_eval_time = get_time_diff(start)
+
+    start = time.time()
+    model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
+    print("Evaluate all")
+    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=1)
+    print()
+    pipeline_eval_time = get_time_diff(start)
+
+    now = datetime.datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    experiment_packed = {'Date': dt_string, 'Model Config': {'Detector': type(detector).__name__, 'Candidator': type(candidator).__name__, 'Ranker':  type(ranker).__name__, 'Features': {'RankerFeatures': ranker_features}},
+                                                             'Dataset': {'Dataset Name': dataset_name, 'Dataset Size': len(train_data) + len(test_data), 'Train Size': len(train_data), 'Test Size': len(train_data)},
                          'Pipeline Results': {
                              'All Together': {
                                  'acc@1': pipeline_metrics['pipeline_acc@1'],
@@ -93,7 +115,7 @@ def save_experiment_results(dt_string: str, detector_name, candidator_name, rank
                                  'Ranking Mistake': pipeline_mistakes['ranking_mistake']
                              }
                          },
-                         'Runtime': {
+                         'Runtime':{
                              'Data Preparation': data_prep_time,
                              'Ranker Train': ranker_train_time,
                              'Pipeline Eval': pipeline_eval_time,
@@ -113,70 +135,30 @@ def save_experiment_results(dt_string: str, detector_name, candidator_name, rank
     print(experiment_packed)
 
 
-def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText],
-                test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str,
-                experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
-    start = time.time()
-    features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path,
-                                           FeaturesCollector.load_freqs(freqs_path))
-    train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
-    test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
-    data_prep_time = get_time_diff(start)
-
-    start = time.time()
-    ranker.fit(train_rank_data, test_rank_data, epochs=20, lr=3e-4, l2=0., l1=0.)
-    ranker_train_time = get_time_diff(start)
-    print("Ranker's feature importancies:\n", ranker.get_feature_importance(train_rank_data, ranker_features))
-
-    start = time.time()
-    model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
-    print("Evaluate all")
-    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=100)
-    print()
-    pipeline_eval_time = get_time_diff(start)
-
-    now = datetime.datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-
-    detector_name = type(detector).__name__
-    candidator_name = type(candidator).__name__
-    ranker_name = type(ranker).__name__
-    train_data_len = len(train_data)
-    test_data_len = len(test_data)
-
-    save_experiment_results(dt_string, detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes, data_prep_time, ranker_train_time, pipeline_eval_time, experiment_save_path, save_experiment)
-
-
 def main():
+
     gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k'
-    noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k.noise_cleaned'
+    noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k.noise'
     freqs_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/1_grams.csv'
     bigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/2_grams.csv'
     trigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/3_grams.csv'
-    # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model
+    # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model'
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments_v2.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=50)
 
     detectors = [HunspellDetector(), DictionaryDetector()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
-    features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff",
-                "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex",
-                "metaphone", "keyboard_dist", "cands_less_dist"]
+    features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff", "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex", "metaphone", "keyboard_dist", "cands_less_dist"]
 
     detector = HunspellDetector()
-    # candidator = HunspellCandidator()
-    candidator = SymSpellCandidator()
+    candidator = HunspellCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
-        ['bart_prob', 'bert_prob'],
-        # ["bigram_freq", "trigram_freq", "cand_length_diff",
-        #  "init_word_length", "levenshtein", "freq", "soundex",
-        #  "metaphone", "keyboard_dist", "cands_less_dist"]
+        ['freq'],
     ]
     for rf in ranker_features:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path,
-                    trigrams_table_path, experiment_save_path, dataset_name, save_experiment=True)
+        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path, trigrams_table_path, experiment_save_path, dataset_name, save_experiment=False)
 
 
 if __name__ == '__main__':
