@@ -7,7 +7,7 @@ from transformers import AutoModelForCausalLM
 
 from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseTransformerFeature
-from grazie.spell.main.model.features.feature_tester import test_feature
+from grazie.spell.test.feature_tester import test_feature
 
 
 class SuffixProbFeature(BaseTransformerFeature):

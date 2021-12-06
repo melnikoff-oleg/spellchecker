@@ -4,11 +4,12 @@ from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.features.base import BaseFeature
 from typing import Dict, Tuple
 from grazie.spell.main.preprocessing.tokenizer import SyntokTextTokenizer
-from grazie.spell.main.model.features.feature_tester import test_feature
+from grazie.spell.test.feature_tester import test_feature
 
 
 class NGramsFeature(BaseFeature):
-    def __init__(self, n: int = 1):
+    def __init__(self, ngrams_path, n: int = 1):
+        self.ngrams_path = ngrams_path
         self.n = n
         self.tokenizer = SyntokTextTokenizer()
         self.ngram_freqs: Dict[Tuple[str], int] = {}
@@ -16,7 +17,7 @@ class NGramsFeature(BaseFeature):
         self.load_ngrams()
 
     def load_ngrams(self):
-        with open(f'/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/{self.n}_grams.csv') as f:
+        with open(self.ngrams_path) as f:
             for line in f:
                 text_line = line[:-1]
                 words = ','.join(text_line.split(',')[:-1])
@@ -57,15 +58,12 @@ class NGramsFeature(BaseFeature):
         return res
 
 
-class BiGramsFeature(NGramsFeature):
-    def __init__(self):
-        super().__init__(n=2)
-
-
-class TriGramsFeature(NGramsFeature):
-    def __init__(self):
-        super().__init__(n=3)
+def run_tests():
+    for n in range(1, 4):
+        print(f'Testing {n}-grams')
+        test_feature(NGramsFeature(ngrams_path=f'/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/{n}_grams.csv', n=n))
+        print('\n')
 
 
 if __name__ == '__main__':
-    test_feature(TriGramsFeature())
+    run_tests()
