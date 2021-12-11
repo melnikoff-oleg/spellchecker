@@ -2,6 +2,7 @@ from abc import abstractmethod, ABC
 from typing import List, Dict, Set
 
 import nltk
+import torch
 from hunspell import Hunspell
 from nltk.corpus import words as nltk_words
 
@@ -9,6 +10,8 @@ from grazie.spell.main.model.base import SpelledWord
 
 import pkg_resources
 from symspellpy import SymSpell, Verbosity
+
+from grazie.spell.main.model.generating.swap_word_generator import SwapWordGenerator
 
 
 class BaseCandidator(ABC):
@@ -97,6 +100,7 @@ class HunspellCandidator(BaseCandidator):
             all_candidates[i] = list(candidates)
         return all_candidates
 
+
 class SymSpellCandidator(BaseCandidator):
     def __init__(self):
         self.sym_spell = SymSpell(max_dictionary_edit_distance=3, prefix_length=7)
@@ -114,11 +118,28 @@ class SymSpellCandidator(BaseCandidator):
                 all_candidates[i].append(cand.term)
         return all_candidates
 
+
+class NNCandidator(BaseCandidator):
+    def __init__(self):
+        self.gen = SwapWordGenerator("facebook/bart-base", torch.device("cpu"))
+
+    def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
+        all_candidates: List[List[str]] = [[] for _ in spelled_words]
+        for i, spelled_word in enumerate(spelled_words):
+            if spelled_word.interval[0] == 0:
+                all_candidates[i] = self.gen.generate(' ' + spelled_word.text, (spelled_word.interval[0], spelled_word.interval[1] + 1))
+            else:
+                all_candidates[i] = self.gen.generate(spelled_word.text, (spelled_word.interval[0] - 1, spelled_word.interval[1]))
+
+        return all_candidates
+
+
 def main():
     # candidator = SymSpellCandidator(max_err=1, index_prefix_len=1)
-    candidator = SymSpellCandidator()
-    text = 'hillo i am oleg'
-    sw = SpelledWord(text, (0, 5))
+    # candidator = SymSpellCandidator()
+    candidator = NNCandidator()
+    text = 'hello i am frim paris'
+    sw = SpelledWord(text, (11, 15))
     print(sw.word)
     all_candidates = candidator.get_candidates(text=text, spelled_words=[sw])
     print(all_candidates)

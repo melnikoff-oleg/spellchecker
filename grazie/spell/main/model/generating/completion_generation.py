@@ -10,16 +10,13 @@ from grazie.spell.main.model.generating.model import GenerationModel
 # from grazie.spell.main.model.generating.prefix_match import FuzzyPrefixMatcher
 from grazie.spell.main.model.generating.search import Search
 
+import nltk
 
 class CompletionGeneration(ABC):
-    def __init__(self, model: GenerationModel, tokenizer: PreTrainedTokenizer,
-                 # prefix_err_limit: int = 0
-                 ):
+    def __init__(self, model: GenerationModel, tokenizer: PreTrainedTokenizer):
         self.model = model
         self.tokenizer = tokenizer
         self.tokens_by_id = [tokenizer.decode(token_id) for token_id in range(tokenizer.vocab_size)]
-        # self.prefix_err_limit = prefix_err_limit
-        # self.prefix_matcher = FuzzyPrefixMatcher(tokenizer, self.prefix_err_limit, min_token_prefix_len=3)
 
         self.vocab_size = self.tokenizer.vocab_size
         self._verbose = False
@@ -28,12 +25,36 @@ class CompletionGeneration(ABC):
         self._decoder_ids: torch.Tensor
         self._gen_state: GenerationModel.GenerationState
         self._each_step_probs: torch.Tensor
-        # self._prefixes: List[Tuple[str, int]]
+        # лог вероятности следующего токена
         self._next_log_probs: torch.Tensor
 
-    def modify_score(self, scores: torch.Tensor):
+
+
+    # патчить здесь
+    # передать наше написанное слово и сравнивать с токенами в конце self._decoder_ids
+    # и обновить скоры
+    def modify_score(self, scores: torch.Tensor, spelled_word):
+
+
+        # чудесный костыль
         if scores.shape[1] > self.vocab_size:
             scores = scores[:, :self.vocab_size]
+
+        col = 1000
+        topk = torch.topk(scores, col)
+        # print('Printing TOPK\n', 'TOPK values:', topk.values, '\nTOPK indices:', topk.indices)
+
+
+
+        for i in range(scores.shape[0]):
+            for cur_id in topk.indices[i]:
+                cur_word = self.tokens_by_id[cur_id]
+                # spelled_word = 'frim'
+                dist = nltk.edit_distance(spelled_word, cur_word, transpositions=True)
+
+                scores[i][cur_id] *= dist ** 2 / 10
+
+
 
         # prefix
         # for i, (prefix, err_limit) in enumerate(self._prefixes):
@@ -77,6 +98,7 @@ class CompletionGeneration(ABC):
     #         result.append((new_prefix, min(err_limit - err_cnt, len(new_prefix))))
     #     self._prefixes = result
 
+    # обновляем новыми токенами в каждой гипотезе decoder ids, запоминаем вероятности на этом шаге
     def update_state(self, sort_mask: torch.Tensor, new_ids: torch.Tensor) -> None:
         self._sort_state(sort_mask)
 
@@ -86,12 +108,14 @@ class CompletionGeneration(ABC):
 
         # self._update_prefix(new_ids)
 
-    def update_scores(self) -> torch.Tensor:
+    # эта функция по новой считает вероятности следующего токена, при этом тут есть место
+    # чтобы их модифицировать под свои нужды
+    def update_scores(self, spelled_word) -> torch.Tensor:
         with torch.no_grad():
             scores = self.model.next_probs(self._decoder_ids, self._gen_state, encoder_ids=self._encoder_ids)
             scores = torch.log(scores)
 
-            self._next_log_probs = self.modify_score(scores)
+            self._next_log_probs = self.modify_score(scores, spelled_word) # вот это место
             return scores
 
     def is_end_of_words(self) -> List[bool]:
@@ -114,16 +138,20 @@ class CompletionGeneration(ABC):
             GenerationInfo(probs.cpu().tolist(), score=score.item(), ids=hyp.tolist())
             for hyp, probs, score, is_ended in zip(search.hypotheses, self._each_step_probs, search.scores, mask)
             if is_ended
-        ], key=lambda x: x.ids)
+        ], key=lambda x: -x.score())
         return ans
 
     def generate(self, encoder_ids: torch.Tensor, decoder_ids: torch.Tensor,
-                 num_beams: int, max_iterations: int) -> Iterable[List[GenerationInfo]]:
+                 num_beams: int, max_iterations: int, spelled_word: str) -> Iterable[List[GenerationInfo]]:
+
         search = BeamSearch(self.vocab_size, num_beams)
         self.init_state(encoder_ids, decoder_ids)
-        self.update_scores()
+        self.update_scores(spelled_word)
+
+        # max iters = 3
+        # только на первой итерации нужен пробел, поставить нормальный критерий останова
         for iter_num in range(max_iterations):
             sort_mask, new_tokens = search.step(self._next_log_probs)
             self.update_state(sort_mask, new_tokens)
-            self.update_scores()
+            self.update_scores(spelled_word)
             yield self.current_hypothesis(search, self.is_end_of_words())

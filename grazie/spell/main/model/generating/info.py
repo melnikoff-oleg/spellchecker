@@ -1,7 +1,7 @@
 import numpy as np
 from typing import List
 
-
+# список вероятностей каждого токена для генерации
 class GenerationInfo:
     def __init__(self, probs: List[float] = None, score: float = None, ids: List[int] = None):
         self._probs = probs if probs is not None else []

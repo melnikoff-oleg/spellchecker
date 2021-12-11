@@ -1,0 +1,1288 @@
+[
+    {
+        "Date": "11/12/2021 22:11:23",
+        "Model Config": {
+            "Detector": "HunspellDetector",
+            "Candidator": "NNCandidator",
+            "Ranker": "CatBoostRanker",
+            "Features": {
+                "RankerFeatures": [
+                    "freq",
+                    "bigram_freq",
+                    "levenshtein"
+                ]
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea4k",
+            "Dataset Size": 60,
+            "Train Size": 42,
+            "Test Size": 18
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "acc@1": 0.76,
+                "acc@3": 0.88
+            },
+            "Detector": {
+                "Precision": 0.83,
+                "Recall": 1.0,
+                "Mistakes Not Found": [],
+                "False Detection": [
+                    {
+                        "Text": "I would like to go in July , I do n't mind wich two weeks , but it has to be that month because in June I am still in school and in August I am going on holiday with my family .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "ot",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "it",
+                                "Score": 0.83
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "DANNY BROOK is one of my favourite actors so I decided to buy a ticket even though I had to cancel my apointment on that day at 18.30 and aslo notice of price discount impressed me .\n",
+                        "Fake Incorrect Word": "favourite",
+                        "Candidates": [
+                            {
+                                "Word": "favorite",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "favourite",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "favourites",
+                                "Score": 0.94
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However , when I got to the theatre , you not only did n't have any discounts but also had to apologize to us for the dalay in starting the musical .\n",
+                        "Fake Incorrect Word": "theatre",
+                        "Candidates": [
+                            {
+                                "Word": "Theatre",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "theatre",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "theater",
+                                "Score": 0.94
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However , when I got to the theatre , you not only did n't have any discounts but also had to apologize to us for the dalay in starting the musical .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "ot",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "Not",
+                                "Score": 0.82
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "In addition a different actor appeared on the stage and I could n't have dinner after the musical because the restrant was closed .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "ot",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "eat",
+                                "Score": 0.83
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.92,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "I recived your letter and I am very excited about the camp .\n",
+                        "Incorrect Word": "recived",
+                        "Corrected Word": "received",
+                        "Candidates": [
+                            {
+                                "Word": "eed",
+                                "Score": 0.34
+                            },
+                            {
+                                "Word": "I",
+                                "Score": 0.33
+                            },
+                            {
+                                "Word": "magine",
+                                "Score": 0.3
+                            },
+                            {
+                                "Word": "size",
+                                "Score": 0.28
+                            },
+                            {
+                                "Word": "call",
+                                "Score": 0.27
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Here is where the good part starts , I was doing the courtines ( opening and closing ) when Nick came up to me and asked me to go on stage with him . My heart started beating very hard .\n",
+                        "Incorrect Word": "courtines",
+                        "Corrected Word": "curtains",
+                        "Candidates": [
+                            {
+                                "Word": "routines",
+                                "Score": 0.88
+                            },
+                            {
+                                "Word": "moment",
+                                "Score": 0.51
+                            },
+                            {
+                                "Word": "routine",
+                                "Score": 0.45
+                            },
+                            {
+                                "Word": "news",
+                                "Score": 0.44
+                            },
+                            {
+                                "Word": "National",
+                                "Score": 0.38
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 0.83,
+                "acc@3": 0.96,
+                "Ranking Mistake": [
+                    {
+                        "Bad Ratio": 0.86,
+                        "Text": "On Monday morning , I walked into the class and all of my freind were shouting at me and calling my name and my boyfreind .\n",
+                        "Incorrect Word": "freind",
+                        "Corrected Word": "friends",
+                        "Candidates": [
+                            {
+                                "Word": "friend",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "friends",
+                                "Score": 0.84
+                            },
+                            {
+                                "Word": "fren",
+                                "Score": 0.78
+                            },
+                            {
+                                "Word": "crying",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "fre",
+                                "Score": 0.46
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.94,
+                        "Text": "You should return my money immedeastry because that night was far from parfect .\n",
+                        "Incorrect Word": "immedeastry",
+                        "Corrected Word": "immediately",
+                        "Candidates": [
+                            {
+                                "Word": "FIRST",
+                                "Score": 0.34
+                            },
+                            {
+                                "Word": "immediately",
+                                "Score": 0.32
+                            },
+                            {
+                                "Word": "books",
+                                "Score": 0.31
+                            },
+                            {
+                                "Word": "immediately,",
+                                "Score": 0.3
+                            },
+                            {
+                                "Word": "take",
+                                "Score": 0.29
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.98,
+                        "Text": "I told her everything abat my boyfreind and when we met each other and evertauly fell in love .\n",
+                        "Incorrect Word": "abat",
+                        "Corrected Word": "about",
+                        "Candidates": [
+                            {
+                                "Word": "ab",
+                                "Score": 0.84
+                            },
+                            {
+                                "Word": "but",
+                                "Score": 0.83
+                            },
+                            {
+                                "Word": "that",
+                                "Score": 0.83
+                            },
+                            {
+                                "Word": "That",
+                                "Score": 0.83
+                            },
+                            {
+                                "Word": "about",
+                                "Score": 0.83
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 1.0,
+                        "Text": "DANNY BROOK is one of my favourite actors so I decided to buy a ticket even though I had to cancel my apointment on that day at 18.30 and aslo notice of price discount impressed me .\n",
+                        "Incorrect Word": "apointment",
+                        "Corrected Word": "appointment",
+                        "Candidates": [
+                            {
+                                "Word": "appointments",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "appointment",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "apartment",
+                                "Score": 0.56
+                            },
+                            {
+                                "Word": "well",
+                                "Score": 0.31
+                            },
+                            {
+                                "Word": "general",
+                                "Score": 0.31
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0:04:40",
+            "Ranker Train": "0:00:00",
+            "Pipeline Eval": "0:02:14"
+        }
+    },
+    {
+        "Date": "11/12/2021 22:27:30",
+        "Model Config": {
+            "Detector": "HunspellDetector",
+            "Candidator": "SymSpellCandidator",
+            "Ranker": "CatBoostRanker",
+            "Features": {
+                "RankerFeatures": [
+                    "freq",
+                    "bigram_freq",
+                    "levenshtein"
+                ]
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea4k",
+            "Dataset Size": 60,
+            "Train Size": 42,
+            "Test Size": 18
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "acc@1": 0.72,
+                "acc@3": 0.84
+            },
+            "Detector": {
+                "Precision": 0.83,
+                "Recall": 1.0,
+                "Mistakes Not Found": [],
+                "False Detection": [
+                    {
+                        "Text": "I would like to go in July , I do n't mind wich two weeks , but it has to be that month because in June I am still in school and in August I am going on holiday with my family .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 1.0
+                            },
+                            {
+                                "Word": "net",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "nut",
+                                "Score": 0.99
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "DANNY BROOK is one of my favourite actors so I decided to buy a ticket even though I had to cancel my apointment on that day at 18.30 and aslo notice of price discount impressed me .\n",
+                        "Fake Incorrect Word": "favourite",
+                        "Candidates": [
+                            {
+                                "Word": "favourites",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "favourite",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "favouring",
+                                "Score": 0.62
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However , when I got to the theatre , you not only did n't have any discounts but also had to apologize to us for the dalay in starting the musical .\n",
+                        "Fake Incorrect Word": "theatre",
+                        "Candidates": [
+                            {
+                                "Word": "theatre",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "theatres",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "there",
+                                "Score": 0.99
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However , when I got to the theatre , you not only did n't have any discounts but also had to apologize to us for the dalay in starting the musical .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 1.0
+                            },
+                            {
+                                "Word": "net",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "nut",
+                                "Score": 0.99
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "In addition a different actor appeared on the stage and I could n't have dinner after the musical because the restrant was closed .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 1.0
+                            },
+                            {
+                                "Word": "net",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "nut",
+                                "Score": 0.99
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.92,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "It made me so dissapoint and angry .\n",
+                        "Incorrect Word": "dissapoint",
+                        "Corrected Word": "disappointed",
+                        "Candidates": [
+                            {
+                                "Word": "disappoint",
+                                "Score": 0.88
+                            },
+                            {
+                                "Word": "disappoints",
+                                "Score": 0.6
+                            },
+                            {
+                                "Word": "disjoint",
+                                "Score": 0.37
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "You should return my money immedeastry because that night was far from parfect .\n",
+                        "Incorrect Word": "immedeastry",
+                        "Corrected Word": "immediately",
+                        "Candidates": [
+                            {
+                                "Word": "immodesty",
+                                "Score": 0.37
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 0.78,
+                "acc@3": 0.91,
+                "Ranking Mistake": [
+                    {
+                        "Bad Ratio": 0.62,
+                        "Text": "Here is where the good part starts , I was doing the courtines ( opening and closing ) when Nick came up to me and asked me to go on stage with him . My heart started beating very hard .\n",
+                        "Incorrect Word": "courtines",
+                        "Corrected Word": "curtains",
+                        "Candidates": [
+                            {
+                                "Word": "routines",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "counties",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "courtney",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "courting",
+                                "Score": 0.68
+                            },
+                            {
+                                "Word": "courtiers",
+                                "Score": 0.61
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.98,
+                        "Text": "On Monday morning , I walked into the class and all of my freind were shouting at me and calling my name and my boyfreind .\n",
+                        "Incorrect Word": "freind",
+                        "Corrected Word": "friends",
+                        "Candidates": [
+                            {
+                                "Word": "friend",
+                                "Score": 1.0
+                            },
+                            {
+                                "Word": "freezing",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "friends",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "fried",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "remind",
+                                "Score": 0.98
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 1.0,
+                        "Text": "I told her everything abat my boyfreind and when we met each other and evertauly fell in love .\n",
+                        "Incorrect Word": "abat",
+                        "Corrected Word": "about",
+                        "Candidates": [
+                            {
+                                "Word": "bat",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "but",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "at",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "what",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "that",
+                                "Score": 0.99
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 1.0,
+                        "Text": "I would like to go in July , I do n't mind wich two weeks , but it has to be that month because in June I am still in school and in August I am going on holiday with my family .\n",
+                        "Incorrect Word": "wich",
+                        "Corrected Word": "which",
+                        "Candidates": [
+                            {
+                                "Word": "with",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "wish",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "which",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "rich",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "witch",
+                                "Score": 0.99
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 1.0,
+                        "Text": "However , when I got to the theatre , you not only did n't have any discounts but also had to apologize to us for the dalay in starting the musical .\n",
+                        "Incorrect Word": "dalay",
+                        "Corrected Word": "delay",
+                        "Candidates": [
+                            {
+                                "Word": "dallas",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "delay",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "play",
+                                "Score": 0.99
+                            },
+                            {
+                                "Word": "day",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "palau",
+                                "Score": 0.98
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0:00:02",
+            "Ranker Train": "0:00:01",
+            "Pipeline Eval": "0:00:01"
+        }
+    },
+    {
+        "Date": "11/12/2021 22:20:29",
+        "Model Config": {
+            "Detector": "HunspellDetector",
+            "Candidator": "HunspellCandidator",
+            "Ranker": "CatBoostRanker",
+            "Features": {
+                "RankerFeatures": [
+                    "freq",
+                    "bigram_freq",
+                    "levenshtein"
+                ]
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea4k",
+            "Dataset Size": 60,
+            "Train Size": 42,
+            "Test Size": 18
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "acc@1": 0.68,
+                "acc@3": 0.72
+            },
+            "Detector": {
+                "Precision": 0.83,
+                "Recall": 1.0,
+                "Mistakes Not Found": [],
+                "False Detection": [
+                    {
+                        "Text": "I would like to go in July , I do n't mind wich two weeks , but it has to be that month because in June I am still in school and in August I am going on holiday with my family .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "net",
+                                "Score": 0.66
+                            },
+                            {
+                                "Word": "nut",
+                                "Score": 0.62
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "DANNY BROOK is one of my favourite actors so I decided to buy a ticket even though I had to cancel my apointment on that day at 18.30 and aslo notice of price discount impressed me .\n",
+                        "Fake Incorrect Word": "favourite",
+                        "Candidates": [
+                            {
+                                "Word": "favorite",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "favoritism",
+                                "Score": 0.27
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However , when I got to the theatre , you not only did n't have any discounts but also had to apologize to us for the dalay in starting the musical .\n",
+                        "Fake Incorrect Word": "theatre",
+                        "Candidates": [
+                            {
+                                "Word": "theater",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "threat",
+                                "Score": 0.55
+                            },
+                            {
+                                "Word": "heather",
+                                "Score": 0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However , when I got to the theatre , you not only did n't have any discounts but also had to apologize to us for the dalay in starting the musical .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "net",
+                                "Score": 0.66
+                            },
+                            {
+                                "Word": "nut",
+                                "Score": 0.62
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "In addition a different actor appeared on the stage and I could n't have dinner after the musical because the restrant was closed .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "not",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "net",
+                                "Score": 0.66
+                            },
+                            {
+                                "Word": "nut",
+                                "Score": 0.62
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.76,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "I told her everything abat my boyfreind and when we met each other and evertauly fell in love .\n",
+                        "Incorrect Word": "abat",
+                        "Corrected Word": "about",
+                        "Candidates": [
+                            {
+                                "Word": "bat",
+                                "Score": 0.61
+                            },
+                            {
+                                "Word": "abate",
+                                "Score": 0.32
+                            },
+                            {
+                                "Word": "Rabat",
+                                "Score": 0.29
+                            },
+                            {
+                                "Word": "abet",
+                                "Score": 0.27
+                            },
+                            {
+                                "Word": "abut",
+                                "Score": 0.24
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I told her everything abat my boyfreind and when we met each other and evertauly fell in love .\n",
+                        "Incorrect Word": "evertauly",
+                        "Corrected Word": "eventually",
+                        "Candidates": [
+                            {
+                                "Word": "vertically",
+                                "Score": 0.4
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "On Monday morning , I walked into the class and all of my freind were shouting at me and calling my name and my boyfreind .\n",
+                        "Incorrect Word": "freind",
+                        "Corrected Word": "friends",
+                        "Candidates": [
+                            {
+                                "Word": "friend",
+                                "Score": 0.94
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Here is where the good part starts , I was doing the courtines ( opening and closing ) when Nick came up to me and asked me to go on stage with him . My heart started beating very hard .\n",
+                        "Incorrect Word": "courtines",
+                        "Corrected Word": "curtains",
+                        "Candidates": [
+                            {
+                                "Word": "courtesying",
+                                "Score": 0.25
+                            },
+                            {
+                                "Word": "courtiers",
+                                "Score": 0.24
+                            },
+                            {
+                                "Word": "coroutines",
+                                "Score": 0.22
+                            },
+                            {
+                                "Word": "courtliness",
+                                "Score": 0.2
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It made me so dissapoint and angry .\n",
+                        "Incorrect Word": "dissapoint",
+                        "Corrected Word": "disappointed",
+                        "Candidates": [
+                            {
+                                "Word": "disappoint",
+                                "Score": 0.41
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "You should return my money immedeastry because that night was far from parfect .\n",
+                        "Incorrect Word": "immedeastry",
+                        "Corrected Word": "immediately",
+                        "Candidates": [
+                            {
+                                "Word": "immeasurably",
+                                "Score": 0.3
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 0.89,
+                "acc@3": 0.95,
+                "Ranking Mistake": [
+                    {
+                        "Bad Ratio": 0.76,
+                        "Text": "However , when I got to the theatre , you not only did n't have any discounts but also had to apologize to us for the dalay in starting the musical .\n",
+                        "Incorrect Word": "dalay",
+                        "Corrected Word": "delay",
+                        "Candidates": [
+                            {
+                                "Word": "day",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "delay",
+                                "Score": 0.69
+                            },
+                            {
+                                "Word": "Malay",
+                                "Score": 0.55
+                            },
+                            {
+                                "Word": "allay",
+                                "Score": 0.25
+                            },
+                            {
+                                "Word": "dally",
+                                "Score": 0.23
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.78,
+                        "Text": "I would like to go in July , I do n't mind wich two weeks , but it has to be that month because in June I am still in school and in August I am going on holiday with my family .\n",
+                        "Incorrect Word": "wich",
+                        "Corrected Word": "which",
+                        "Candidates": [
+                            {
+                                "Word": "with",
+                                "Score": 0.84
+                            },
+                            {
+                                "Word": "rich",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "Rich",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "wish",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "which",
+                                "Score": 0.66
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0:00:02",
+            "Ranker Train": "0:00:00",
+            "Pipeline Eval": "0:00:00"
+        }
+    },
+    {
+        "Date": "11/12/2021 21:56:30",
+        "Model Config": {
+            "Detector": "HunspellDetector",
+            "Candidator": "NNCandidator",
+            "Ranker": "CatBoostRanker",
+            "Features": {
+                "RankerFeatures": [
+                    "freq",
+                    "bigram_freq"
+                ]
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea4k",
+            "Dataset Size": 10,
+            "Train Size": 7,
+            "Test Size": 3
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "acc@1": 0.5,
+                "acc@3": 0.5
+            },
+            "Detector": {
+                "Precision": 0.67,
+                "Recall": 1.0,
+                "Mistakes Not Found": [],
+                "False Detection": [
+                    {
+                        "Text": "It all started when one of the organizers asked me to help him at a concert of my favourite band .\n",
+                        "Fake Incorrect Word": "favourite",
+                        "Candidates": [
+                            {
+                                "Word": "favourite",
+                                "Score": 0.88
+                            },
+                            {
+                                "Word": "speaking",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "favorite",
+                                "Score": 0.76
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 1.0,
+                "Correct Cand Not Found": []
+            },
+            "Ranker": {
+                "acc@1": 0.5,
+                "acc@3": 0.5,
+                "Ranking Mistake": [
+                    {
+                        "Bad Ratio": 0.93,
+                        "Text": "She just remembered it ought to be a secret , and she became really embarassed .\n",
+                        "Incorrect Word": "embarassed",
+                        "Corrected Word": "embarrassed",
+                        "Candidates": [
+                            {
+                                "Word": "changed",
+                                "Score": 0.81
+                            },
+                            {
+                                "Word": "shattered",
+                                "Score": 0.76
+                            },
+                            {
+                                "Word": "fuckin",
+                                "Score": 0.76
+                            },
+                            {
+                                "Word": "embarrassed",
+                                "Score": 0.76
+                            },
+                            {
+                                "Word": "pious",
+                                "Score": 0.56
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0:00:37",
+            "Ranker Train": "0:00:00",
+            "Pipeline Eval": "0:00:12"
+        }
+    },
+    {
+        "Date": "11/12/2021 22:00:11",
+        "Model Config": {
+            "Detector": "HunspellDetector",
+            "Candidator": "NNCandidator",
+            "Ranker": "CatBoostRanker",
+            "Features": {
+                "RankerFeatures": [
+                    "freq",
+                    "bigram_freq"
+                ]
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea4k",
+            "Dataset Size": 30,
+            "Train Size": 21,
+            "Test Size": 9
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "acc@1": 0.2,
+                "acc@3": 0.4
+            },
+            "Detector": {
+                "Precision": 0.91,
+                "Recall": 1.0,
+                "Mistakes Not Found": [],
+                "False Detection": [
+                    {
+                        "Text": "I could n't consentrate on the play any more .\n",
+                        "Fake Incorrect Word": "n't",
+                        "Candidates": [
+                            {
+                                "Word": "get",
+                                "Score": 0.64
+                            },
+                            {
+                                "Word": "not",
+                                "Score": 0.61
+                            },
+                            {
+                                "Word": "nit",
+                                "Score": 0.54
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.9,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "In contrast to the advertisment everything was disapointing .\n",
+                        "Incorrect Word": "advertisment",
+                        "Corrected Word": "advertisement",
+                        "Candidates": [
+                            {
+                                "Word": "eventual",
+                                "Score": 0.65
+                            },
+                            {
+                                "Word": "college",
+                                "Score": 0.61
+                            },
+                            {
+                                "Word": "overarching",
+                                "Score": 0.54
+                            },
+                            {
+                                "Word": "Italian",
+                                "Score": 0.46
+                            },
+                            {
+                                "Word": "substance",
+                                "Score": 0.46
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 0.22,
+                "acc@3": 0.44,
+                "Ranking Mistake": [
+                    {
+                        "Bad Ratio": 0.48,
+                        "Text": "We have noticed the environmential damage in recent years .\n",
+                        "Incorrect Word": "environmential",
+                        "Corrected Word": "environmental",
+                        "Candidates": [
+                            {
+                                "Word": "group",
+                                "Score": 0.71
+                            },
+                            {
+                                "Word": "creeping",
+                                "Score": 0.64
+                            },
+                            {
+                                "Word": "scaling",
+                                "Score": 0.58
+                            },
+                            {
+                                "Word": "bloom",
+                                "Score": 0.46
+                            },
+                            {
+                                "Word": "spatial",
+                                "Score": 0.42
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.59,
+                        "Text": "There has been a change in the relatinships between people .\n",
+                        "Incorrect Word": "relatinships",
+                        "Corrected Word": "relationships",
+                        "Candidates": [
+                            {
+                                "Word": "relationship",
+                                "Score": 0.73
+                            },
+                            {
+                                "Word": "disparity",
+                                "Score": 0.68
+                            },
+                            {
+                                "Word": "partisan",
+                                "Score": 0.64
+                            },
+                            {
+                                "Word": "compassion",
+                                "Score": 0.58
+                            },
+                            {
+                                "Word": "shift",
+                                "Score": 0.47
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.6,
+                        "Text": "I noticed that the artists were from only six countries insted that from around the world .\n",
+                        "Incorrect Word": "insted",
+                        "Corrected Word": "instead",
+                        "Candidates": [
+                            {
+                                "Word": "and",
+                                "Score": 0.62
+                            },
+                            {
+                                "Word": "in",
+                                "Score": 0.6
+                            },
+                            {
+                                "Word": "indeed",
+                                "Score": 0.45
+                            },
+                            {
+                                "Word": "noted",
+                                "Score": 0.44
+                            },
+                            {
+                                "Word": "invited",
+                                "Score": 0.43
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.62,
+                        "Text": "These days we can use a computer , television and some sophisticated equipment , which were unusuall once .\n",
+                        "Incorrect Word": "unusuall",
+                        "Corrected Word": "unusual",
+                        "Candidates": [
+                            {
+                                "Word": "wiped",
+                                "Score": 0.66
+                            },
+                            {
+                                "Word": "all",
+                                "Score": 0.54
+                            },
+                            {
+                                "Word": "announced",
+                                "Score": 0.44
+                            },
+                            {
+                                "Word": "unusual",
+                                "Score": 0.41
+                            },
+                            {
+                                "Word": "separated",
+                                "Score": 0.41
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.64,
+                        "Text": "Children play with computers instead of the usuall toys .\n",
+                        "Incorrect Word": "usuall",
+                        "Corrected Word": "usual",
+                        "Candidates": [
+                            {
+                                "Word": "real",
+                                "Score": 0.77
+                            },
+                            {
+                                "Word": "same",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "small",
+                                "Score": 0.65
+                            },
+                            {
+                                "Word": "wall",
+                                "Score": 0.65
+                            },
+                            {
+                                "Word": "full",
+                                "Score": 0.6
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.85,
+                        "Text": "In contrast to the advertisment everything was disapointing .\n",
+                        "Incorrect Word": "disapointing",
+                        "Corrected Word": "disappointing",
+                        "Candidates": [
+                            {
+                                "Word": "before",
+                                "Score": 0.76
+                            },
+                            {
+                                "Word": "streamlined",
+                                "Score": 0.66
+                            },
+                            {
+                                "Word": "disappointing",
+                                "Score": 0.64
+                            },
+                            {
+                                "Word": "wasted",
+                                "Score": 0.58
+                            },
+                            {
+                                "Word": "peachy",
+                                "Score": 0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.92,
+                        "Text": "I think this festival is a great idea because it 's an opportunity to see and to appreciate art , but I also think there are some things thas could be changed .\n",
+                        "Incorrect Word": "thas",
+                        "Corrected Word": "that",
+                        "Candidates": [
+                            {
+                                "Word": "they",
+                                "Score": 0.66
+                            },
+                            {
+                                "Word": "that",
+                                "Score": 0.6
+                            },
+                            {
+                                "Word": "tha",
+                                "Score": 0.6
+                            },
+                            {
+                                "Word": "thats",
+                                "Score": 0.41
+                            },
+                            {
+                                "Word": "the",
+                                "Score": 0.41
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0:01:52",
+            "Ranker Train": "0:00:00",
+            "Pipeline Eval": "0:00:42"
+        }
+    }
+]

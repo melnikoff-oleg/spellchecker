@@ -12,7 +12,7 @@ from grazie.spell.main.data.base import SpelledText
 from grazie.spell.main.data.utils import get_test_data
 from grazie.spell.main.evaluation.evaluate import evaluate, evaluate_ranker
 from grazie.spell.main.model.candidator import BaseCandidator, AggregatedCandidator, IdealCandidator, \
-    LevenshteinCandidator, HunspellCandidator, SymSpellCandidator
+    LevenshteinCandidator, HunspellCandidator, SymSpellCandidator, NNCandidator
 from grazie.spell.main.model.detector import IdealDetector, DictionaryDetector, HunspellDetector
 from grazie.spell.main.model.features.features_collector import FeaturesCollector
 from grazie.spell.main.model.ranker import FeaturesSpellRanker
@@ -154,11 +154,11 @@ def main():
     bigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/2_grams.csv'
     trigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/3_grams.csv'
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model
-    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments_v2.json'
+    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments_v3.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=100)
 
-    detectors = [HunspellDetector(), DictionaryDetector()]
+    detectors = [HunspellDetector(), DictionaryDetector(), SymSpellCandidator()]
     candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
     features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff",
                 "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex",
@@ -166,10 +166,12 @@ def main():
 
     detector = HunspellDetector()
     # candidator = HunspellCandidator()
-    candidator = SymSpellCandidator()
+    # candidator = SymSpellCandidator()
+    candidator = NNCandidator()
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
         ['bart_prob', 'bert_prob'],
+        # ['freq', 'bigram_freq', 'levenshtein'],
         # ["bigram_freq", "trigram_freq", "cand_length_diff",
         #  "init_word_length", "levenshtein", "freq", "soundex",
         #  "metaphone", "keyboard_dist", "cands_less_dist"]
