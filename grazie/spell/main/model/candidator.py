@@ -38,6 +38,9 @@ class AggregatedCandidator(BaseCandidator):
     def __init__(self, candidators: List[BaseCandidator]):
         self._candidators = candidators
 
+    def __str__(self):
+        return 'AggregatedCandidator ' + str([str(candidator) for candidator in self._candidators])
+
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         all_candidates: List[List[str]] = [[] for _ in spelled_words]
         for candidator in self._candidators:
@@ -93,6 +96,9 @@ class HunspellCandidator(BaseCandidator):
     def __init__(self):
         self._hunspell = Hunspell()
 
+    def __str__(self):
+        return 'HunspellCandidator'
+
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         all_candidates: List[List[str]] = [[] for _ in spelled_words]
         for i, spelled_word in enumerate(spelled_words):
@@ -103,11 +109,15 @@ class HunspellCandidator(BaseCandidator):
 
 class SymSpellCandidator(BaseCandidator):
     def __init__(self):
+        self.max_dictionary_edit_distance=3
         self.sym_spell = SymSpell(max_dictionary_edit_distance=3, prefix_length=7)
         dictionary_path = pkg_resources.resource_filename(
             "symspellpy", "frequency_dictionary_en_82_765.txt"
         )
         self.sym_spell.load_dictionary(dictionary_path, term_index=0, count_index=1)
+
+    def __str__(self):
+        return f'SymSpellCandidator MaxEditDist={self.max_dictionary_edit_distance}'
 
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         all_candidates: List[List[str]] = [[] for _ in spelled_words]
@@ -123,6 +133,9 @@ class NNCandidator(BaseCandidator):
     def __init__(self):
         self.gen = SwapWordGenerator("facebook/bart-base", torch.device("cpu"))
 
+    def __str__(self):
+        return f'NNCandidator NumHypos={10}'
+
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         all_candidates: List[List[str]] = [[] for _ in spelled_words]
         for i, spelled_word in enumerate(spelled_words):
@@ -137,7 +150,8 @@ class NNCandidator(BaseCandidator):
 def main():
     # candidator = SymSpellCandidator(max_err=1, index_prefix_len=1)
     # candidator = SymSpellCandidator()
-    candidator = NNCandidator()
+    # candidator = NNCandidator()
+    candidator = AggregatedCandidator([HunspellCandidator(), SymSpellCandidator()])
     text = 'hello i am frim paris'
     sw = SpelledWord(text, (11, 15))
     print(sw.word)

@@ -39,7 +39,7 @@ class CatBoostRanker(Ranker):
     def fit(self, train_data: List[RankQuery], test_data: List[RankQuery], **kwargs) -> 'CatBoostRanker':
         train_pool = create_pool(train_data)
         test_pool = create_pool(test_data)
-        self.model.fit(train_pool, eval_set=test_pool, plot=False, verbose=True)
+        self.model.fit(train_pool, eval_set=test_pool, plot=False, verbose=False)
         return self
 
     def importance_info(self, train_data: List[RankQuery]):

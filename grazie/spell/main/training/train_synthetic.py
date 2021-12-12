@@ -1,4 +1,5 @@
 import datetime
+import itertools
 import json
 import time
 from os.path import exists
@@ -131,7 +132,7 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
     start = time.time()
     model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
     print("Evaluate all")
-    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=100)
+    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=3)
     print()
     pipeline_eval_time = get_time_diff(start)
 
@@ -139,7 +140,7 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
     detector_name = type(detector).__name__
-    candidator_name = type(candidator).__name__
+    candidator_name = str(candidator)
     ranker_name = type(ranker).__name__
     train_data_len = len(train_data)
     test_data_len = len(test_data)
@@ -154,12 +155,12 @@ def main():
     bigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/2_grams.csv'
     trigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/3_grams.csv'
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model
-    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments_v4.json'
+    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/experiments_candidators.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
 
     detectors = [HunspellDetector(), DictionaryDetector(), SymSpellCandidator()]
-    candidators = [HunspellCandidator(), LevenshteinCandidator(max_err=2, index_prefix_len=2)]
+    candidators = [HunspellCandidator(), SymSpellCandidator(), NNCandidator()]
     features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff",
                 "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex",
                 "metaphone", "keyboard_dist", "cands_less_dist"]
@@ -168,7 +169,7 @@ def main():
     # candidator = HunspellCandidator()
     candidator = SymSpellCandidator()
     # candidator = NNCandidator()
-    ranker = CatBoostRanker(iterations=100)
+    ranker = CatBoostRanker(iterations=200)
     ranker_features = [
         # ['bart_prob', 'bert_prob'],
         # ['freq', 'bigram_freq', 'levenshtein'],
@@ -176,9 +177,17 @@ def main():
          "init_word_length", "levenshtein", "freq", "soundex",
          "metaphone", "keyboard_dist", "cands_less_dist"]
     ]
-    for rf in ranker_features:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path,
-                    trigrams_table_path, experiment_save_path, dataset_name, save_experiment=True)
+    for cnt in range(1, 4):
+        for candidators_subset in itertools.combinations(candidators, cnt):
+            print('New Exp')
+            for rf in ranker_features:
+                candidator = AggregatedCandidator(candidators_subset)
+                try:
+                    train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path,
+                                trigrams_table_path, experiment_save_path, dataset_name, save_experiment=True)
+                except Exception as e:
+                    print('Another Experiment Error', candidator, '\n\n', e, '\n\n\n')
+
 
 
 if __name__ == '__main__':
