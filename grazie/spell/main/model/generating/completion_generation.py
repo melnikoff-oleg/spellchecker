@@ -155,3 +155,4 @@ class CompletionGeneration(ABC):
             self.update_state(sort_mask, new_tokens)
             self.update_scores(spelled_word)
             yield self.current_hypothesis(search, self.is_end_of_words())
+            # если количество is end of words >= thrs закончить

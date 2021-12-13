@@ -150,8 +150,8 @@ class NNCandidator(BaseCandidator):
 def main():
     # candidator = SymSpellCandidator(max_err=1, index_prefix_len=1)
     # candidator = SymSpellCandidator()
-    # candidator = NNCandidator()
-    candidator = AggregatedCandidator([HunspellCandidator(), SymSpellCandidator()])
+    candidator = NNCandidator()
+    # candidator = AggregatedCandidator([HunspellCandidator(), SymSpellCandidator()])
     text = 'hello i am frim paris'
     sw = SpelledWord(text, (11, 15))
     print(sw.word)

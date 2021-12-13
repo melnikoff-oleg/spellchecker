@@ -1,0 +1,199 @@
+{
+    "Date": "13/12/2021 20:22:11",
+    "Model Config": {
+        "Detector": "HunspellDetector",
+        "Candidator": "HunspellCandidator",
+        "Ranker": "CatBoostRanker",
+        "Features": {
+            "RankerFeatures": [
+                "bart_prob",
+                "levenshtein"
+            ]
+        }
+    },
+    "Dataset": {
+        "Dataset Name": "test.bea500.clean",
+        "Dataset Size": 500,
+        "Train Size": 350,
+        "Test Size": 150
+    },
+    "Pipeline Results": {
+        "All Together": {
+            "acc@1": 0.87,
+            "acc@3": 0.88
+        },
+        "Detector": {
+            "Precision": 0.85,
+            "Recall": 0.99,
+            "Mistakes Not Found": [
+                {
+                    "Text": "For example , in the past it would had been extremely exhausting to travel on a hourse but nowadays we have lots of big and spacious cars and a wide range of optionals to choose from .\n",
+                    "Incorrect Word": "optionals",
+                    "Corrected Word": "options"
+                },
+                {
+                    "Text": "So he crimbed on the radder up to the window and he opened the door but policemen came there \" what happened ? \"\n",
+                    "Incorrect Word": "radder",
+                    "Corrected Word": "ladder"
+                }
+            ],
+            "False Detection": [
+                {
+                    "Text": "After that our college has organised a barbequiou night , with traditional local music that you must not miss .\n",
+                    "Fake Incorrect Word": "organised",
+                    "Candidates": [
+                        {
+                            "Word": "organized",
+                            "Score": 0.97
+                        },
+                        {
+                            "Word": "disorganize",
+                            "Score": 0.15
+                        }
+                    ]
+                },
+                {
+                    "Text": "When you are in the bus station you will catch bus number 37 , which will go to the town centre .\n",
+                    "Fake Incorrect Word": "centre",
+                    "Candidates": [
+                        {
+                            "Word": "center",
+                            "Score": 0.97
+                        },
+                        {
+                            "Word": "centric",
+                            "Score": 0.28
+                        },
+                        {
+                            "Word": "cent-re",
+                            "Score": 0.24
+                        }
+                    ]
+                },
+                {
+                    "Text": "Anyway the college is the first road on your right from the town centre .\n",
+                    "Fake Incorrect Word": "centre",
+                    "Candidates": [
+                        {
+                            "Word": "center",
+                            "Score": 0.97
+                        },
+                        {
+                            "Word": "centric",
+                            "Score": 0.34
+                        },
+                        {
+                            "Word": "cent-re",
+                            "Score": 0.23
+                        }
+                    ]
+                }
+            ]
+        },
+        "Candidator": {
+            "acc@inf": 0.89,
+            "Correct Cand Not Found": [
+                {
+                    "Text": "After that our college has organised a barbequiou night , with traditional local music that you must not miss .\n",
+                    "Incorrect Word": "barbequiou",
+                    "Corrected Word": "barbeque",
+                    "Candidates": [
+                        {
+                            "Word": "barbeque's",
+                            "Score": 0.15
+                        }
+                    ]
+                },
+                {
+                    "Text": "There are five diffrent floors , each of them presents a diffrent chronical period of Greek history , starting from the period before the birth of Juisus and concluding with the revolution of 1967 .\n",
+                    "Incorrect Word": "Juisus",
+                    "Corrected Word": "Jesus",
+                    "Candidates": [
+                        {
+                            "Word": "Justis",
+                            "Score": 0.18
+                        }
+                    ]
+                },
+                {
+                    "Text": "Architecture : It is a typical from this epoque with beautiful drawing on the wall and first kind of writing in the sports centre .\n",
+                    "Incorrect Word": "epoque",
+                    "Corrected Word": "epoch",
+                    "Candidates": [
+                        {
+                            "Word": "toque",
+                            "Score": 0.28
+                        }
+                    ]
+                }
+            ]
+        },
+        "Ranker": {
+            "acc@1": 0.99,
+            "acc@3": 1.0,
+            "Ranking Mistake": [
+                {
+                    "Bad Ratio": 0.97,
+                    "Text": "When you take the class on computer programming , you will definetly need one and that holds true for the class on politics , because you have to study statistics on your computer to do social research and some analysys .\n",
+                    "Incorrect Word": "analysys",
+                    "Corrected Word": "analyses",
+                    "Candidates": [
+                        {
+                            "Word": "analysis",
+                            "Score": 0.95
+                        },
+                        {
+                            "Word": "analyses",
+                            "Score": 0.93
+                        },
+                        {
+                            "Word": "analysts",
+                            "Score": 0.91
+                        },
+                        {
+                            "Word": "analyst",
+                            "Score": 0.58
+                        },
+                        {
+                            "Word": "analysand",
+                            "Score": 0.15
+                        }
+                    ]
+                },
+                {
+                    "Bad Ratio": 1.0,
+                    "Text": "Nowdays everyone has a telephone .\n",
+                    "Incorrect Word": "Nowdays",
+                    "Corrected Word": "Nowadays",
+                    "Candidates": [
+                        {
+                            "Word": "Noways",
+                            "Score": 0.2
+                        },
+                        {
+                            "Word": "Nowadays",
+                            "Score": 0.2
+                        },
+                        {
+                            "Word": "Now days",
+                            "Score": 0.2
+                        },
+                        {
+                            "Word": "Now-days",
+                            "Score": 0.17
+                        },
+                        {
+                            "Word": "Noondays",
+                            "Score": 0.17
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "Runtime": {
+        "Data Preparation": "0:07:50",
+        "Ranker Train": "0:00:00",
+        "Pipeline Eval": "0:03:00"
+    }
+}
