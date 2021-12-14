@@ -1,13 +1,12 @@
 {
-    "Date": "14/12/2021 23:54:03",
+    "Date": "15/12/2021 00:15:31",
     "Model Config": {
         "Detector": "HunspellDetector",
         "Candidator": "HunspellCandidator",
         "Ranker": "CatBoostRanker",
         "Features": {
             "RankerFeatures": [
-                "bart_prob",
-                "bert_prob"
+                "bart_prob"
             ]
         }
     },
@@ -19,7 +18,7 @@
     },
     "Pipeline Results": {
         "All Together": {
-            "acc@1": 0.87,
+            "acc@1": 0.86,
             "acc@3": 0.88
         },
         "Detector": {
@@ -44,11 +43,11 @@
                     "Candidates": [
                         {
                             "Word": "organized",
-                            "Score": 0.98
+                            "Score": 0.97
                         },
                         {
                             "Word": "disorganize",
-                            "Score": 0.18
+                            "Score": 0.2
                         }
                     ]
                 },
@@ -58,15 +57,15 @@
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.98
-                        },
-                        {
-                            "Word": "CENTREX",
-                            "Score": 0.28
+                            "Score": 0.97
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.25
+                            "Score": 0.31
+                        },
+                        {
+                            "Word": "recent",
+                            "Score": 0.22
                         }
                     ]
                 },
@@ -80,11 +79,11 @@
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.3
+                            "Score": 0.34
                         },
                         {
-                            "Word": "CENTREX",
-                            "Score": 0.3
+                            "Word": "recent",
+                            "Score": 0.23
                         }
                     ]
                 },
@@ -94,15 +93,15 @@
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.97
-                        },
-                        {
-                            "Word": "recent",
-                            "Score": 0.41
+                            "Score": 0.96
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.37
+                            "Score": 0.53
+                        },
+                        {
+                            "Word": "recent",
+                            "Score": 0.46
                         }
                     ]
                 },
@@ -112,11 +111,11 @@
                     "Candidates": [
                         {
                             "Word": "favorite",
-                            "Score": 0.41
+                            "Score": 0.45
                         },
                         {
                             "Word": "favoritism",
-                            "Score": 0.2
+                            "Score": 0.21
                         }
                     ]
                 },
@@ -129,12 +128,12 @@
                             "Score": 0.95
                         },
                         {
-                            "Word": "travailing",
+                            "Word": "travel-ling",
                             "Score": 0.22
                         },
                         {
-                            "Word": "raveling",
-                            "Score": 0.19
+                            "Word": "travailing",
+                            "Score": 0.22
                         }
                     ]
                 },
@@ -144,15 +143,15 @@
                     "Candidates": [
                         {
                             "Word": "Carlton",
-                            "Score": 0.25
+                            "Score": 0.31
                         },
                         {
                             "Word": "Carleton",
-                            "Score": 0.24
+                            "Score": 0.31
                         },
                         {
-                            "Word": "Carlson",
-                            "Score": 0.2
+                            "Word": "Carl eon",
+                            "Score": 0.21
                         }
                     ]
                 },
@@ -166,11 +165,11 @@
                         },
                         {
                             "Word": "organism",
-                            "Score": 0.2
+                            "Score": 0.22
                         },
                         {
                             "Word": "organist",
-                            "Score": 0.19
+                            "Score": 0.21
                         }
                     ]
                 },
@@ -180,15 +179,15 @@
                     "Candidates": [
                         {
                             "Word": "jewelry",
-                            "Score": 0.98
+                            "Score": 0.97
                         },
                         {
                             "Word": "jewelery",
-                            "Score": 0.79
+                            "Score": 0.92
                         },
                         {
                             "Word": "jeweler",
-                            "Score": 0.74
+                            "Score": 0.85
                         }
                     ]
                 },
@@ -198,15 +197,15 @@
                     "Candidates": [
                         {
                             "Word": "organize",
-                            "Score": 0.96
-                        },
-                        {
-                            "Word": "organism",
-                            "Score": 0.19
+                            "Score": 0.97
                         },
                         {
                             "Word": "organist",
                             "Score": 0.19
+                        },
+                        {
+                            "Word": "organism",
+                            "Score": 0.17
                         }
                     ]
                 },
@@ -216,15 +215,15 @@
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.98
+                            "Score": 0.97
                         },
                         {
                             "Word": "recent",
-                            "Score": 0.41
+                            "Score": 0.5
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.34
+                            "Score": 0.42
                         }
                     ]
                 },
@@ -234,15 +233,15 @@
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.97
+                            "Score": 0.95
                         },
                         {
                             "Word": "recent",
-                            "Score": 0.41
+                            "Score": 0.46
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.24
+                            "Score": 0.28
                         }
                     ]
                 },
@@ -252,15 +251,15 @@
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.98
-                        },
-                        {
-                            "Word": "CENTREX",
-                            "Score": 0.38
+                            "Score": 0.97
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.25
+                            "Score": 0.31
+                        },
+                        {
+                            "Word": "recent",
+                            "Score": 0.26
                         }
                     ]
                 },
@@ -270,15 +269,15 @@
                     "Candidates": [
                         {
                             "Word": "traveling",
-                            "Score": 0.98
+                            "Score": 0.97
                         },
                         {
                             "Word": "travailing",
-                            "Score": 0.28
+                            "Score": 0.31
                         },
                         {
-                            "Word": "travel ling",
-                            "Score": 0.25
+                            "Word": "raveling",
+                            "Score": 0.21
                         }
                     ]
                 },
@@ -287,16 +286,16 @@
                     "Fake Incorrect Word": "Estruscans",
                     "Candidates": [
                         {
-                            "Word": "Etruscan",
-                            "Score": 0.92
-                        },
-                        {
                             "Word": "Etruscans",
-                            "Score": 0.87
+                            "Score": 0.97
                         },
                         {
-                            "Word": "Estrus-cans",
-                            "Score": 0.18
+                            "Word": "Etruscan",
+                            "Score": 0.96
+                        },
+                        {
+                            "Word": "Estrus cans",
+                            "Score": 0.22
                         }
                     ]
                 },
@@ -310,11 +309,11 @@
                         },
                         {
                             "Word": "travailing",
-                            "Score": 0.28
+                            "Score": 0.31
                         },
                         {
                             "Word": "raveling",
-                            "Score": 0.21
+                            "Score": 0.22
                         }
                     ]
                 },
@@ -324,15 +323,15 @@
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.96
+                            "Score": 0.95
                         },
                         {
                             "Word": "recent",
-                            "Score": 0.51
+                            "Score": 0.67
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.25
+                            "Score": 0.3
                         }
                     ]
                 },
@@ -342,11 +341,11 @@
                     "Candidates": [
                         {
                             "Word": "kilometers",
-                            "Score": 0.98
+                            "Score": 0.97
                         },
                         {
                             "Word": "kilometer",
-                            "Score": 0.96
+                            "Score": 0.95
                         }
                     ]
                 },
@@ -360,11 +359,11 @@
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.51
+                            "Score": 0.53
                         },
                         {
                             "Word": "recent",
-                            "Score": 0.25
+                            "Score": 0.22
                         }
                     ]
                 },
@@ -377,12 +376,12 @@
                             "Score": 0.98
                         },
                         {
-                            "Word": "CENTREX",
-                            "Score": 0.37
+                            "Word": "centric",
+                            "Score": 0.34
                         },
                         {
-                            "Word": "centric",
-                            "Score": 0.31
+                            "Word": "recent",
+                            "Score": 0.23
                         }
                     ]
                 },
@@ -392,7 +391,7 @@
                     "Candidates": [
                         {
                             "Word": "Bromide",
-                            "Score": 0.18
+                            "Score": 0.16
                         }
                     ]
                 },
@@ -402,61 +401,61 @@
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.96
+                            "Score": 0.95
                         },
                         {
-                            "Word": "recent",
-                            "Score": 0.27
+                            "Word": "cent-re",
+                            "Score": 0.22
                         },
                         {
-                            "Word": "CENTREX",
-                            "Score": 0.26
-                        }
-                    ]
-                },
-                {
-                    "Text": "Bromley town centre is the most beautiful shopping centre in South East London .\n",
-                    "Fake Incorrect Word": "Bromley",
-                    "Candidates": [
-                        {
-                            "Word": "Bromide",
-                            "Score": 0.19
-                        }
-                    ]
-                },
-                {
-                    "Text": "Bromley town centre is the most beautiful shopping centre in South East London .\n",
-                    "Fake Incorrect Word": "centre",
-                    "Candidates": [
-                        {
-                            "Word": "center",
-                            "Score": 0.98
-                        },
-                        {
-                            "Word": "recent",
-                            "Score": 0.24
-                        },
-                        {
-                            "Word": "centric",
+                            "Word": "cent re",
                             "Score": 0.22
                         }
                     ]
                 },
                 {
                     "Text": "Bromley town centre is the most beautiful shopping centre in South East London .\n",
+                    "Fake Incorrect Word": "Bromley",
+                    "Candidates": [
+                        {
+                            "Word": "Bromide",
+                            "Score": 0.15
+                        }
+                    ]
+                },
+                {
+                    "Text": "Bromley town centre is the most beautiful shopping centre in South East London .\n",
                     "Fake Incorrect Word": "centre",
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.98
+                            "Score": 0.97
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.53
+                            "Score": 0.25
                         },
                         {
                             "Word": "recent",
                             "Score": 0.25
+                        }
+                    ]
+                },
+                {
+                    "Text": "Bromley town centre is the most beautiful shopping centre in South East London .\n",
+                    "Fake Incorrect Word": "centre",
+                    "Candidates": [
+                        {
+                            "Word": "center",
+                            "Score": 0.97
+                        },
+                        {
+                            "Word": "centric",
+                            "Score": 0.6
+                        },
+                        {
+                            "Word": "recent",
+                            "Score": 0.28
                         }
                     ]
                 },
@@ -466,15 +465,15 @@
                     "Candidates": [
                         {
                             "Word": "center",
-                            "Score": 0.93
+                            "Score": 0.85
                         },
                         {
                             "Word": "recent",
-                            "Score": 0.31
+                            "Score": 0.4
                         },
                         {
                             "Word": "CENTREX",
-                            "Score": 0.24
+                            "Score": 0.22
                         }
                     ]
                 },
@@ -483,16 +482,16 @@
                     "Fake Incorrect Word": "di",
                     "Candidates": [
                         {
-                            "Word": "Di",
+                            "Word": "d",
                             "Score": 0.97
                         },
                         {
                             "Word": "i",
-                            "Score": 0.97
+                            "Score": 0.96
                         },
                         {
-                            "Word": "d",
-                            "Score": 0.9
+                            "Word": "do",
+                            "Score": 0.95
                         }
                     ]
                 },
@@ -502,11 +501,11 @@
                     "Candidates": [
                         {
                             "Word": "Trev",
-                            "Score": 0.68
+                            "Score": 0.76
                         },
                         {
                             "Word": "Trev i",
-                            "Score": 0.17
+                            "Score": 0.16
                         }
                     ]
                 },
@@ -516,15 +515,15 @@
                     "Candidates": [
                         {
                             "Word": "Trev's",
-                            "Score": 0.29
+                            "Score": 0.31
                         },
                         {
                             "Word": "Travis",
-                            "Score": 0.24
+                            "Score": 0.3
                         },
                         {
-                            "Word": "Trev is",
-                            "Score": 0.19
+                            "Word": "Trev-is",
+                            "Score": 0.21
                         }
                     ]
                 },
@@ -538,11 +537,11 @@
                         },
                         {
                             "Word": "recent",
-                            "Score": 0.37
+                            "Score": 0.54
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.25
+                            "Score": 0.3
                         }
                     ]
                 },
@@ -556,11 +555,11 @@
                         },
                         {
                             "Word": "recent",
-                            "Score": 0.34
+                            "Score": 0.46
                         },
                         {
                             "Word": "centric",
-                            "Score": 0.31
+                            "Score": 0.34
                         }
                     ]
                 }
@@ -576,7 +575,7 @@
                     "Candidates": [
                         {
                             "Word": "barbeque's",
-                            "Score": 0.19
+                            "Score": 0.22
                         }
                     ]
                 },
@@ -587,7 +586,7 @@
                     "Candidates": [
                         {
                             "Word": "Justis",
-                            "Score": 0.23
+                            "Score": 0.25
                         }
                     ]
                 },
@@ -598,7 +597,7 @@
                     "Candidates": [
                         {
                             "Word": "toque",
-                            "Score": 0.25
+                            "Score": 0.31
                         }
                     ]
                 },
@@ -609,7 +608,7 @@
                     "Candidates": [
                         {
                             "Word": "bacterium",
-                            "Score": 0.41
+                            "Score": 0.47
                         }
                     ]
                 },
@@ -620,19 +619,19 @@
                     "Candidates": [
                         {
                             "Word": "ammunition",
-                            "Score": 0.36
+                            "Score": 0.35
                         },
                         {
                             "Word": "mitigation",
-                            "Score": 0.25
+                            "Score": 0.31
                         },
                         {
                             "Word": "imitation",
-                            "Score": 0.2
+                            "Score": 0.22
                         },
                         {
                             "Word": "ambition",
-                            "Score": 0.2
+                            "Score": 0.21
                         }
                     ]
                 },
@@ -643,23 +642,23 @@
                     "Candidates": [
                         {
                             "Word": "look",
-                            "Score": 0.39
-                        },
-                        {
-                            "Word": "looks",
-                            "Score": 0.25
+                            "Score": 0.46
                         },
                         {
                             "Word": "kooky",
-                            "Score": 0.25
+                            "Score": 0.31
                         },
                         {
                             "Word": "hooky",
-                            "Score": 0.25
+                            "Score": 0.31
+                        },
+                        {
+                            "Word": "looks",
+                            "Score": 0.3
                         },
                         {
                             "Word": "loopy",
-                            "Score": 0.22
+                            "Score": 0.25
                         }
                     ]
                 },
@@ -674,11 +673,11 @@
                         },
                         {
                             "Word": "embroilment",
-                            "Score": 0.26
+                            "Score": 0.25
                         },
                         {
                             "Word": "embitterment",
-                            "Score": 0.17
+                            "Score": 0.18
                         }
                     ]
                 },
@@ -692,20 +691,20 @@
                             "Score": 0.97
                         },
                         {
-                            "Word": "liven",
-                            "Score": 0.44
-                        },
-                        {
                             "Word": "lighten",
-                            "Score": 0.41
+                            "Score": 0.46
                         },
                         {
-                            "Word": "liken",
-                            "Score": 0.27
+                            "Word": "liven",
+                            "Score": 0.46
                         },
                         {
                             "Word": "liter",
-                            "Score": 0.24
+                            "Score": 0.31
+                        },
+                        {
+                            "Word": "liken",
+                            "Score": 0.31
                         }
                     ]
                 },
@@ -716,23 +715,23 @@
                     "Candidates": [
                         {
                             "Word": "which",
-                            "Score": 0.97
+                            "Score": 0.96
                         },
                         {
                             "Word": "with",
-                            "Score": 0.86
+                            "Score": 0.96
                         },
                         {
                             "Word": "rich",
-                            "Score": 0.42
+                            "Score": 0.55
                         },
                         {
                             "Word": "witch",
-                            "Score": 0.35
+                            "Score": 0.46
                         },
                         {
                             "Word": "Rich",
-                            "Score": 0.28
+                            "Score": 0.35
                         }
                     ]
                 },
@@ -743,23 +742,23 @@
                     "Candidates": [
                         {
                             "Word": "pleasure",
-                            "Score": 0.62
-                        },
-                        {
-                            "Word": "reassure",
-                            "Score": 0.18
-                        },
-                        {
-                            "Word": "assure",
-                            "Score": 0.18
+                            "Score": 0.68
                         },
                         {
                             "Word": "leas-sure",
-                            "Score": 0.17
+                            "Score": 0.18
                         },
                         {
-                            "Word": "leas sure",
-                            "Score": 0.17
+                            "Word": "assurer",
+                            "Score": 0.18
+                        },
+                        {
+                            "Word": "measureless",
+                            "Score": 0.16
+                        },
+                        {
+                            "Word": "assure",
+                            "Score": 0.16
                         }
                     ]
                 },
@@ -770,7 +769,7 @@
                     "Candidates": [
                         {
                             "Word": "garrulity",
-                            "Score": 0.17
+                            "Score": 0.22
                         }
                     ]
                 },
@@ -781,15 +780,11 @@
                     "Candidates": [
                         {
                             "Word": "answer",
-                            "Score": 0.98
-                        },
-                        {
-                            "Word": "asher",
-                            "Score": 0.21
+                            "Score": 0.97
                         },
                         {
                             "Word": "asper",
-                            "Score": 0.19
+                            "Score": 0.21
                         },
                         {
                             "Word": "asker",
@@ -797,7 +792,11 @@
                         },
                         {
                             "Word": "aster",
-                            "Score": 0.18
+                            "Score": 0.17
+                        },
+                        {
+                            "Word": "sawer",
+                            "Score": 0.16
                         }
                     ]
                 },
@@ -808,7 +807,7 @@
                     "Candidates": [
                         {
                             "Word": "architectonic",
-                            "Score": 0.27
+                            "Score": 0.31
                         }
                     ]
                 },
@@ -819,7 +818,7 @@
                     "Candidates": [
                         {
                             "Word": "architectonic",
-                            "Score": 0.19
+                            "Score": 0.21
                         }
                     ]
                 },
@@ -830,7 +829,7 @@
                     "Candidates": [
                         {
                             "Word": "inculcates",
-                            "Score": 0.16
+                            "Score": 0.18
                         }
                     ]
                 },
@@ -841,15 +840,15 @@
                     "Candidates": [
                         {
                             "Word": "marvelous",
-                            "Score": 0.95
-                        },
-                        {
-                            "Word": "marvel-louse",
-                            "Score": 0.17
+                            "Score": 0.96
                         },
                         {
                             "Word": "marvel louse",
-                            "Score": 0.16
+                            "Score": 0.21
+                        },
+                        {
+                            "Word": "marvel-louse",
+                            "Score": 0.2
                         }
                     ]
                 },
@@ -860,19 +859,19 @@
                     "Candidates": [
                         {
                             "Word": "allocated",
-                            "Score": 0.3
+                            "Score": 0.44
                         },
                         {
                             "Word": "localized",
-                            "Score": 0.22
+                            "Score": 0.26
                         },
                         {
                             "Word": "collocated",
-                            "Score": 0.2
+                            "Score": 0.21
                         },
                         {
                             "Word": "localization",
-                            "Score": 0.17
+                            "Score": 0.16
                         }
                     ]
                 },
@@ -883,23 +882,23 @@
                     "Candidates": [
                         {
                             "Word": "armor",
-                            "Score": 0.98
+                            "Score": 0.97
                         },
                         {
                             "Word": "armored",
-                            "Score": 0.77
+                            "Score": 0.9
                         },
                         {
                             "Word": "armors",
-                            "Score": 0.72
+                            "Score": 0.67
                         },
                         {
                             "Word": "armories",
-                            "Score": 0.46
+                            "Score": 0.61
                         },
                         {
                             "Word": "armorers",
-                            "Score": 0.33
+                            "Score": 0.46
                         }
                     ]
                 },
@@ -914,37 +913,41 @@
                         },
                         {
                             "Word": "environ",
-                            "Score": 0.44
+                            "Score": 0.46
                         }
                     ]
                 }
             ]
         },
         "Ranker": {
-            "acc@1": 0.99,
-            "acc@3": 1.0,
+            "acc@1": 0.98,
+            "acc@3": 0.99,
             "Ranking Mistake": [
                 {
-                    "Bad Ratio": 0.9,
-                    "Text": "You can inform all the students that they can take some tradional food to the party .\n",
-                    "Incorrect Word": "tradional",
-                    "Corrected Word": "traditional",
+                    "Bad Ratio": 0.81,
+                    "Text": "We definately need light to keep on . I dare say , without light , our life would go into a dark , dark hell .\n",
+                    "Incorrect Word": "definately",
+                    "Corrected Word": "definitely",
                     "Candidates": [
                         {
-                            "Word": "additional",
-                            "Score": 0.96
+                            "Word": "effeminately",
+                            "Score": 0.21
                         },
                         {
-                            "Word": "traditional",
-                            "Score": 0.86
+                            "Word": "definably",
+                            "Score": 0.21
                         },
                         {
-                            "Word": "tradition",
-                            "Score": 0.53
+                            "Word": "determinately",
+                            "Score": 0.2
                         },
                         {
-                            "Word": "tridiagonal",
-                            "Score": 0.18
+                            "Word": "definitely",
+                            "Score": 0.17
+                        },
+                        {
+                            "Word": "definitively",
+                            "Score": 0.16
                         }
                     ]
                 },
@@ -956,23 +959,75 @@
                     "Candidates": [
                         {
                             "Word": "analysis",
-                            "Score": 0.96
+                            "Score": 0.95
                         },
                         {
                             "Word": "analyses",
-                            "Score": 0.92
+                            "Score": 0.91
                         },
                         {
                             "Word": "analysts",
-                            "Score": 0.74
+                            "Score": 0.89
                         },
                         {
                             "Word": "analyst",
-                            "Score": 0.55
+                            "Score": 0.65
                         },
                         {
                             "Word": "analysand",
-                            "Score": 0.2
+                            "Score": 0.21
+                        }
+                    ]
+                },
+                {
+                    "Bad Ratio": 0.98,
+                    "Text": "You can inform all the students that they can take some tradional food to the party .\n",
+                    "Incorrect Word": "tradional",
+                    "Corrected Word": "traditional",
+                    "Candidates": [
+                        {
+                            "Word": "additional",
+                            "Score": 0.92
+                        },
+                        {
+                            "Word": "traditional",
+                            "Score": 0.9
+                        },
+                        {
+                            "Word": "tradition",
+                            "Score": 0.63
+                        },
+                        {
+                            "Word": "tridiagonal",
+                            "Score": 0.18
+                        }
+                    ]
+                },
+                {
+                    "Bad Ratio": 1.0,
+                    "Text": "Nowdays everyone has a telephone .\n",
+                    "Incorrect Word": "Nowdays",
+                    "Corrected Word": "Nowadays",
+                    "Candidates": [
+                        {
+                            "Word": "Noways",
+                            "Score": 0.15
+                        },
+                        {
+                            "Word": "Nowadays",
+                            "Score": 0.15
+                        },
+                        {
+                            "Word": "Now days",
+                            "Score": 0.15
+                        },
+                        {
+                            "Word": "Now-days",
+                            "Score": 0.14
+                        },
+                        {
+                            "Word": "Noondays",
+                            "Score": 0.14
                         }
                     ]
                 }
@@ -980,8 +1035,8 @@
         }
     },
     "Runtime": {
-        "Data Preparation": "0:22:15",
+        "Data Preparation": "0:07:45",
         "Ranker Train": "0:00:00",
-        "Pipeline Eval": "0:08:59"
+        "Pipeline Eval": "0:02:59"
     }
 }
