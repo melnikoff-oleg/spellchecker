@@ -3,10 +3,9 @@ from typing import List, Optional
 
 from dataclasses import dataclass
 
-from grazie.spell.main.model.candidator import BaseCandidator
+from grazie.spell.main.model.candidator import BaseCandidator, AggregatedCandidator
 from grazie.spell.main.model.detector import BaseDetector
 from grazie.spell.main.model.ranker import SpellRanker
-
 
 @dataclass
 class SpellCheckVariant:
@@ -45,16 +44,50 @@ class SpellCheckModel(SpellCheckModelBase):
         round_digits = round_digits or 100
 
         spelled_words = self.detector.detect(text, **kwargs)
+
+        # if not isinstance(self.candidator, AggregatedCandidator):
+
         all_candidates = self.candidator.get_candidates(text, spelled_words, **kwargs)
 
         scored_candidates = []
         for i, (spelled_word, candidates) in enumerate(zip(spelled_words, all_candidates)):
             scores = self.ranker.rank(text, spelled_word, candidates, **kwargs)
-            variants = [SpellCheckVariant(candidate, round(score, round_digits), False) for score, candidate in sorted(zip(scores, candidates), reverse=True)]
+            variants = [SpellCheckVariant(candidate, round(score, round_digits), False) for score, candidate in
+                        sorted(zip(scores, candidates), reverse=True)]
 
-            spell_check_result = SpellCheckResult(spelled_word.interval[0], spelled_word.interval[1], variants[:max_count])
+            spell_check_result = SpellCheckResult(spelled_word.interval[0], spelled_word.interval[1],
+                                                  variants[:max_count])
             scored_candidates.append(spell_check_result)
 
         assert len(spelled_words) == len(scored_candidates)
+
+        # else:
+        #     scored_candidates = []
+        #     for i, spelled_word in enumerate(spelled_words):
+        #         canidator_ind = 0
+        #
+        #         candidates = []
+        #         variants = []
+        #         while canidator_ind < len(self.candidator._candidators):
+        #
+        #             cur_candidates = self.candidator.get_candidates_by_candidator(text, [spelled_word], canidator_ind, **kwargs)[0]
+        #             candidates.extend(cur_candidates)
+        #             scores = self.ranker.rank(text, spelled_word, candidates, **kwargs)
+        #             variants = [SpellCheckVariant(candidate, round(score, round_digits), False) for score, candidate in
+        #                         sorted(zip(scores, candidates), reverse=True)]
+        #             if variants[0].score < 0.8:
+        #                 print('Low score on sample', spelled_word.word)
+        #                 canidator_ind += 1
+        #             else:
+        #                 break
+        #
+        #
+        #
+        #
+        #         spell_check_result = SpellCheckResult(spelled_word.interval[0], spelled_word.interval[1],
+        #                                               variants[:max_count])
+        #         scored_candidates.append(spell_check_result)
+        #
+        #     assert len(spelled_words) == len(scored_candidates)
 
         return scored_candidates

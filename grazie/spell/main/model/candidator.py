@@ -53,6 +53,15 @@ class AggregatedCandidator(BaseCandidator):
 
         return all_candidates
 
+    def get_candidates_by_candidator(self, text: str, spelled_words: List[SpelledWord], candidator_ind: int = 0, **kwargs) -> List[List[str]]:
+        all_candidates: List[List[str]] = [[] for _ in spelled_words]
+        candidator = self._candidators[candidator_ind]
+        candidates = candidator.get_candidates(text, spelled_words, **kwargs)
+        for i, candidate in enumerate(candidates):
+            all_candidates[i].extend(candidate)
+
+        return all_candidates
+
 # Зачем мы берем совпадающий префикс?
 class LevenshteinCandidator(BaseCandidator):
     def __init__(self, max_err: int = 2, index_prefix_len: int = 0):
@@ -108,9 +117,9 @@ class HunspellCandidator(BaseCandidator):
 
 
 class SymSpellCandidator(BaseCandidator):
-    def __init__(self):
-        self.max_dictionary_edit_distance=3
-        self.sym_spell = SymSpell(max_dictionary_edit_distance=3, prefix_length=7)
+    def __init__(self, max_dictionary_edit_distance=2, prefix_length=7, count_threshold=1):
+        self.max_dictionary_edit_distance=max_dictionary_edit_distance
+        self.sym_spell = SymSpell(max_dictionary_edit_distance=max_dictionary_edit_distance, prefix_length=prefix_length, count_threshold=count_threshold)
         dictionary_path = pkg_resources.resource_filename(
             "symspellpy", "frequency_dictionary_en_82_765.txt"
         )
@@ -122,7 +131,7 @@ class SymSpellCandidator(BaseCandidator):
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         all_candidates: List[List[str]] = [[] for _ in spelled_words]
         for i, spelled_word in enumerate(spelled_words):
-            candidates = self.sym_spell.lookup(spelled_word.word, Verbosity.ALL, max_edit_distance=3, transfer_casing=True)
+            candidates = self.sym_spell.lookup(spelled_word.word, Verbosity.ALL, transfer_casing=True)
             all_candidates[i] = []
             for cand in candidates:
                 all_candidates[i].append(cand.term)
@@ -130,19 +139,20 @@ class SymSpellCandidator(BaseCandidator):
 
 
 class NNCandidator(BaseCandidator):
-    def __init__(self):
-        self.gen = SwapWordGenerator("facebook/bart-base", torch.device("cpu"))
+    def __init__(self, num_beams: int = 5):
+        self.gen = SwapWordGenerator("facebook/bart-base", torch.device("cpu"), num_beams=num_beams)
+        self.num_beams = num_beams
 
     def __str__(self):
-        return f'NNCandidator NumHypos={10}'
+        return f'NNCandidator num_beams={self.num_beams}'
 
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         all_candidates: List[List[str]] = [[] for _ in spelled_words]
         for i, spelled_word in enumerate(spelled_words):
-            if spelled_word.interval[0] == 0:
-                all_candidates[i] = self.gen.generate(' ' + spelled_word.text, (spelled_word.interval[0], spelled_word.interval[1] + 1))
+            if spelled_word.interval[0] > 0 and spelled_word.text[spelled_word.interval[0] - 1] == ' ':
+                all_candidates[i] = self.gen.generate(' ' + spelled_word.text, (spelled_word.interval[0] - 1, spelled_word.interval[1]))
             else:
-                all_candidates[i] = self.gen.generate(spelled_word.text, (spelled_word.interval[0] - 1, spelled_word.interval[1]))
+                all_candidates[i] = self.gen.generate(spelled_word.text, (spelled_word.interval[0], spelled_word.interval[1]))
 
         return all_candidates
 

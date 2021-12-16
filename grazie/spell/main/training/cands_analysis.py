@@ -11,13 +11,13 @@ from grazie.common.main.ranking.catboost_ranker import CatBoostRanker
 from grazie.common.main.ranking.ranker import RankQuery, RankVariant
 from grazie.spell.main.data.base import SpelledText
 from grazie.spell.main.data.utils import get_test_data
-from grazie.spell.main.evaluation.evaluate import evaluate, evaluate_ranker
+
+from grazie.spell.main.model.base import SpelledWord
 from grazie.spell.main.model.candidator import BaseCandidator, AggregatedCandidator, IdealCandidator, \
     LevenshteinCandidator, HunspellCandidator, SymSpellCandidator, NNCandidator
 from grazie.spell.main.model.detector import IdealDetector, DictionaryDetector, HunspellDetector
 from grazie.spell.main.model.features.features_collector import FeaturesCollector
-from grazie.spell.main.model.ranker import FeaturesSpellRanker
-from grazie.spell.main.model.spellcheck_model import SpellCheckModel
+
 
 
 def prepare_ranking_training_data(spell_data: List[SpelledText], candidator: BaseCandidator,
@@ -114,73 +114,64 @@ def save_experiment_results(dt_string: str, detector_name, candidator_name, rank
     print(experiment_packed)
 
 
-def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText],
-                test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str,
-                experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
-    start = time.time()
-    features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path,
-                                           FeaturesCollector.load_freqs(freqs_path))
-    train_rank_data = prepare_ranking_training_data(train_data, candidator, features_collector)
-    test_rank_data = prepare_ranking_training_data(test_data, candidator, features_collector)
-    data_prep_time = get_time_diff(start)
-
-    start = time.time()
-    ranker.fit(train_rank_data, test_rank_data, epochs=20, lr=3e-4, l2=0., l1=0.)
-    ranker_train_time = get_time_diff(start)
-    print("Ranker's feature importancies:\n", ranker.get_feature_importance(train_rank_data, ranker_features))
-
-    start = time.time()
-    model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
-    print("Evaluate all")
-    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=100)
-    print()
-    pipeline_eval_time = get_time_diff(start)
-
-    now = datetime.datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-
-    detector_name = type(detector).__name__
-    candidator_name = str(candidator)
-    ranker_name = type(ranker).__name__
-    train_data_len = len(train_data)
-    test_data_len = len(test_data)
-
-    save_experiment_results(dt_string, detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes, data_prep_time, ranker_train_time, pipeline_eval_time, experiment_save_path, save_experiment)
-
 
 def main():
     gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea500.clean'
     noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea500.clean.noise'
-    freqs_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/1_grams.csv'
-    bigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/2_grams.csv'
-    trigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/3_grams.csv'
-    # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model
-    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/final_exp.json'
-    dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=100)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
 
-    detectors = [HunspellDetector(), DictionaryDetector(), SymSpellCandidator()]
-    # candidators = [HunspellCandidator(), SymSpellCandidator(), NNCandidator()]
-    features = ["bart_prob", "bert_prob", "suffix_prob", "bigram_freq", "trigram_freq", "cand_length_diff",
-                "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex",
-                "metaphone", "keyboard_dist", "cands_less_dist"]
+    # base_candidators = [HunspellCandidator(), SymSpellCandidator(2), SymSpellCandidator(3), NNCandidator(10)]
+    base_candidators = [HunspellCandidator(), NNCandidator(num_beams=3), NNCandidator(num_beams=5), SymSpellCandidator(max_dictionary_edit_distance=2, prefix_length=7, count_threshold=1), SymSpellCandidator(max_dictionary_edit_distance=3, prefix_length=7, count_threshold=1)]
+    stacked_candidators = [AggregatedCandidator([base_candidators[i] for i in range(0, k)]) for k in range(1, len(base_candidators) + 1)]
 
-    detector = HunspellDetector()
-    # candidator = HunspellCandidator()
-    # candidator = SymSpellCandidator()
-    # candidator = NNCandidator()
-    candidator = AggregatedCandidator([HunspellCandidator(), SymSpellCandidator(max_dictionary_edit_distance=2), NNCandidator(num_beams=3)])
-    ranker = CatBoostRanker(iterations=100)
-    ranker_features = [
-        ['bart_prob', 'levenshtein'],
-    ]
+    # res = []
+    # newly_solved_tasks = []
+    # for stacked_candidator in stacked_candidators:
+    #     found = 0
+    #     not_found = 0
+    #     total_mistakes = 0
+    #     avg_cands = 0
+    #     for spelled_text in tqdm(train_data):
+    #         for spell in spelled_text.spells:
+    #             total_mistakes += 1
+    #             cands = stacked_candidator.get_candidates(spelled_text.text, [SpelledWord(spelled_text.text, (spell.start, spell.start + len(spell.spelled)))])
+    #             if spell.correct in cands[0]:
+    #                 found += 1
+    #             avg_cands += len(cands[0])
+    #     avg_cands /= total_mistakes
+    #     avg_cands = round(avg_cands, 1)
+    #     print(str(stacked_candidator), '\nTotal mistakes:', total_mistakes, 'Found:', "{0:.0%}".format(found/total_mistakes), 'Not_found:', "{0:.0%}".format((total_mistakes - found)/total_mistakes), 'Avg cands:', avg_cands)
 
-    for rf in ranker_features:
-        # try:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path,
-                    trigrams_table_path, experiment_save_path, dataset_name, save_experiment=True)
-        # except Exception as e:
-        #     print('Another Experiment Error', candidator, '\n\n', e, '\n\n\n')
+    total_mistakes = 0
+    res = {}
+    for spelled_text in tqdm(train_data):
+        for spell in spelled_text.spells:
+            total_mistakes += 1
+            candidator_ind = 0
+            while candidator_ind < len(stacked_candidators):
+                cands = stacked_candidators[candidator_ind].get_candidates(spelled_text.text, [
+                    SpelledWord(spelled_text.text, (spell.start, spell.start + len(spell.spelled)))])[
+                    0]
+
+                if spell.correct in cands:
+                    if not str(stacked_candidators[candidator_ind]) in res:
+                        res[str(stacked_candidators[candidator_ind])] = []
+                    res[str(stacked_candidators[candidator_ind])].append({'Spelled': spell.spelled, 'Correct': spell.correct})
+                    break
+                else:
+                    candidator_ind += 1
+
+            if candidator_ind == len(stacked_candidators):
+                if not 'Absolutely not found' in res:
+                    res['Absolutely not found'] = []
+                res['Absolutely not found'].append({'Spelled': spell.spelled, 'Correct': spell.correct})
+
+    print(res)
+
+    for key in res:
+        print(key, 'Gained ', "{0:.0%}".format(len(res[key])/total_mistakes))
+
+
 
 
 if __name__ == '__main__':

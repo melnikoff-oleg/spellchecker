@@ -13,13 +13,14 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 
 class SwapWordGenerator:
-    def __init__(self, name: str, device: torch.device):
+    def __init__(self, name: str, device: torch.device, num_beams: int = 5):
         self._device = device
         self.model = BartGenerationModel(name).to(device)
         self.tokenizer = BartTokenizer.from_pretrained(name, add_prefix_space=True)
         self._beam_search = CompletionGeneration(self.model, self.tokenizer)
+        self.num_beams = num_beams
 
-    def generate(self, text: str, edges: Tuple[int, int], num_beams: int = 10) -> List[Tuple[str, GenerationInfo]]:
+    def generate(self, text: str, edges: Tuple[int, int]) -> List[Tuple[str, GenerationInfo]]:
         assert edges[0] < edges[1]
         if text.strip() == '':
             return []
@@ -33,7 +34,7 @@ class SwapWordGenerator:
         completions = []
         ans = []
         # здесь 3 - max tokens
-        for not_terminated in self._beam_search.generate(encoder_ids, decoder_ids, num_beams, 3, spelled_word):
+        for not_terminated in self._beam_search.generate(encoder_ids, decoder_ids, self.num_beams, 3, spelled_word):
             decoded_strings = [self.tokenizer.decode(info.ids)[1:] for info in not_terminated if ' ' not in self.tokenizer.decode(info.ids)[1:]]
             # decoded_strings = [self.tokenizer.decode(info.ids) for info in not_terminated]
             # completions += list(zip(decoded_strings, not_terminated))
@@ -44,7 +45,7 @@ class SwapWordGenerator:
 
 
 def main():
-    gen = SwapWordGenerator("facebook/bart-base", torch.device("cpu"))
+    gen = SwapWordGenerator("facebook/bart-base", torch.device("cpu"), num_beams=5)
     text = 'hello i am frim paris'
     comps = gen.generate(text, (text.find(" frim"), text.find(" frim") + len(" frim")))
     # for comp in comps:
