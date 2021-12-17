@@ -157,7 +157,7 @@ def main():
     # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model
     experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/final_exp.json'
     dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=100)
+    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
 
     detectors = [HunspellDetector(), DictionaryDetector(), SymSpellCandidator()]
     # candidators = [HunspellCandidator(), SymSpellCandidator(), NNCandidator()]
@@ -169,7 +169,7 @@ def main():
     # candidator = HunspellCandidator()
     # candidator = SymSpellCandidator()
     # candidator = NNCandidator()
-    candidator = AggregatedCandidator([HunspellCandidator(), SymSpellCandidator(max_dictionary_edit_distance=2), NNCandidator(num_beams=3)])
+    candidator = AggregatedCandidator([HunspellCandidator(), NNCandidator(num_beams=3)])
     ranker = CatBoostRanker(iterations=100)
     ranker_features = [
         ['bart_prob', 'levenshtein'],
