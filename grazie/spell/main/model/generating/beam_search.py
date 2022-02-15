@@ -14,7 +14,7 @@ class BeamSearch(Search):
 
         self._initialied: bool = False
         self._scores: Tensor
-        self._hypotheses: Tensor
+        self._hypotheses: Tensor = None
         self._sort_mask: Tensor
 
     def _init_state(self, dtype: torch.dtype, device: torch.device):

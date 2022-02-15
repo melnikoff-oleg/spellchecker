@@ -1,3 +1,4 @@
+import random
 from abc import ABC
 from typing import List, Iterable
 
@@ -33,10 +34,10 @@ class CompletionGeneration(ABC):
     # патчить здесь
     # передать наше написанное слово и сравнивать с токенами в конце self._decoder_ids
     # и обновить скоры
-    def modify_score(self, scores: torch.Tensor, spelled_word):
+    def modify_score(self, scores: torch.Tensor, spelled_word, search):
 
 
-        # чудесный костыль
+        # это костыль?
         if scores.shape[1] > self.vocab_size:
             scores = scores[:, :self.vocab_size]
 
@@ -45,14 +46,57 @@ class CompletionGeneration(ABC):
         # print('Printing TOPK\n', 'TOPK values:', topk.values, '\nTOPK indices:', topk.indices)
 
 
+        # а тут нет бага с тем что мы уменьшаем все скоры из топк и не трогаем более плохие скоры
+        # вдруг они станут хорошими после этого - не было бы если все слова были однотокенные
+        # в реальности когда слово многотокенное это вызовет проблему потому что edit dist будет часто больше 3
+        # за что отвечает первая размерность скоров? - это число бимов
+        # нам бы просто научиться понимать для текущего бима сколько символов от начала слова мы уже прошли
+        # self.tokenizer.decode(info.ids)[1:] - релевантная функция
+
+
+        # if spelled_word[0] == ' ':
+        #     spelled_word = spelled_word[1:]
+        for i in range(scores.shape[0]):
+            # хотим посчитать длину префикса
+            if search.hypotheses is not None:
+                # print('MODIFY search.hypotheses', search.hypotheses)
+                # prefix = self.tokenizer.decode(search.hypotheses[i])[1:]
+                prefix = self.tokenizer.decode(search.hypotheses[i])
+                print('Word', f'|{spelled_word}|', 'Best prefix', f'|{prefix}|')
+        print('\n')
+
+
 
         for i in range(scores.shape[0]):
+            # хотим посчитать длину префикса
+            if search.hypotheses is not None:
+                # print('MODIFY search.hypotheses', search.hypotheses)
+                # prefix = self.tokenizer.decode(search.hypotheses[i])[1:]
+                prefix = self.tokenizer.decode(search.hypotheses[i])
+                # print(prefix, len(prefix))
+                prefix_len = len(prefix)
+            else:
+                prefix = ''
+                prefix_len = 0
+            prev_best = -1000
             for cur_id in topk.indices[i]:
                 cur_word = self.tokens_by_id[cur_id]
                 # spelled_word = 'frim'
-                dist = nltk.edit_distance(spelled_word, cur_word, transpositions=True)
+                l = prefix_len
+                r = min(prefix_len + len(cur_word), len(spelled_word))
+                # n = random.randint(0, 999)
+                # if n == 239:
+                #     print(spelled_word[l: r], cur_word)
+                dist = nltk.edit_distance(spelled_word[:r], prefix + cur_word, transpositions=True)
 
-                scores[i][cur_id] *= dist ** 2 / 10
+                space_penalty = 100 if ' ' in cur_word and prefix_len > 0 else 1
+
+                scores[i][cur_id] *= (dist + 1) ** 3 / 10 / (len(cur_word) ** 2) * space_penalty
+                # scores[i][cur_id] *= dist ** 2 / 10
+
+                if scores[i][cur_id] > prev_best:
+                    print(spelled_word[l: r], cur_word)
+                    prev_best = scores[i][cur_id]
 
 
 
@@ -110,12 +154,12 @@ class CompletionGeneration(ABC):
 
     # эта функция по новой считает вероятности следующего токена, при этом тут есть место
     # чтобы их модифицировать под свои нужды
-    def update_scores(self, spelled_word) -> torch.Tensor:
+    def update_scores(self, spelled_word, search) -> torch.Tensor:
         with torch.no_grad():
             scores = self.model.next_probs(self._decoder_ids, self._gen_state, encoder_ids=self._encoder_ids)
             scores = torch.log(scores)
 
-            self._next_log_probs = self.modify_score(scores, spelled_word) # вот это место
+            self._next_log_probs = self.modify_score(scores, spelled_word, search) # вот это место
             return scores
 
     def is_end_of_words(self) -> List[bool]:
@@ -146,13 +190,17 @@ class CompletionGeneration(ABC):
 
         search = BeamSearch(self.vocab_size, num_beams)
         self.init_state(encoder_ids, decoder_ids)
-        self.update_scores(spelled_word)
+        scores = self.update_scores(spelled_word, search)
+        print(scores)
+        print('search.hypotheses', search.hypotheses)
 
         # max iters = 3
         # только на первой итерации нужен пробел, поставить нормальный критерий останова
         for iter_num in range(max_iterations):
             sort_mask, new_tokens = search.step(self._next_log_probs)
             self.update_state(sort_mask, new_tokens)
-            self.update_scores(spelled_word)
+            scores = self.update_scores(spelled_word, search)
+            print('Scores', scores)
+            print('search.hypotheses', search.hypotheses)
             yield self.current_hypothesis(search, self.is_end_of_words())
             # если количество is end of words >= thrs закончить

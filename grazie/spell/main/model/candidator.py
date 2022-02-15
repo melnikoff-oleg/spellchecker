@@ -137,20 +137,26 @@ class SymSpellCandidator(BaseCandidator):
                 all_candidates[i].append(cand.term)
         return all_candidates
 
-
+# это основной класс для генерации кандидатов с помощью трансформера
 class NNCandidator(BaseCandidator):
     def __init__(self, num_beams: int = 5):
+        # это основной член класс который будет на генерить кандидатов
         self.gen = SwapWordGenerator("facebook/bart-base", torch.device("cpu"), num_beams=num_beams)
+        # число гипотез при поиске кандидатов
         self.num_beams = num_beams
 
     def __str__(self):
         return f'NNCandidator num_beams={self.num_beams}'
 
+    # основной метод класса который вернет кандидатов для каждого слова которое мы хотим переписать
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         all_candidates: List[List[str]] = [[] for _ in spelled_words]
         for i, spelled_word in enumerate(spelled_words):
+            # это какой-то бред… я зачем-то приписываю пробел в начало всего текста а не текущего слова - фигня
+            # if spelled_word.interval[0] > 0 and spelled_word.text[spelled_word.interval[0] - 1] == ' ':
+            #     all_candidates[i] = self.gen.generate(' ' + spelled_word.text, (spelled_word.interval[0] - 1, spelled_word.interval[1]))
             if spelled_word.interval[0] > 0 and spelled_word.text[spelled_word.interval[0] - 1] == ' ':
-                all_candidates[i] = self.gen.generate(' ' + spelled_word.text, (spelled_word.interval[0] - 1, spelled_word.interval[1]))
+                all_candidates[i] = self.gen.generate(spelled_word.text, (spelled_word.interval[0] - 1, spelled_word.interval[1]))
             else:
                 all_candidates[i] = self.gen.generate(spelled_word.text, (spelled_word.interval[0], spelled_word.interval[1]))
 
