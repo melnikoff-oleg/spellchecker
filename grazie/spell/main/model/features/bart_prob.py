@@ -12,6 +12,7 @@ class BartProbFeature(BaseFeature):
 
     def compute_candidates(self, text: str, spelled_word: SpelledWord, candidates: List[str]) -> List[float]:
         request = (spelled_word.text, spelled_word.interval[0], spelled_word.interval[1])
+        # тут мы просто подаем слово с опечаткой и его позицию в тексте, а также кандидатов на замену
         scores = self._model.log_probs([request], [candidates])[0]
         return scores
 

@@ -51,6 +51,17 @@ class WordBaseDetector(BaseDetector):
         fict_text = text
         intervals = []
         words = self._tokenizer.tokenize(text)
+        real_words = []
+        n = len(words)
+        for i in range(n):
+            if i < n - 1 and words[i + 1] in ["'re", "'ve", "'s", "'t", "n't", "'d"]:
+                real_words.append(words[i] + words[i + 1])
+                continue
+            if "'" in words[i]:
+                continue
+            real_words.append(words[i])
+        words = real_words
+
 
         # Тут тоже только первое вхождение ошибки
         for i, word in enumerate(words):
@@ -96,3 +107,12 @@ class HunspellDetector(WordBaseDetector):
     def is_spelled(self, word: str) -> bool:
         spelled = self.is_word(word) and not self._hunspell.spell(word)
         return spelled
+
+if __name__ == '__main__':
+    h = HunspellDetector()
+    print(h.detect("On the we're, being rich and famous doesn't always bring happeness, whereas the majority of the population wish they were rich and famous."))
+    # tokenizer = SyntokTextTokenizer()
+    # print(tokenizer.tokenize("On the we're, being rich and famous doesn't always bring happeness, whereas the majority of the population wish they were rich and famous."))
+
+    # h = Hunspell()
+    # print(h.spell("don't"))

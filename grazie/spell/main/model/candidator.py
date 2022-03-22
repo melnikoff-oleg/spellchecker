@@ -111,7 +111,14 @@ class HunspellCandidator(BaseCandidator):
     def get_candidates(self, text: str, spelled_words: List[SpelledWord], **kwargs) -> List[List[str]]:
         all_candidates: List[List[str]] = [[] for _ in spelled_words]
         for i, spelled_word in enumerate(spelled_words):
-            candidates = self._hunspell.suggest(spelled_word.word)
+            try:
+                candidates = self._hunspell.suggest(spelled_word.word)
+            except Exception as e:
+                print(e)
+                print('Text:', text)
+                print('Word:', spelled_word.word)
+                print()
+                candidates = []
             all_candidates[i] = list(candidates)
         return all_candidates
 

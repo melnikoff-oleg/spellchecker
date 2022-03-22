@@ -11,7 +11,7 @@ def default_args_parser():
     return parser
 
 
-def get_test_data(gt_texts_path: str, noisy_texts_path: str, size: int = None) -> Tuple[List[SpelledText], List[SpelledText]]:
+def get_test_data(gt_texts_path: str, noisy_texts_path: str, size: int = None, train_part: float = 0.7) -> Tuple[List[SpelledText], List[SpelledText]]:
 
     with open(gt_texts_path) as f:
         gt_lines = f.readlines()
@@ -20,7 +20,9 @@ def get_test_data(gt_texts_path: str, noisy_texts_path: str, size: int = None) -
 
     texts = []
     ind = 0
-    for gt, noise in zip(gt_lines, noise_lines):
+    for gt_, noise_ in zip(gt_lines, noise_lines):
+        gt = gt_[:-1]
+        noise = noise_[:-1]
         fict_noise = noise
         gt_words = gt.split()
         noise_words = noise.split()
@@ -38,6 +40,6 @@ def get_test_data(gt_texts_path: str, noisy_texts_path: str, size: int = None) -
         if ind == size:
             break
 
-    train_data: List[SpelledText] = texts[:round(len(texts) * 0.7)]
-    test_data: List[SpelledText] = texts[round(len(texts) * 0.7):]
+    train_data: List[SpelledText] = texts[:round(len(texts) * train_part)]
+    test_data: List[SpelledText] = texts[round(len(texts) * train_part):]
     return train_data, test_data

@@ -17,7 +17,7 @@ from grazie.spell.main.model.candidator import BaseCandidator, AggregatedCandida
 from grazie.spell.main.model.detector import IdealDetector, DictionaryDetector, HunspellDetector
 from grazie.spell.main.model.features.features_collector import FeaturesCollector
 from grazie.spell.main.model.ranker import FeaturesSpellRanker
-from grazie.spell.main.model.spellcheck_model import SpellCheckModel
+from grazie.spell.main.model.spellcheck_model import SpellCheckModel, SpellCheckModelCharBasedTransformerMedium, SpellCheckModelNeuSpell, SpellCheckModelCharBasedTransformerSmall
 
 
 def prepare_ranking_training_data(spell_data: List[SpelledText], candidator: BaseCandidator,
@@ -51,7 +51,6 @@ def sort_experiments(experiment_save_path):
             exp_res_dict = json.load(f)
         arr_to_sort = []
         for ind, exp in enumerate(exp_res_dict):
-            # arr_to_sort.append([exp['experiment_results']["Pipeline Metrics"]["acc@1"], ind])
             arr_to_sort.append([exp['Pipeline Results']['All Together']['acc@1'], ind])
         arr_to_sort.sort(reverse=True)
         new_exp_dict = []
@@ -65,7 +64,9 @@ def get_time_diff(start):
     return str(datetime.timedelta(seconds=round(time.time() - start)))
 
 
-def save_experiment_results(dt_string: str, detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes, data_prep_time, ranker_train_time, pipeline_eval_time, experiment_save_path, save_experiment):
+def save_experiment_results(detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes=(), data_prep_time: str = '0', ranker_train_time: str = '0', pipeline_eval_time: str = '0', experiment_save_path: str = 'junk_experiments.json', save_experiment: bool = False, rewrite: bool = True):
+    now = datetime.datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     experiment_packed = {'Date': dt_string,
                          'Model Config': {
                              'Detector': detector_name, 'Candidator': candidator_name,
@@ -75,6 +76,10 @@ def save_experiment_results(dt_string: str, detector_name, candidator_name, rank
                                      'Train Size': train_data_len, 'Test Size': test_data_len},
                          'Pipeline Results': {
                              'All Together': {
+                                 'Word-level accuracy': pipeline_metrics['Word-level accuracy'],
+                                 'Precision': pipeline_metrics['Precision'],
+                                 'Recall': pipeline_metrics['Recall'],
+                                 'F_0.5': pipeline_metrics['F_0.5'],
                                  'acc@1': pipeline_metrics['pipeline_acc@1'],
                                  'acc@3': pipeline_metrics['pipeline_acc@3'],
                              },
@@ -101,22 +106,23 @@ def save_experiment_results(dt_string: str, detector_name, candidator_name, rank
                          }
                          }
 
-    if exists(experiment_save_path):
-        with open(experiment_save_path) as f:
-            exp_res_dict = json.load(f)
-    else:
-        exp_res_dict = []
-    exp_res_dict.append(experiment_packed)
+    print(experiment_packed)
+
     if save_experiment:
+        if exists(experiment_save_path) and not rewrite:
+            with open(experiment_save_path) as f:
+                exp_res_dict = json.load(f)
+        else:
+            exp_res_dict = []
+        exp_res_dict.append(experiment_packed)
         with open(experiment_save_path, 'w') as f:
             json.dump(exp_res_dict, f)
-    sort_experiments(experiment_save_path)
-    print(experiment_packed)
+        sort_experiments(experiment_save_path)
 
 
 def train_model(detector, candidator, ranker, ranker_features, train_data: List[SpelledText],
                 test_data: List[SpelledText], freqs_path: str, bigrams_path: str, trigrams_path: str,
-                experiment_save_path: str, dataset_name: str, save_experiment: bool = True) -> None:
+                path_save_exp: str, dataset_name: str, save_experiment: bool = True) -> None:
     start = time.time()
     features_collector = FeaturesCollector(ranker_features, bigrams_path, trigrams_path,
                                            FeaturesCollector.load_freqs(freqs_path))
@@ -132,12 +138,11 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
     start = time.time()
     model = SpellCheckModel(detector, candidator, FeaturesSpellRanker(features_collector, ranker))
     print("Evaluate all")
-    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=100)
+    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, path_save_result=path_save_exp + 'result.txt', max_mistakes_log=100)
+    print('LOL', pipeline_metrics, '\n\n\n', pipeline_mistakes, 'LOL')
+
     print()
     pipeline_eval_time = get_time_diff(start)
-
-    now = datetime.datetime.now()
-    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
     detector_name = type(detector).__name__
     candidator_name = str(candidator)
@@ -145,47 +150,54 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
     train_data_len = len(train_data)
     test_data_len = len(test_data)
 
-    save_experiment_results(dt_string, detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes, data_prep_time, ranker_train_time, pipeline_eval_time, experiment_save_path, save_experiment)
+    save_experiment_results(detector_name, candidator_name, ranker_name, ranker_features, dataset_name, train_data_len, test_data_len, pipeline_metrics, pipeline_mistakes, data_prep_time, ranker_train_time, pipeline_eval_time, path_save_exp + 'report.json', save_experiment)
+
+
+def eval_e2e_model(model, test_data, dataset_name, path_save_exp):
+    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=20, path_save_result=path_save_exp + 'result.txt')
+    save_experiment_results(str(model), str(model), str(model), [], dataset_name, 1300000,
+                            len(test_data), pipeline_metrics, pipeline_mistakes, experiment_save_path=path_save_exp + 'report.json', save_experiment=True)
 
 
 def main():
-    # gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea500.clean'
-    # noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea500.clean.noise'
-    gt_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k'
-    noise_texts_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/datasets/test.bea4k.noise'
-    freqs_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/1_grams.csv'
-    bigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/2_grams.csv'
-    trigrams_table_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/n_gram_freqs/3_grams.csv'
-    # model_save_path = '/Users/olegmelnikov/Downloads/ranker_model
-    experiment_save_path = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/no_nn_dirty.json'
-    dataset_name = gt_texts_path.split('/')[-1]
-    train_data, test_data = get_test_data(gt_texts_path, noise_texts_path, size=500)
+    # path_prefix = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
+    path_prefix = '/home/ubuntu/omelnikov/'
+    train_gt = path_prefix + 'grazie/spell/main/data/datasets/train.1blm.word.prob.random.norm'
+    train_noise = path_prefix + 'grazie/spell/main/data/datasets/train.1blm.noise.word.prob.random.norm'
+    test_gt = path_prefix + 'grazie/spell/main/data/datasets/test.bea60k.norm'
+    test_noise = path_prefix + 'grazie/spell/main/data/datasets/test.bea60k.noise.norm'
+    path_save_exp = path_prefix + '/grazie/spell/main/data/experiments/neuspell_bert_2/'
+    freqs_table_path = path_prefix + 'grazie/spell/main/data/n_gram_freqs/1_grams.csv'
+    bigrams_table_path = path_prefix + 'grazie/spell/main/data/n_gram_freqs/2_grams.csv'
+    trigrams_table_path = path_prefix + 'grazie/spell/main/data/n_gram_freqs/3_grams.csv'
+    dataset_name = test_gt.split('/')[-1]
+    train_data, test_data_fict = get_test_data(train_gt, train_noise, size=500, train_part=1.0)
+    test_data, test_data_fict = get_test_data(test_gt, test_noise, size=1000, train_part=1.0)
 
-    detectors = [HunspellDetector(), DictionaryDetector(), SymSpellCandidator()]
-    # candidators = [HunspellCandidator(), SymSpellCandidator(), NNCandidator()]
-    # "bart_prob", "bert_prob", "suffix_prob",
-    features = [ "bigram_freq", "trigram_freq", "cand_length_diff",
-                "init_word_length", "levenshtein", "jaro_winkler", "freq", "log_freq", "sqrt_freq", "soundex",
-                "metaphone", "keyboard_dist", "cands_less_dist"]
 
-    detector = HunspellDetector()
-    candidator = HunspellCandidator()
-    # candidator = SymSpellCandidator()
-    # candidator = NNCandidator()
-    # candidator = AggregatedCandidator([HunspellCandidator(), NNCandidator(num_beams=3)])
-    ranker = CatBoostRanker(iterations=100)
-    ranker_features = [
-        ["bigram_freq", "trigram_freq", "cand_length_diff",
-         "init_word_length", "levenshtein", "freq", "soundex",
-         "metaphone", "keyboard_dist", "cands_less_dist"],
-    ]
+    # eval old BART
+    # train_model(HunspellDetector(), HunspellCandidator(), CatBoostRanker(iterations=100), ['bart_prob', 'levenshtein'], train_data, test_data, freqs_table_path, bigrams_table_path,
+    #             trigrams_table_path, path_save_exp, dataset_name, save_experiment=True)
 
-    for rf in ranker_features:
-        # try:
-        train_model(detector, candidator, ranker, rf, train_data, test_data, freqs_table_path, bigrams_table_path,
-                    trigrams_table_path, experiment_save_path, dataset_name, save_experiment=True)
-        # except Exception as e:
-        #     print('Another Experiment Error', candidator, '\n\n', e, '\n\n\n')
+    # eval char-based-transformer SMALL
+    # char_based_transformer = SpellCheckModelCharBasedTransformerMedium(
+    #     checkpoint=path_prefix + 'grazie/spell/main/training/model_small_2_4.pt')
+    # eval_e2e_model(char_based_transformer, test_data, dataset_name, path_save_exp)
+
+
+    # eval char-based-transformer MEDIUM
+    # char_based_transformer = SpellCheckModelCharBasedTransformerMedium(
+    #     checkpoint=path_prefix + 'grazie/spell/main/training/model_sch_lin_warm_239_2.pt')
+    #
+    # eval_e2e_model(char_based_transformer, test_data, dataset_name, path_save_exp)
+
+    # eval T5
+    # model = SpellCheckModelT5()
+    # eval_e2e_model(model, test_data, dataset_name, path_save_exp)
+
+    # eval NeuSpell
+    model = SpellCheckModelNeuSpell()
+    eval_e2e_model(model, test_data, dataset_name, path_save_exp)
 
 
 if __name__ == '__main__':

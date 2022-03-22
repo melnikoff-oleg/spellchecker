@@ -3,8 +3,17 @@ venv/
 grazie/spell/main/data/noising_resources/
 __pycache__/
 grazie/spell/main/training/catboost_info/*
+grazie/spell/main/training/neuspell/*
+grazie/spell/main/training/runs/*
 *.DS_store
 grazie/spell/main/data/datasets/test*
+grazie/spell/main/data/datasets/train*
 grazie/spell/main/data/n_gram_freqs/1_grams.csv
 grazie/spell/main/data/n_gram_freqs/2_grams.csv
 grazie/spell/main/data/n_gram_freqs/3_grams.csv
+grazie/spell/main/data/experiments/bart_levenshtein/*.txt
+grazie/spell/main/data/experiments/T5/*.txt
+grazie/spell/main/data/experiments/char_based_transformer_med_v0/*.txt
+grazie/spell/main/data/experiments/char_based_transformer_small_v0/*.txt
+grazie/spell/main/data/experiments/neuspell_bert/*.txt
+grazie/spell/main/data/experiments/neuspell_bert_2/*.txt
