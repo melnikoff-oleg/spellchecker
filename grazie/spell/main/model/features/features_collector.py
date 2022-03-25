@@ -9,7 +9,7 @@ from grazie.spell.main.model.features.base import BaseFeature
 from grazie.spell.main.model.features.bert import BertProbFeature
 from grazie.spell.main.model.features.edit_dist import LevenshteinFeature, JaroWinklerFeature
 from grazie.spell.main.model.features.freq import FreqFeature, SqrtFreqFeature, LogFreqFeature
-from grazie.spell.main.model.features.phonetic import MetaphonePhoneticFeature, SoundexPhoneticFeature
+# from grazie.spell.main.model.features.phonetic import MetaphonePhoneticFeature, SoundexPhoneticFeature
 from grazie.spell.main.model.features.suffix_prob import SuffixProbFeature
 from grazie.spell.main.model.features.keyboard_dist import QwertyFeature
 from grazie.spell.main.model.features.count_candidates_less_edit_dist import CountCandidatesLessEditDistFeature
@@ -26,8 +26,8 @@ class FeaturesCollector:
             "log_freq": lambda: LogFreqFeature(freqs),
             "sqrt_freq": lambda: SqrtFreqFeature(freqs),
 
-            "soundex": lambda: SoundexPhoneticFeature(),
-            "metaphone": lambda: MetaphonePhoneticFeature(),
+            # "soundex": lambda: SoundexPhoneticFeature(),
+            # "metaphone": lambda: MetaphonePhoneticFeature(),
 
             "bert_prob": lambda: BertProbFeature(),
             "suffix_prob": lambda: SuffixProbFeature(),

@@ -10,6 +10,12 @@ def default_args_parser():
     parser.add_argument("--size", type=int, required=False, default=50, help="Number of texts from file")
     return parser
 
+def get_texts_from_file(path: str):
+    texts = []
+    with open(path) as f:
+        for line in f:
+            texts.append(line[:-1])
+    return texts
 
 def get_test_data(gt_texts_path: str, noisy_texts_path: str, size: int = None, train_part: float = 0.7) -> Tuple[List[SpelledText], List[SpelledText]]:
 

@@ -154,25 +154,25 @@ def train_model(detector, candidator, ranker, ranker_features, train_data: List[
 
 
 def eval_e2e_model(model, test_data, dataset_name, path_save_exp):
-    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=20, path_save_result=path_save_exp + 'result.txt')
+    pipeline_metrics, pipeline_mistakes = evaluate(model, test_data, verbose=True, max_mistakes_log=20, path_save_result=path_save_exp + 'result_test.txt')
     save_experiment_results(str(model), str(model), str(model), [], dataset_name, 1300000,
-                            len(test_data), pipeline_metrics, pipeline_mistakes, experiment_save_path=path_save_exp + 'report.json', save_experiment=True)
+                            len(test_data), pipeline_metrics, pipeline_mistakes, experiment_save_path=path_save_exp + 'report_test.json', save_experiment=True)
 
 
 def main():
-    # path_prefix = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
-    path_prefix = '/home/ubuntu/omelnikov/'
-    train_gt = path_prefix + 'grazie/spell/main/data/datasets/train.1blm.word.prob.random.norm'
-    train_noise = path_prefix + 'grazie/spell/main/data/datasets/train.1blm.noise.word.prob.random.norm'
-    test_gt = path_prefix + 'grazie/spell/main/data/datasets/test.bea60k.norm'
-    test_noise = path_prefix + 'grazie/spell/main/data/datasets/test.bea60k.noise.norm'
-    path_save_exp = path_prefix + '/grazie/spell/main/data/experiments/neuspell_bert_2/'
+    path_prefix = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
+    # path_prefix = '/home/ubuntu/omelnikov/'
+    train_gt = path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.train.gt'
+    train_noise = path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.train.noise'
+    test_gt = path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.gt'
+    test_noise = path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.noise'
+    path_save_exp = path_prefix + '/grazie/spell/main/data/experiments/neuspell_bert/'
     freqs_table_path = path_prefix + 'grazie/spell/main/data/n_gram_freqs/1_grams.csv'
     bigrams_table_path = path_prefix + 'grazie/spell/main/data/n_gram_freqs/2_grams.csv'
     trigrams_table_path = path_prefix + 'grazie/spell/main/data/n_gram_freqs/3_grams.csv'
     dataset_name = test_gt.split('/')[-1]
     train_data, test_data_fict = get_test_data(train_gt, train_noise, size=500, train_part=1.0)
-    test_data, test_data_fict = get_test_data(test_gt, test_noise, size=1000, train_part=1.0)
+    test_data, test_data_fict = get_test_data(test_gt, test_noise, size=100000, train_part=1.0)
 
 
     # eval old BART

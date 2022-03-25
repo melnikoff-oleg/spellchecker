@@ -1,36 +1,17 @@
+from transformers import BartTokenizer, BartModel, BartForConditionalGeneration
 import random
-from transformers import RobertaTokenizer
 import string
 import json
 from torch.utils.tensorboard import SummaryWriter
 import torch
-from transformers import BartConfig, BartForConditionalGeneration
 from tqdm import tqdm
 import timeit
 from transformers import get_linear_schedule_with_warmup
 
 
-class BartTokenizer(RobertaTokenizer):
-    """
-    Construct a BART tokenizer.
-    [`BartTokenizer`] is identical to [`RobertaTokenizer`]. Refer to superclass [`RobertaTokenizer`] for usage examples
-    and documentation concerning the initialization parameters and other methods.
-    """
-    vocab_files_names = {"vocab_file": "vocab.json", "merges_file": "merges.txt"}
-
-
-def create_vocab_files():
-    chars = ["<s>", "<pad>", "</s>", "<unk>", "<mask>", " "] + list(string.punctuation) + list(string.digits) + list(string.ascii_lowercase) + list(string.ascii_uppercase)
-    url_vocab = {c: i for i, c in enumerate(chars)}
-    with open("url_vocab.json", 'w') as json_file:
-      json.dump(url_vocab, json_file)
-
-    merges = "#version: 0.2\n"
-    with open("url_merges.txt", 'w') as f:
-        f.write(merges)
-
-
-def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, optimizer, scheduler, print_n_batches=2000, st_epoch=0, model_name='model_big_0', device=torch.device('cuda')):
+def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, optimizer, scheduler, print_n_batches=2000,
+                st_epoch=0, model_name='model_big_0', save_model=True):
+    # model = model.to(device)
 
     tb = torch.utils.tensorboard.SummaryWriter()
 
@@ -63,7 +44,7 @@ def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, 
 
                 model.eval()
                 with torch.no_grad():
-                    val_batches = 2
+                    val_batches = 10
                     batches = list(range(0, (len(val_data) + batch_size - 1) // batch_size))
                     random.shuffle(batches)
                     val_loss = 0
@@ -97,10 +78,12 @@ def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, 
                     tb.add_text('Test sentence rewriting', ans_str, batch_ind)
                 model.train()
 
-
-        # model_path = f'{model_name}_{epoch}.pt'
-        # torch.save(model.state_dict(), model_path)
-        # print('Model saved in', model_path)
+        if save_model:
+            model_path = f'{model_name}_{epoch}.pt'
+            torch.save(model.state_dict(), model_path)
+            print('Model saved in', model_path)
+        else:
+            print('Not saving model')
 
         print('Train loss on epoch', epoch, ':', epoch_loss / len(train_data))
         tb.add_scalar("Train loss on epoch", epoch_loss / len(train_data), epoch)
@@ -124,40 +107,39 @@ def read_data(gt_path, noise_path):
 if __name__ == '__main__':
     # path_prefix = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
     path_prefix = '/home/ubuntu/omelnikov/'
-    train = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.train.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.train.noise')
-    val = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.test.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.test.noise')
+    # 'bea/bea60k.gt' 'bea/bea60k.noise' '1blm/1blm.train.gt' '1blm/1blm.train.noise' '1blm/1blm.test.gt' '1blm/1blm.test.noise'
+    train = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.noise')
+    val = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.noise')
 
-    create_vocab_files()
-    tokenizer = BartTokenizer("url_vocab.json", "url_merges.txt")
-    config = BartConfig(vocab_size=tokenizer.vocab_size, d_model=128, encoder_layers=6, decoder_layers=6,
-                        encoder_attention_heads=8, decoder_attention_heads=8, encoder_ffn_dim=512, decoder_ffn_dim=512)
-    model = BartForConditionalGeneration(config)
+    tokenizer = BartTokenizer.from_pretrained('facebook/bart-large')
+    model = BartForConditionalGeneration.from_pretrained('facebook/bart-large')
+
+    # dev_str = 'cuda:6'
+    # print(dev_str)
+    device = torch.device('cuda:3' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
 
     # If needed take existing checkpoint
-    checkpoint = 'model_small_2_4.pt'
-    model.load_state_dict(torch.load(checkpoint))
-    print('Model loaded from', checkpoint)
+    # checkpoint = 'model_big_0_4.pt'
+    # model.load_state_dict(torch.load(checkpoint))
+    # print('Model loaded from', checkpoint)
 
     start = timeit.default_timer()
 
-    model_name = 'model_small_2_4'
-    batch_size = 64
-    num_epochs = 5
-    st_epoch = 5
-    print_n_batches = 3000
-    num_sent = 1000000000
+    model_name = 'model_bart_fine_tune_0'
+    batch_size = 32
+    num_epochs = 3
+    st_epoch = 0
+    print_n_batches = 10
+    num_sent = 10000
     train = train[:num_sent]
     num_batches_in_epoch = len(train) // batch_size
 
     optimizer = torch.optim.AdamW(params=model.parameters(), lr=0.0001)
-    scheduler = get_linear_schedule_with_warmup(optimizer, num_batches_in_epoch * 2, num_batches_in_epoch * num_epochs)
-
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = model.to(device)
+    scheduler = get_linear_schedule_with_warmup(optimizer, num_batches_in_epoch, num_batches_in_epoch * num_epochs)
 
     print(f'Start training. Num epocs: {num_epochs}, batch size: {batch_size}, num sents: {len(train)}')
-    train_model(model, tokenizer, train, val, num_epochs, batch_size, optimizer, scheduler, print_n_batches=print_n_batches, st_epoch=st_epoch, model_name=model_name, device=device)
-
+    train_model(model, tokenizer, train, val, num_epochs, batch_size, optimizer, scheduler, print_n_batches=print_n_batches, st_epoch=st_epoch, model_name=model_name, save_model=False)
     result_ids = model.generate(tokenizer([val[0][0]], return_tensors='pt').to(device)["input_ids"],
                                  num_beams=5, min_length=5, max_length=100)
     print('Quality check:')

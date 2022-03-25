@@ -60,7 +60,7 @@ if __name__ == "__main__":
     # ./
 
 
-    download_file_from_google_drive('12wPZCl04-00-6YhsX7EE1cEGYZtgGUvk', '/home/ubuntu/omelnikov/grazie/spell/main/training/neuspell/data/checkpoints/subwordbert-probwordnoise/pytorch_model.bin')
+    # download_file_from_google_drive('12wPZCl04-00-6YhsX7EE1cEGYZtgGUvk', '/home/ubuntu/omelnikov/grazie/spell/main/training/neuspell/data/checkpoints/subwordbert-probwordnoise/pytorch_model.bin')
 
     # download_file_from_google_drive('1ZlEQKf3HMMk66F7DGFPnh-PA2cbt5K0F', 'test.1blm')
     # download_file_from_google_drive('1wZ6nrIYANNN3ZoHgacIg9P3UmHnBb9Wa', 'test.1blm.noise.prob')
@@ -77,8 +77,8 @@ if __name__ == "__main__":
     # download_file_from_google_drive('1eXrAPKzfU7E9EZNKMyyanuxL9NMpkvdv', 'test.bea20k')
     # download_file_from_google_drive('178AWu05IzYFBOFYQ0lhkkBQaIACSJzAC', 'test.bea20k.noise')
 
-    # download_file_from_google_drive('10VtrEThrDIiuFJf0gj4LeGDdP-y-yR--', 'test.bea60k')
-    # download_file_from_google_drive('16AMIb6FVltgRR8xv8h7qacDUX8cOQK9d', 'test.bea60k.noise')
+    download_file_from_google_drive('10VtrEThrDIiuFJf0gj4LeGDdP-y-yR--', 'test.bea60k')
+    download_file_from_google_drive('16AMIb6FVltgRR8xv8h7qacDUX8cOQK9d', 'test.bea60k.noise')
     #
     # download_file_from_google_drive('192g_5oJn4dro5QJ88Dd8-lN_xKE_lLf0', 'test.bea322')
     # download_file_from_google_drive('1_hka2FOT4FrMvsV3d4Zfi9W8v3oFBRYc', 'test.bea322.noise')
@@ -89,10 +89,10 @@ if __name__ == "__main__":
     # download_file_from_google_drive('1jHR2f3JwnskDphQcaTXr0hLlp60qJxUl', 'test.jfleg')
     # download_file_from_google_drive('1sccH7dRhyctKAIQXBZEBmUWEiTN_-o6q', 'test.jfleg.noise')
     #
-    download_file_from_google_drive('1aWHIxu_BrZIeGRLhID3J_od6shXz3jUb', 'train.1blm')
+    # download_file_from_google_drive('1aWHIxu_BrZIeGRLhID3J_od6shXz3jUb', 'train.1blm')
     # download_file_from_google_drive('16RYImD2esgGwc1nNt3Yf-WR5TU1yQyik', 'train.1blm.noise.prob')
     # download_file_from_google_drive('11FMI2C-ouwaWesTLjfPCXmqeB6HUQHkK', 'train.1blm.noise.random')
-    download_file_from_google_drive('1eRpWqSb7sIm3kgtkdfVTru9YKHSRRrdq', 'train.1blm.noise.word')
+    # download_file_from_google_drive('1eRpWqSb7sIm3kgtkdfVTru9YKHSRRrdq', 'train.1blm.noise.word')
     #
     # download_file_from_google_drive('1INTWXWO6i1Swthu5ln7REZjGvPFv2hyQ', 'train.bea40k')
     # download_file_from_google_drive('1KTeL8oZ30fVI_QuCW879T-CgfeewvSk9', 'train.bea40k.noise')

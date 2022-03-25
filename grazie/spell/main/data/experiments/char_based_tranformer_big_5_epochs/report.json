@@ -1,0 +1,73 @@
+{
+    "Date": "23/03/2022 20:43",
+    "Model": "Char-Based Transformer, config: {'d_model': 256, 'encoder_layers': 6, 'decoder_layers': 6, 'encoder_attention_heads': 8, 'decoder_attention_heads': 8, 'encoder_ffn_dim': 1024, 'decoder_ffn_dim': 1024, 'vocab_size': 99}",
+    "Metrics": {
+        "Precision": 0.7,
+        "Recall": 0.76,
+        "F_0_5": 0.71,
+        "Word-level accuracy": 0.96,
+        "Broken tokenization cases": 0.44
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "Singing is the most favarite hobby for us.",
+                "Word noise": "favarite",
+                "Word gt": "favourite",
+                "Word res": "favorite"
+            },
+            {
+                "Text noise": "She persuide him to go to the sea to ask for a lot of things for her.",
+                "Word noise": "persuide",
+                "Word gt": "persuaded",
+                "Word res": "persuided"
+            },
+            {
+                "Text noise": "At first I couldn't belive that I was a winer",
+                "Word noise": "winer",
+                "Word gt": "winner",
+                "Word res": "winner."
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "This was the best thing that had ever happend to the Fennall family for yeats.",
+                "Word noise": "Fennall",
+                "Word gt": "Fennall",
+                "Word res": "Fennell"
+            },
+            {
+                "Text noise": "I'd like you to send the money to this adress: ul Taklowa 10",
+                "Word noise": "10",
+                "Word gt": "10",
+                "Word res": "100."
+            },
+            {
+                "Text noise": "Furthermore, it's a worthful experience for people who want to know about other countries' arts.",
+                "Word noise": "countries'",
+                "Word gt": "countries'",
+                "Word res": "countries"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "Those are totally unexpectable so I would like to get paid for my ticket cost.",
+                "Word noise": "unexpectable",
+                "Word gt": "unacceptable",
+                "Word res": "unexpectable"
+            },
+            {
+                "Text noise": "However such centers are very useful and necessary.",
+                "Word noise": "centers",
+                "Word gt": "centres",
+                "Word res": "centers"
+            },
+            {
+                "Text noise": "ALL OF THE STAFF AND THE ORGANISATION SPOK ABOUT THE RULES AND HOW TO SAVE PEOPLE.",
+                "Word noise": "SPOK",
+                "Word gt": "SPOKE",
+                "Word res": "SPOK"
+            }
+        ]
+    }
+}

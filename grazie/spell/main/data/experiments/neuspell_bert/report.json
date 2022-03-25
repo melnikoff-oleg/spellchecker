@@ -1,6 +1,6 @@
 [
     {
-        "Date": "18/03/2022 13:11:20",
+        "Date": "23/03/2022 18:49:45",
         "Model Config": {
             "Detector": "NeuSpell BERT",
             "Candidator": "NeuSpell BERT",
@@ -10,22 +10,23 @@
             }
         },
         "Dataset": {
-            "Dataset Name": "test.bea500.norm",
-            "Dataset Size": 1300500,
+            "Dataset Name": "bea60k.gt",
+            "Dataset Size": 1363045,
             "Train Size": 1300000,
-            "Test Size": 500
+            "Test Size": 63045
         },
         "Pipeline Results": {
             "All Together": {
-                "Precision": 0.72,
-                "Recall": 0.78,
-                "F_0.5": 0.73,
-                "acc@1": 0.78,
-                "acc@3": 0.78
+                "Word-level accuracy": 0.94,
+                "Precision": 0.52,
+                "Recall": 0.77,
+                "F_0.5": 0.56,
+                "acc@1": 0.77,
+                "acc@3": 0.77
             },
             "Detector": {
-                "Precision": 0.82,
-                "Recall": 0.89,
+                "Precision": 0.63,
+                "Recall": 0.93,
                 "Mistakes Not Found": [
                     {
                         "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
@@ -33,7 +34,7 @@
                         "Corrected Word": "COMPLAINTS"
                     },
                     {
-                        "Text": "SECOND I GOT TO THE THEATRE AT 19.20 BECAUSE IN THE ADVERTISEMENT IT CLEARLY STATES THAT THE SHOW STARTS AT 19.30, AND I GOT REALLY MAD WHEN I LOOKED AT MY WATCH AND NOTICED THAT I HAD BEEN WAITING FOR 40 (FORTY) MINUTES AND THE SHOW HADN'T STARTED YET...I MEAN IT WAS AMAIZING!",
+                        "Text": "SECOND I GOT TO THE THEATRE AT 19.20 BECAUSE IN THE ADVERTISEMENT IT CLEARLY STATES THAT THE SHOW STARTS AT 19.30, AND I GOT REALLY MAD WHEN I LOOKED AT MY WATCH AND NOTICED THAT I HAD BEEN WAITING FOR 40 (FORTY) MINUTES AND THE SHOW HADN'T STARTED YET... I MEAN IT WAS AMAIZING!",
                         "Incorrect Word": "AMAIZING!",
                         "Corrected Word": "AMAZING!"
                     },
@@ -160,7 +161,7 @@
                         ]
                     },
                     {
-                        "Text": "SECOND I GOT TO THE THEATRE AT 19.20 BECAUSE IN THE ADVERTISEMENT IT CLEARLY STATES THAT THE SHOW STARTS AT 19.30, AND I GOT REALLY MAD WHEN I LOOKED AT MY WATCH AND NOTICED THAT I HAD BEEN WAITING FOR 40 (FORTY) MINUTES AND THE SHOW HADN'T STARTED YET...I MEAN IT WAS AMAIZING!",
+                        "Text": "SECOND I GOT TO THE THEATRE AT 19.20 BECAUSE IN THE ADVERTISEMENT IT CLEARLY STATES THAT THE SHOW STARTS AT 19.30, AND I GOT REALLY MAD WHEN I LOOKED AT MY WATCH AND NOTICED THAT I HAD BEEN WAITING FOR 40 (FORTY) MINUTES AND THE SHOW HADN'T STARTED YET... I MEAN IT WAS AMAIZING!",
                         "Fake Incorrect Word": "HADN'T",
                         "Candidates": [
                             {
@@ -185,16 +186,6 @@
                         "Candidates": [
                             {
                                 "Word": "got",
-                                "Score": 1
-                            }
-                        ]
-                    },
-                    {
-                        "Text": "I tought you inderstood' ; please send money back to me, you know why, don't answer me?",
-                        "Fake Incorrect Word": ";",
-                        "Candidates": [
-                            {
-                                "Word": "';",
                                 "Score": 1
                             }
                         ]
@@ -251,7 +242,7 @@
                     },
                     {
                         "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
-                        "Fake Incorrect Word": "U.S.A.",
+                        "Fake Incorrect Word": "U.S.A?",
                         "Candidates": [
                             {
                                 "Word": "U.",
@@ -261,7 +252,7 @@
                     },
                     {
                         "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
-                        "Fake Incorrect Word": "before",
+                        "Fake Incorrect Word": "What",
                         "Candidates": [
                             {
                                 "Word": "S.",
@@ -271,60 +262,70 @@
                     },
                     {
                         "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "kind",
+                        "Candidates": [
+                            {
+                                "Word": "A?",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "of",
+                        "Candidates": [
+                            {
+                                "Word": "What",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "clothes",
+                        "Candidates": [
+                            {
+                                "Word": "kind",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "will",
+                        "Candidates": [
+                            {
+                                "Word": "of",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
                         "Fake Incorrect Word": "I",
                         "Candidates": [
                             {
-                                "Word": "A.",
+                                "Word": "clothes",
                                 "Score": 1
                             }
                         ]
                     },
                     {
                         "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
-                        "Fake Incorrect Word": "don't",
+                        "Fake Incorrect Word": "need",
                         "Candidates": [
                             {
-                                "Word": "before",
+                                "Word": "will",
                                 "Score": 1
                             }
                         ]
                     },
                     {
                         "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
-                        "Fake Incorrect Word": "know",
+                        "Fake Incorrect Word": "and",
                         "Candidates": [
                             {
                                 "Word": "I",
-                                "Score": 1
-                            }
-                        ]
-                    },
-                    {
-                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
-                        "Fake Incorrect Word": "anything",
-                        "Candidates": [
-                            {
-                                "Word": "don't",
-                                "Score": 1
-                            }
-                        ]
-                    },
-                    {
-                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
-                        "Fake Incorrect Word": "about",
-                        "Candidates": [
-                            {
-                                "Word": "know",
-                                "Score": 1
-                            }
-                        ]
-                    },
-                    {
-                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
-                        "Fake Incorrect Word": "it.",
-                        "Candidates": [
-                            {
-                                "Word": "anything",
                                 "Score": 1
                             }
                         ]
@@ -332,7 +333,7 @@
                 ]
             },
             "Candidator": {
-                "acc@inf": 0.88,
+                "acc@inf": 0.83,
                 "Correct Cand Not Found": [
                     {
                         "Text": "I WANT TO THAK YOU FOR PREPARING SUCH A GOOD PROGRAMME FOR US AND ESPECIALLY FOR TAKING US ON THE RIVER TRIP TO GREENWICH.",
@@ -379,17 +380,6 @@
                         ]
                     },
                     {
-                        "Text": "I tought you inderstood' ; please send money back to me, you know why, don't answer me?",
-                        "Incorrect Word": "inderstood'",
-                        "Corrected Word": "understood'",
-                        "Candidates": [
-                            {
-                                "Word": "understood",
-                                "Score": 1
-                            }
-                        ]
-                    },
-                    {
                         "Text": "It started from got up in the morning, we have the machine help us to cook, iron, cleanning, washing, and then we went out to work, there are car, sky train to travel for help us convenience and quickly.",
                         "Incorrect Word": "cleanning,",
                         "Corrected Word": "cleaning,",
@@ -412,9 +402,9 @@
                         ]
                     },
                     {
-                        "Text": "It was unbelivebly! ! !",
-                        "Incorrect Word": "unbelivebly!",
-                        "Corrected Word": "unbelievable!",
+                        "Text": "It was unbelivebly!!!",
+                        "Incorrect Word": "unbelivebly!!!",
+                        "Corrected Word": "unbelievable!!!",
                         "Candidates": [
                             {
                                 "Word": "unbelievably!!!",
@@ -550,6 +540,17 @@
                         "Candidates": [
                             {
                                 "Word": "threatened.",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "In addition to this, you may have some roboters bringing the newspaper to the table, tidying up the house, and doing the shopping. Maybe they will also be your life patners.",
+                        "Incorrect Word": "roboters",
+                        "Corrected Word": "robots",
+                        "Candidates": [
+                            {
+                                "Word": "customers",
                                 "Score": 1
                             }
                         ]
