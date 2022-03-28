@@ -10,7 +10,8 @@ if __name__ == '__main__':
     model = BartForConditionalGeneration.from_pretrained("facebook/bart-large")
     # input_ids = tokenizer([TXT], return_tensors="pt")["input_ids"]
     # logits = model(input_ids).logits
-    device = torch.device('cpu')
+    device = torch.device('cuda')
+    model = model.to(device)
 
     result_ids = model.generate(tokenizer([TXT], return_tensors='pt').to(device)["input_ids"],
                                 num_beams=5, min_length=5, max_length=100)

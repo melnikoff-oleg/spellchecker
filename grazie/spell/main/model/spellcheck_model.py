@@ -6,6 +6,7 @@ import torch
 import json
 import time
 from transformers import BartConfig, BartForConditionalGeneration
+import transformers
 
 
 class SpellCheckModelBase(ABC):
@@ -40,34 +41,36 @@ class CharBasedTransformer(SpellCheckModelBase):
     class BartTokenizer(RobertaTokenizer):
         vocab_files_names = {"vocab_file": "vocab.json", "merges_file": "merges.txt"}
 
-    def __init__(self, config: dict, checkpoint: str):
-        self.config = config
+    def __init__(self, config: dict = None, checkpoint: str = 'No learning', model: BartForConditionalGeneration = None):
         self.checkpoint = checkpoint
+        transformers.set_seed(42)
         CharBasedTransformer.create_vocab_files()
-        tokenizer = CharBasedTransformer.BartTokenizer("url_vocab.json", "url_merges.txt")
-        config['vocab_size'] = tokenizer.vocab_size
-        model_config = BartConfig(**config)
-        model = BartForConditionalGeneration(model_config)
+        self.tokenizer = CharBasedTransformer.BartTokenizer("url_vocab.json", "url_merges.txt")
+        if not config is None:
+            config['vocab_size'] = self.tokenizer.vocab_size
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-        # Model was trained on GPU, maybe we are inferring on CPU
-        if torch.cuda.is_available():
-            model.load_state_dict(torch.load(checkpoint))
+        if model is not None:
+            self.model = model
         else:
-            model.load_state_dict(torch.load(checkpoint, map_location ='cpu'))
+            model_config = BartConfig(**config)
+            self.model = BartForConditionalGeneration(model_config)
+            if checkpoint != 'No learning':
+                # Model was trained on GPU, maybe we are inferring on CPU
+                if self.device == torch.device('cpu'):
+                    self.model.load_state_dict(torch.load(checkpoint, map_location='cpu'))
+                else:
+                    self.model.load_state_dict(torch.load(checkpoint))
 
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        model = model.to(device)
-        self.device = device
-        self.tokenizer = tokenizer
-        self.model = model
+        self.model = self.model.to(self.device)
 
     def __str__(self):
-        return f'Char-Based Transformer, checkpoint: {self.checkpoint.split("/")[0]}'
+        return f'Char-Based Transformer, checkpoint: {self.checkpoint.split("/")[-1]}'
 
     def correct(self, text: str) -> str:
         text = text.replace(' ', '_')
         ans_ids = self.model.generate(self.tokenizer([text], return_tensors='pt').to(self.device)["input_ids"],
-                                      num_beams=5, min_length=5, max_length=100)
+                                      num_beams=5, min_length=5, max_length=500)
         ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=False, clean_up_tokenization_spaces=False)
         for ind, i in enumerate(ans_tokens):
             ans_tokens[ind] = ans_tokens[ind].replace('_', ' ')[7:].split('<')[0]
@@ -98,13 +101,15 @@ class SpellCheckModelNeuSpell(SpellCheckModelBase):
 
 def spellcheck_model_test():
     path_prefix = '/home/ubuntu/omelnikov/grazie/spell/main/'
-    model = CharBasedTransformer(config={'d_model': 256, 'encoder_layers': 6, 'decoder_layers': 6,
+    checkpoint = 'training/model_big_0_9.pt'
+    d_model = 256
+    model = CharBasedTransformer(config={'d_model': d_model, 'encoder_layers': 6, 'decoder_layers': 6,
                                          'encoder_attention_heads': 8, 'decoder_attention_heads': 8,
-                                         'encoder_ffn_dim': 1024, 'decoder_ffn_dim': 1024},
-                                 checkpoint=path_prefix + 'training/model_big_0_9.pt')
+                                         'encoder_ffn_dim': d_model * 4, 'decoder_ffn_dim': d_model * 4},
+                                 checkpoint=path_prefix + checkpoint)
 
-    text_noise = 'I was trully dissapointed by it.'
-    text_gt = 'I was truly disappointed by it.'
+    text_noise = 'I have just received your letter which made me so hapy. I can not belive that I won first prize in your competition, because I have always believed I am an unluky man and now I think some things are changing in my life.'
+    text_gt = 'I have just received your letter which made me so happy. I can not believe that I won first prize in your competition, because I have always believed I am an unlucky man and now I think some things are changing in my life.'
     text_result = model.correct(text_noise)
     print(f'\nSpellcheck model testing\n\nModel: {str(model)}\n\n{text_noise} - Noised text\n{text_gt} - GT text\n{text_result} - Result text')
 

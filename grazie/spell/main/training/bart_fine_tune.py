@@ -1,7 +1,5 @@
-from transformers import BartTokenizer, BartModel, BartForConditionalGeneration
+from transformers import BartTokenizer, BartForConditionalGeneration
 import random
-import string
-import json
 from torch.utils.tensorboard import SummaryWriter
 import torch
 from tqdm import tqdm
@@ -10,9 +8,9 @@ from transformers import get_linear_schedule_with_warmup
 
 
 def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, optimizer, scheduler, print_n_batches=2000,
-                st_epoch=0, model_name='model_big_0', save_model=True):
-    # model = model.to(device)
-
+                st_epoch=0, model_name='model_big_0', device=torch.device('cuda'), save_model=True):
+    model = model.to(device)
+    print('Device:', device)
     tb = torch.utils.tensorboard.SummaryWriter()
 
     for epoch in tqdm(range(st_epoch, st_epoch + num_epochs), desc='Epochs', leave=True):
@@ -108,15 +106,15 @@ if __name__ == '__main__':
     # path_prefix = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
     path_prefix = '/home/ubuntu/omelnikov/'
     # 'bea/bea60k.gt' 'bea/bea60k.noise' '1blm/1blm.train.gt' '1blm/1blm.train.noise' '1blm/1blm.test.gt' '1blm/1blm.test.noise'
-    train = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.noise')
-    val = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/bea/bea60k.noise')
+    train = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.train.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.train.noise')
+    val = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.test.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.test.noise')
 
     tokenizer = BartTokenizer.from_pretrained('facebook/bart-large')
     model = BartForConditionalGeneration.from_pretrained('facebook/bart-large')
 
     # dev_str = 'cuda:6'
     # print(dev_str)
-    device = torch.device('cuda:3' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = model.to(device)
 
     # If needed take existing checkpoint
@@ -127,11 +125,11 @@ if __name__ == '__main__':
     start = timeit.default_timer()
 
     model_name = 'model_bart_fine_tune_0'
-    batch_size = 32
-    num_epochs = 3
+    batch_size = 8
+    num_epochs = 5
     st_epoch = 0
-    print_n_batches = 10
-    num_sent = 10000
+    print_n_batches = 1000
+    num_sent = 1000000000
     train = train[:num_sent]
     num_batches_in_epoch = len(train) // batch_size
 
@@ -139,9 +137,11 @@ if __name__ == '__main__':
     scheduler = get_linear_schedule_with_warmup(optimizer, num_batches_in_epoch, num_batches_in_epoch * num_epochs)
 
     print(f'Start training. Num epocs: {num_epochs}, batch size: {batch_size}, num sents: {len(train)}')
-    train_model(model, tokenizer, train, val, num_epochs, batch_size, optimizer, scheduler, print_n_batches=print_n_batches, st_epoch=st_epoch, model_name=model_name, save_model=False)
+    train_model(model, tokenizer, train, val, num_epochs, batch_size, optimizer, scheduler,
+                print_n_batches=print_n_batches, st_epoch=st_epoch, model_name=model_name, device=device,
+                save_model=True)
     result_ids = model.generate(tokenizer([val[0][0]], return_tensors='pt').to(device)["input_ids"],
-                                 num_beams=5, min_length=5, max_length=100)
+                                 num_beams=5, min_length=5, max_length=500)
     print('Quality check:')
     print('Query noise:', val[0][0][:-1])
     print('Query gt:', val[0][1][:-1])

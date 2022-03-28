@@ -6,21 +6,21 @@ from torch.utils.tensorboard import SummaryWriter
 import torch
 from transformers import BartConfig, BartForConditionalGeneration
 from tqdm import tqdm
-import timeit
 from transformers import get_linear_schedule_with_warmup
+import datetime
+
+from grazie.spell.main.data.utils import get_texts_from_file
+from grazie.spell.main.model.spellcheck_model import CharBasedTransformer
+from grazie.spell.main.evaluation.evaluate import evaluate
 
 
+# Char-based tokenizer
 class BartTokenizer(RobertaTokenizer):
-    """
-    Construct a BART tokenizer.
-    [`BartTokenizer`] is identical to [`RobertaTokenizer`]. Refer to superclass [`RobertaTokenizer`] for usage examples
-    and documentation concerning the initialization parameters and other methods.
-    """
     vocab_files_names = {"vocab_file": "vocab.json", "merges_file": "merges.txt"}
 
-
+# Vocabs for char-based tokenizer
 def create_vocab_files():
-    chars = ["<s>", "<pad>", "</s>", "<unk>", "<mask>", " "] + list(string.punctuation) + list(string.digits) + list(string.ascii_lowercase) + list(string.ascii_uppercase)
+    chars = ["<s>", "<pad>", "</s>", "<unk>", "<mask>"] + list(string.punctuation) + list(string.digits) + list(string.ascii_lowercase) + list(string.ascii_uppercase)
     url_vocab = {c: i for i, c in enumerate(chars)}
     with open("url_vocab.json", 'w') as json_file:
       json.dump(url_vocab, json_file)
@@ -30,14 +30,18 @@ def create_vocab_files():
         f.write(merges)
 
 
-def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, optimizer, scheduler, print_n_batches=2000, st_epoch=0, model_name='model_big_0', device=torch.device('cuda')):
+def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, optimizer, scheduler,
+                print_n_batches=2000, st_epoch=0, model_name='model_big_0', device=torch.device('cuda'),
+                save_model=False, use_tensorboard=False):
 
-    tb = torch.utils.tensorboard.SummaryWriter()
+    # Init tensorboard for logs writing
+    if use_tensorboard:
+        tb = torch.utils.tensorboard.SummaryWriter(log_dir=f'{model_name}_{st_epoch}_{datetime.datetime.now().strftime("%m/%Y %H:%M")}')
 
+    num_batches = (len(train_data) + batch_size - 1) // batch_size
     for epoch in tqdm(range(st_epoch, st_epoch + num_epochs), desc='Epochs', leave=True):
         model.train()
         epoch_loss = 0
-        num_batches = (len(train_data) + batch_size - 1) // batch_size
         for i in tqdm(range(num_batches), position=0, leave=True, desc='Batches'):
             batch = train_data[i * batch_size: min(i * batch_size + batch_size, len(train_data))]
             prefix = [i[0] for i in batch]
@@ -45,25 +49,26 @@ def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, 
             encoder_input = tokenizer(prefix, return_tensors='pt', padding=True).to(device)
             decoder_input = tokenizer(suffix, return_tensors='pt', padding=True).to(device)
             result = model(**encoder_input, labels=decoder_input['input_ids'])
-
             loss = result.loss
             loss.backward()
             optimizer.step()
             scheduler.step()
             model.zero_grad()
             epoch_loss += loss.cpu().item()
-
             batch_ind = num_batches * epoch + i
-            # printing all the stats and writing to tensorboard
-            if batch_ind % print_n_batches == 0:
-                print('\nLoss on batch', batch_ind, ':', loss.cpu().item() / batch_size)
-                print('Learning rate:', scheduler.get_last_lr()[0])
-                tb.add_scalar('Learning rate', scheduler.get_last_lr()[0], batch_ind)
-                tb.add_scalar('Train loss on batch', loss.cpu().item() / batch_size, batch_ind)
 
+            # Printing all the stats and writing to tensorboard
+            if batch_ind % print_n_batches == 0:
+                print(f'\nTrain loss on batch {batch_ind}: {loss.cpu().item() / batch_size}')
+                print(f'Learning rate: {scheduler.get_last_lr()[0]}')
+                if use_tensorboard:
+                    tb.add_scalar('Learning rate', scheduler.get_last_lr()[0], batch_ind)
+                    tb.add_scalar('Train loss on batch', loss.cpu().item() / batch_size, batch_ind)
+
+                # Calculate loss on validation data
                 model.eval()
                 with torch.no_grad():
-                    val_batches = 2
+                    val_batches = 10
                     batches = list(range(0, (len(val_data) + batch_size - 1) // batch_size))
                     random.shuffle(batches)
                     val_loss = 0
@@ -82,10 +87,8 @@ def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, 
 
                     val_loss /= num_objects
 
-                    tb.add_scalar("Val loss", val_loss, batch_ind)
-
                     result_ids = model.generate(tokenizer([val_data[0][0], val_data[1][0], val_data[2][0]], return_tensors='pt', padding=True).to(device)["input_ids"],
-                        num_beams=5, min_length=5, max_length=100)
+                        num_beams=5, min_length=5, max_length=500)
 
                     ans = tokenizer.batch_decode(result_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
                     ans_str = ''
@@ -94,13 +97,27 @@ def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, 
                         if i < 2:
                             ans_str += '\n\n'
 
-                    tb.add_text('Test sentence rewriting', ans_str, batch_ind)
+                    # Calculate metrics on test dataset
+                    path_prefix = '/home/ubuntu/omelnikov/grazie/spell/main/'
+                    char_based_transformer = CharBasedTransformer(model=model)
+                    texts_gt, texts_noise = get_texts_from_file(path_prefix + 'data/datasets/bea/bea500.gt'), \
+                                            get_texts_from_file(path_prefix + 'data/datasets/bea/bea500.noise')
+                    evaluation_report = evaluate(char_based_transformer, texts_gt, texts_noise)
+                    metrics = ['Precision', 'Recall', 'F_0_5', 'Word-level accuracy', 'Broken tokenization cases']
+                    if use_tensorboard:
+                        tb.add_text('Test sentence rewriting', ans_str, batch_ind)
+                        tb.add_scalar("Val loss", val_loss, batch_ind)
+                        for metric in metrics:
+                            tb.add_scalar(metric, evaluation_report['Metrics'][metric], batch_ind)
+
                 model.train()
 
-
-        # model_path = f'{model_name}_{epoch}.pt'
-        # torch.save(model.state_dict(), model_path)
-        # print('Model saved in', model_path)
+        if save_model:
+            model_path = f'{model_name}_{epoch}.pt'
+            torch.save(model.state_dict(), model_path)
+            print('Model saved in', model_path)
+        else:
+            print('Model was not saved')
 
         print('Train loss on epoch', epoch, ':', epoch_loss / len(train_data))
         tb.add_scalar("Train loss on epoch", epoch_loss / len(train_data), epoch)
@@ -123,50 +140,37 @@ def read_data(gt_path, noise_path):
 
 if __name__ == '__main__':
     # path_prefix = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
-    path_prefix = '/home/ubuntu/omelnikov/'
-    train = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.train.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.train.noise')
-    val = read_data(gt_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.test.gt', noise_path=path_prefix + 'grazie/spell/main/data/datasets/1blm/1blm.test.noise')
+    path_prefix = '/home/ubuntu/omelnikov/grazie/spell/main/'
+    train = read_data(gt_path=path_prefix + 'data/datasets/1blm/1blm.train.gt', noise_path=path_prefix + 'data/datasets/1blm/1blm.train.noise')
+    val = read_data(gt_path=path_prefix + 'data/datasets/1blm/1blm.test.gt', noise_path=path_prefix + 'data/datasets/1blm/1blm.test.noise')
 
     create_vocab_files()
     tokenizer = BartTokenizer("url_vocab.json", "url_merges.txt")
-    config = BartConfig(vocab_size=tokenizer.vocab_size, d_model=128, encoder_layers=6, decoder_layers=6,
-                        encoder_attention_heads=8, decoder_attention_heads=8, encoder_ffn_dim=512, decoder_ffn_dim=512)
+    config = BartConfig(vocab_size=tokenizer.vocab_size, d_model=256, encoder_layers=6, decoder_layers=6,
+                        encoder_attention_heads=8, decoder_attention_heads=8, encoder_ffn_dim=1024, decoder_ffn_dim=1024)
     model = BartForConditionalGeneration(config)
 
     # If needed take existing checkpoint
-    checkpoint = 'model_small_2_4.pt'
+    checkpoint = path_prefix + 'training/model_big_0_9.pt'
     model.load_state_dict(torch.load(checkpoint))
     print('Model loaded from', checkpoint)
 
-    start = timeit.default_timer()
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
 
-    model_name = 'model_small_2_4'
+    model_name = 'model_big_0'
     batch_size = 64
-    num_epochs = 5
-    st_epoch = 5
-    print_n_batches = 3000
+    num_epochs = 10
+    st_epoch = 10
+    print_n_batches = 2000
     num_sent = 1000000000
     train = train[:num_sent]
     num_batches_in_epoch = len(train) // batch_size
 
     optimizer = torch.optim.AdamW(params=model.parameters(), lr=0.0001)
-    scheduler = get_linear_schedule_with_warmup(optimizer, num_batches_in_epoch * 2, num_batches_in_epoch * num_epochs)
-
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = model.to(device)
+    scheduler = get_linear_schedule_with_warmup(optimizer, num_batches_in_epoch * 3, num_batches_in_epoch * num_epochs)
 
     print(f'Start training. Num epocs: {num_epochs}, batch size: {batch_size}, num sents: {len(train)}')
-    train_model(model, tokenizer, train, val, num_epochs, batch_size, optimizer, scheduler, print_n_batches=print_n_batches, st_epoch=st_epoch, model_name=model_name, device=device)
-
-    result_ids = model.generate(tokenizer([val[0][0]], return_tensors='pt').to(device)["input_ids"],
-                                 num_beams=5, min_length=5, max_length=100)
-    print('Quality check:')
-    print('Query noise:', val[0][0][:-1])
-    print('Query gt:', val[0][1][:-1])
-    print('Answer:', tokenizer.batch_decode(result_ids, skip_special_tokens=False,
-                                            clean_up_tokenization_spaces=False))
-
-
-    stop = timeit.default_timer()
-
-    print('Runtime:', stop - start)
+    train_model(model, tokenizer, train, val, num_epochs, batch_size, optimizer, scheduler,
+                print_n_batches=print_n_batches, st_epoch=st_epoch, model_name=model_name, device=device,
+                save_model=True, use_tensorboard=True)

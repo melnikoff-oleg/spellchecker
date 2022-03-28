@@ -1,0 +1,73 @@
+{
+    "Date": "28/03/2022 13:27",
+    "Model": "Char-Based Transformer, checkpoint: model_big_0_9.pt",
+    "Metrics": {
+        "Precision": 0.72,
+        "Recall": 0.77,
+        "F_0_5": 0.73,
+        "Word-level accuracy": 0.97,
+        "Broken tokenization cases": 0.03
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "If more and more ingenors work in science and technology, it must be because it is really usefull: but in what particular way?",
+                "Word noise": "usefull:",
+                "Word gt": "useful:",
+                "Word res": "usefully"
+            },
+            {
+                "Text noise": "I have enterwed each student from my English class.",
+                "Word noise": "enterwed",
+                "Word gt": "interviewed",
+                "Word res": "entered"
+            },
+            {
+                "Text noise": "Today the fashion industrie has a great importance in the commercial market.",
+                "Word noise": "industrie",
+                "Word gt": "industry",
+                "Word res": "industries"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "SINCE I HAVE A CHOICE OF ACCOMODATION, I'LL DEFINETELLY GO FOR THE LOG CABIN, BECAUSE I CAN'T BEAR THE HEAT INSIDE A TENT.",
+                "Word noise": "TENT.",
+                "Word gt": "TENT.",
+                "Word res": "TENT.T."
+            },
+            {
+                "Text noise": "Sarah looked at him for a while, then she stood in front of the class and explaind to the others that she had won a prize for 20 people to travel for 1 week to the coast of southern France and every one of the 19 pupils was invited, except Pat who wasn't very good at keeping secrets.",
+                "Word noise": "secrets.",
+                "Word gt": "secrets.",
+                "Word res": "since."
+            },
+            {
+                "Text noise": "The rules at home are very different. I am allowed to do what I want as long as I studie enough to aprove.",
+                "Word noise": "aprove.",
+                "Word gt": "aprove.",
+                "Word res": "approve."
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "I COULDN'T BELIVE IT. HOW CAN THIS CLASS OF THEATRE BE SO..",
+                "Word noise": "BELIVE",
+                "Word gt": "BELIEVE",
+                "Word res": "BELIVE"
+            },
+            {
+                "Text noise": "On the whole, being rich and famous doesn't always bring happeness, whereas the majority of the population wish they were rich and famous.",
+                "Word noise": "happeness,",
+                "Word gt": "happiness,",
+                "Word res": "happeness,"
+            },
+            {
+                "Text noise": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                "Word noise": "COMPLEINTS",
+                "Word gt": "COMPLAINTS",
+                "Word res": "COMPLEINTS"
+            }
+        ]
+    }
+}
