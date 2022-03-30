@@ -8,6 +8,7 @@ import datetime
 import os
 from tqdm import tqdm
 
+# one can make saving to file through decorator
 
 def evaluate(model: SpellCheckModelBase, texts_gt: List[str], texts_noise: List[str], exp_save_dir: str = None) -> Dict:
     tp, fp_1, fp_2, tn, fn = 0, 0, 0, 0, 0
@@ -76,9 +77,10 @@ def evaluate(model: SpellCheckModelBase, texts_gt: List[str], texts_noise: List[
 
     # Calculating metrics
     word_level_accuracy = round((tp + tn) / (tp + fp_1 + fp_2 + tn + fn), 2)
-    precision = round(tp / (tp + fp_1 + fp_2), 2)
+    precision = round(tp / (tp + fp_1 + fp_2), 2) if (tp + fp_1 + fp_2) > 0 else 0
     recall = round(tp / (tp + fn), 2)
-    f_0_5 = round((1 + 0.5 ** 2) * precision * recall / ((precision * 0.5 ** 2) + recall), 2)
+    f_0_5 = round((1 + 0.5 ** 2) * precision * recall / ((precision * 0.5 ** 2) + recall), 2) \
+        if (precision > 0 or recall > 0) else 0
     broken_tokenization_cases = round(broken_tokenization_cases / len(texts_gt), 2)
 
     # Leave at most 3 random examples of each mistake
@@ -109,7 +111,7 @@ def evaluate(model: SpellCheckModelBase, texts_gt: List[str], texts_noise: List[
             json.dump(report, result_file, indent=4)
 
     # Printing report
-    print(f'\nEvaluation report:\n\n{report}')
+    print(f'\nEvaluation metrics:\n\n{report["Metrics"]}')
 
     return report
 

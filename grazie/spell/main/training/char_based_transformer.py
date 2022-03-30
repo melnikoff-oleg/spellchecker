@@ -6,12 +6,15 @@ from torch.utils.tensorboard import SummaryWriter
 import torch
 from transformers import BartConfig, BartForConditionalGeneration
 from tqdm import tqdm
-from transformers import get_linear_schedule_with_warmup
+from transformers import get_linear_schedule_with_warmup, get_cosine_schedule_with_warmup
 import datetime
 
 from grazie.spell.main.data.utils import get_texts_from_file
 from grazie.spell.main.model.spellcheck_model import CharBasedTransformer
 from grazie.spell.main.evaluation.evaluate import evaluate
+
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
+PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 
 # Char-based tokenizer
@@ -31,12 +34,12 @@ def create_vocab_files():
 
 
 def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, optimizer, scheduler,
-                print_n_batches=2000, st_epoch=0, model_name='model_big_0', device=torch.device('cuda'),
-                save_model=False, use_tensorboard=False):
+                print_n_batches=2000, st_epoch=0, model_name='char_based_big', device=torch.device('cuda'),
+                save_model=False, use_tensorboard=False, model_version=0):
 
     # Init tensorboard for logs writing
     if use_tensorboard:
-        tb = torch.utils.tensorboard.SummaryWriter(log_dir=f'{model_name}_{st_epoch}_{datetime.datetime.now().strftime("%m/%Y %H:%M")}')
+        tb = torch.utils.tensorboard.SummaryWriter(log_dir=f'{PATH_PREFIX}training/tensorboard_logs/{model_name}/v{model_version}/st_epoch:{st_epoch}_date:{datetime.datetime.now().strftime("%m-%Y-%H-%M")}')
 
     num_batches = (len(train_data) + batch_size - 1) // batch_size
     for epoch in tqdm(range(st_epoch, st_epoch + num_epochs), desc='Epochs', leave=True):
@@ -113,7 +116,7 @@ def train_model(model, tokenizer, train_data, val_data, num_epochs, batch_size, 
                 model.train()
 
         if save_model:
-            model_path = f'{model_name}_{epoch}.pt'
+            model_path = f'{PATH_PREFIX}training/checkpoints/{model_name}_v{model_version}_{epoch}.pt'
             torch.save(model.state_dict(), model_path)
             print('Model saved in', model_path)
         else:
@@ -139,10 +142,8 @@ def read_data(gt_path, noise_path):
     return data
 
 if __name__ == '__main__':
-    # path_prefix = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
-    path_prefix = '/home/ubuntu/omelnikov/grazie/spell/main/'
-    train = read_data(gt_path=path_prefix + 'data/datasets/1blm/1blm.train.gt', noise_path=path_prefix + 'data/datasets/1blm/1blm.train.noise')
-    val = read_data(gt_path=path_prefix + 'data/datasets/1blm/1blm.test.gt', noise_path=path_prefix + 'data/datasets/1blm/1blm.test.noise')
+    train = read_data(gt_path=PATH_PREFIX + 'data/datasets/1blm/1blm.train.gt', noise_path=PATH_PREFIX + 'data/datasets/1blm/1blm.train.noise')
+    val = read_data(gt_path=PATH_PREFIX + 'data/datasets/1blm/1blm.test.gt', noise_path=PATH_PREFIX + 'data/datasets/1blm/1blm.test.noise')
 
     create_vocab_files()
     tokenizer = BartTokenizer("url_vocab.json", "url_merges.txt")
@@ -151,26 +152,28 @@ if __name__ == '__main__':
     model = BartForConditionalGeneration(config)
 
     # If needed take existing checkpoint
-    checkpoint = path_prefix + 'training/model_big_0_9.pt'
+    checkpoint = PATH_PREFIX + 'training/model_big_0_9.pt'
     model.load_state_dict(torch.load(checkpoint))
     print('Model loaded from', checkpoint)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = model.to(device)
 
-    model_name = 'model_big_0'
+    model_name = 'char_based_big'
     batch_size = 64
     num_epochs = 10
     st_epoch = 10
     print_n_batches = 2000
     num_sent = 1000000000
+    model_version = 0
     train = train[:num_sent]
     num_batches_in_epoch = len(train) // batch_size
 
     optimizer = torch.optim.AdamW(params=model.parameters(), lr=0.0001)
-    scheduler = get_linear_schedule_with_warmup(optimizer, num_batches_in_epoch * 3, num_batches_in_epoch * num_epochs)
+    # scheduler = get_linear_schedule_with_warmup(optimizer, num_batches_in_epoch, num_batches_in_epoch * num_epochs)
+    scheduler = get_cosine_schedule_with_warmup(optimizer, num_batches_in_epoch * 3, num_batches_in_epoch * num_epochs)
 
     print(f'Start training. Num epocs: {num_epochs}, batch size: {batch_size}, num sents: {len(train)}')
     train_model(model, tokenizer, train, val, num_epochs, batch_size, optimizer, scheduler,
                 print_n_batches=print_n_batches, st_epoch=st_epoch, model_name=model_name, device=device,
-                save_model=True, use_tensorboard=True)
+                save_model=True, use_tensorboard=True, model_version=model_version)
