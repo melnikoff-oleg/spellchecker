@@ -61,7 +61,7 @@ simple interface.
 
 <p align="center">
     <br>
-    <img src="https://github.com/melnikoff-oleg/jb-spellchecker/blob/main/images/bert-bart-model.png?raw=true" width="400"/>
+    <img src="https://github.com/melnikoff-oleg/jb-spellchecker/blob/main/images/bert-bart-model.png?raw=true" width="700"/>
     <br>
     This pipeline corresponds to the <i>BERT-detector + BART-rewriter</i> model.
 <p>
