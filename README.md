@@ -55,9 +55,9 @@ simple interface.
 
 ##### List of neural models in the toolkit:
 
-- [```BART end-to-end```](https://drive.google.com/file/d/14XiDY4BJ144fVGE2cfWfwyjnMwBcwhNa/view?usp=sharing)
-- [```BERT-detector + BART-rewriter```](https://drive.google.com/file/d/1OvbkdBXawnefQF1d-tUrd9lxiAH1ULtr/view?usp=sharing)
-- [```Char-Based transformer end-to-end```](https://drive.google.com/file/d/19ZhWvBaZqrsP5cGqBJdFPtufdyBqQprI/view?usp=sharing)
+- ```BART end-to-end```
+- ```BERT-detector + BART-rewriter```
+- ```Char-Based transformer end-to-end```
 
 <p align="center">
     <br>
