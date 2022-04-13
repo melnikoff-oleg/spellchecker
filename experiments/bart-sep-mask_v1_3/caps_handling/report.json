@@ -1,0 +1,73 @@
+{
+    "Date": "04/04/2022 10:38",
+    "Model": "SepMaskBART, checkpoint: bart-sep-mask_v1_3.pt",
+    "Metrics": {
+        "Precision": 0.82,
+        "Recall": 0.91,
+        "F_0_5": 0.84,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.04
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "I have enterwed each student from my English class.",
+                "Word noise": "enterwed",
+                "Word gt": "interviewed",
+                "Word res": "entered"
+            },
+            {
+                "Text noise": "I love to take photos but I don't have any techinique.",
+                "Word noise": "techinique.",
+                "Word gt": "technique.",
+                "Word res": "techniques."
+            },
+            {
+                "Text noise": "In the hopeness that you understand me.",
+                "Word noise": "hopeness",
+                "Word gt": "hope",
+                "Word res": "niceness"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I'm writing to you followwing our visitting to your theatre last night.",
+                "Word noise": "our",
+                "Word gt": "our",
+                "Word res": "your"
+            },
+            {
+                "Text noise": "GREATING AND HOPE TO SEE YOU SOON",
+                "Word noise": "SOON",
+                "Word gt": "SOON",
+                "Word res": "SOON."
+            },
+            {
+                "Text noise": "Also, with today's machines, factories have significantly increased their production, which brings progress to humanity, but also, with the continous replacement of men by machines, unemployment is increasing too, and today, it worries every single citizen of the world, specially the ones who live in third world countries.",
+                "Word noise": "specially",
+                "Word gt": "specially",
+                "Word res": "especially"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "It is my only favorite hobby.",
+                "Word noise": "favorite",
+                "Word gt": "favourite",
+                "Word res": "favorite"
+            },
+            {
+                "Text noise": "For the accomodation at Camp California, I would prefer to have a log cabin because I think it is more comfortable than a tent, and in case there is a big storm with heavy rain. A log cabin's more resistant than a tent.",
+                "Word noise": "accomodation",
+                "Word gt": "accommodation",
+                "Word res": "accomodation"
+            },
+            {
+                "Text noise": "Those are totally unexpectable so I would like to get paid for my ticket cost.",
+                "Word noise": "unexpectable",
+                "Word gt": "unacceptable",
+                "Word res": "unexpectable"
+            }
+        ]
+    }
+}

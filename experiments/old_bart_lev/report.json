@@ -1,0 +1,73 @@
+{
+    "Date": "01/04/2022 07:37",
+    "Model": "<grazie.spell.main.model.spellcheck_model.DetectorCandidatorRankerModel object at 0x7fe187aa4f10>",
+    "Metrics": {
+        "Precision": 0.63,
+        "Recall": 0.94,
+        "F_0_5": 0.67,
+        "Word-level accuracy": 0.97,
+        "Broken tokenization cases": 0.0
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "Modern technology saves us a lot of time and brings us many benifects when we use it in the right way, but some bad way to e.g. send virse to break down network.",
+                "Word noise": "virse",
+                "Word gt": "virus",
+                "Word res": "vise"
+            },
+            {
+                "Text noise": "I sometimes lose my desire to buy a thing because of their bad behaviers.",
+                "Word noise": "behaviers.",
+                "Word gt": "behaviour.",
+                "Word res": "behaviors."
+            },
+            {
+                "Text noise": "Futur students could appreciate coming if they could still do their sport.",
+                "Word noise": "Futur",
+                "Word gt": "Future",
+                "Word res": "Fur"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I deciced to go and visit your theatre restaurant.",
+                "Word noise": "theatre",
+                "Word gt": "theatre",
+                "Word res": "theater"
+            },
+            {
+                "Text noise": "I WANT TO THAK YOU FOR PREPARING SUCH A GOOD PROGRAMME FOR US AND ESPECIALLY FOR TAKING US ON THE RIVER TRIP TO GREENWICH.",
+                "Word noise": "PROGRAMME",
+                "Word gt": "PROGRAMME",
+                "Word res": "programmer"
+            },
+            {
+                "Text noise": "When we arrived at the theatre we realised that there were no discount tickets available as were mentioned in your advertisment so we had to buy the most expensive ones.",
+                "Word noise": "theatre",
+                "Word gt": "theatre",
+                "Word res": "theater"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "It is my only favorite hobby.",
+                "Word noise": "favorite",
+                "Word gt": "favourite",
+                "Word res": "favorite"
+            },
+            {
+                "Text noise": "At first I couldn't belive that I was a winer",
+                "Word noise": "winer",
+                "Word gt": "winner",
+                "Word res": "winer"
+            },
+            {
+                "Text noise": "It is a good start to go on a sightseeing bus on Monday morning, because we can se all the famous buildings in a few hours.",
+                "Word noise": "se",
+                "Word gt": "see",
+                "Word res": "se"
+            }
+        ]
+    }
+}

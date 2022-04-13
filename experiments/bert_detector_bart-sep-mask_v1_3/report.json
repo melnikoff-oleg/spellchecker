@@ -1,0 +1,73 @@
+{
+    "Date": "12/04/2022 08:01",
+    "Model": "SepMaskBART, checkpoint: bart-sep-mask_v1_3.pt",
+    "Metrics": {
+        "Precision": 0.82,
+        "Recall": 0.91,
+        "F_0_5": 0.84,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.02
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "Yours Sincerelly,",
+                "Word noise": "Sincerelly,",
+                "Word gt": "sincerely,",
+                "Word res": "Nowelly,"
+            },
+            {
+                "Text noise": "In the hopeness that you understand me.",
+                "Word noise": "hopeness",
+                "Word gt": "hope",
+                "Word res": "openness"
+            },
+            {
+                "Text noise": "Fistly, the English lessons must be filmed as the most interesting lessons at our school because it will give students an interest in studying and improving their noleges.",
+                "Word noise": "noleges.",
+                "Word gt": "knowledge.",
+                "Word res": "colleges."
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I wonder if we could not feet between some short view of the laboratories, in which we could show a student doing experimentations.",
+                "Word noise": "feet",
+                "Word gt": "feet",
+                "Word res": "feel"
+            },
+            {
+                "Text noise": "Yes, it is true. This is only because nowadays people have more money than ever before, and some women don't earn money. They have no idea how diffcult it is to earn money.",
+                "Word noise": "money.",
+                "Word gt": "money.",
+                "Word res": "moneys."
+            },
+            {
+                "Text noise": "We live sorrounded by inventions wich help as through the day.",
+                "Word noise": "as",
+                "Word gt": "as",
+                "Word res": "us"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "I was very excited to see it yesterday, but as soon as I arrived at the theater the problems began.",
+                "Word noise": "theater",
+                "Word gt": "theatre",
+                "Word res": "theater"
+            },
+            {
+                "Text noise": "Regarding the choice of tents or log cabins, I think I will turn to the first one because I have always loved camping close to nature, if possible, in front of a lake or a river, if your campsite has one, so that I will be able to do my favorite and skillful hobby: sailing.",
+                "Word noise": "favorite",
+                "Word gt": "favourite",
+                "Word res": "favorite"
+            },
+            {
+                "Text noise": "Furthermore, it's a worthful experience for people who want to know about other countries' arts.",
+                "Word noise": "worthful",
+                "Word gt": "worthwhile",
+                "Word res": "worthful"
+            }
+        ]
+    }
+}

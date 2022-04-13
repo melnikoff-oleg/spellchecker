@@ -1,0 +1,1199 @@
+[
+    {
+        "Date": "17/12/2021 03:04:01",
+        "Model Config": {
+            "Detector": "HunspellDetector",
+            "Candidator": "AggregatedCandidator ['HunspellCandidator', 'NNCandidator num_beams=3']",
+            "Ranker": "CatBoostRanker",
+            "Features": {
+                "RankerFeatures": [
+                    "bart_prob",
+                    "levenshtein"
+                ]
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea500.clean",
+            "Dataset Size": 500,
+            "Train Size": 350,
+            "Test Size": 150
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "acc@1": 0.87,
+                "acc@3": 0.9
+            },
+            "Detector": {
+                "Precision": 0.85,
+                "Recall": 0.99,
+                "Mistakes Not Found": [
+                    {
+                        "Text": "For example , in the past it would had been extremely exhausting to travel on a hourse but nowadays we have lots of big and spacious cars and a wide range of optionals to choose from .\n",
+                        "Incorrect Word": "optionals",
+                        "Corrected Word": "options"
+                    },
+                    {
+                        "Text": "So he crimbed on the radder up to the window and he opened the door but policemen came there \" what happened ? \"\n",
+                        "Incorrect Word": "radder",
+                        "Corrected Word": "ladder"
+                    }
+                ],
+                "False Detection": [
+                    {
+                        "Text": "After that our college has organised a barbequiou night , with traditional local music that you must not miss .\n",
+                        "Fake Incorrect Word": "organised",
+                        "Candidates": [
+                            {
+                                "Word": "organized",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "J",
+                                "Score": 0.17
+                            },
+                            {
+                                "Word": "disorganize",
+                                "Score": 0.17
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "When you are in the bus station you will catch bus number 37 , which will go to the town centre .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centric",
+                                "Score": 0.48
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Anyway the college is the first road on your right from the town centre .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centric",
+                                "Score": 0.51
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Architecture : It is a typical from this epoque with beautiful drawing on the wall and first kind of writing in the sports centre .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "scene",
+                                "Score": 0.92
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I hope when you visit you will be favourite place .\n",
+                        "Fake Incorrect Word": "favourite",
+                        "Candidates": [
+                            {
+                                "Word": "favorite",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "",
+                                "Score": 0.31
+                            },
+                            {
+                                "Word": "favoritism",
+                                "Score": 0.21
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Firstly , Palace Hotel has been booked for the group 's accomodation and I spoke with the hotel manager about travelling to the conference .\n",
+                        "Fake Incorrect Word": "travelling",
+                        "Candidates": [
+                            {
+                                "Word": "traveling",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "travel-ling",
+                                "Score": 0.49
+                            },
+                            {
+                                "Word": "travel ling",
+                                "Score": 0.45
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "With reference to the information that you have requested , the hotel that has been booked is the Holiday Inn , in New Port and to get to the University of Wales , wich is not far from the hotel , you only need to take a divertion where clearly indicate Carleon and once you are on the main road , all you need to do is to follow the country road which takes you directly to the place .\n",
+                        "Fake Incorrect Word": "Carleon",
+                        "Candidates": [
+                            {
+                                "Word": "Carlton",
+                                "Score": 0.59
+                            },
+                            {
+                                "Word": "Carleton",
+                                "Score": 0.58
+                            },
+                            {
+                                "Word": "Carl eon",
+                                "Score": 0.49
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I am writing to inform you that I have recieved a letter from you about helping you to organise an international student conference in my college .\n",
+                        "Fake Incorrect Word": "organise",
+                        "Candidates": [
+                            {
+                                "Word": "organize",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "organise",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "organism",
+                                "Score": 0.46
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "For those students who are very interested in shopping , clothes shops , jewellery , stationery , bookshops , fashion and beauty departments and many more are availiable .\n",
+                        "Fake Incorrect Word": "jewellery",
+                        "Candidates": [
+                            {
+                                "Word": "jewelery",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "jewelry",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "jeweler",
+                                "Score": 0.89
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I've recieved your letter asking me for further information about the conference that you are going to organise very soon . Here you have a little help for it .\n",
+                        "Fake Incorrect Word": "organise",
+                        "Candidates": [
+                            {
+                                "Word": "organize",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "organise",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "organism",
+                                "Score": 0.45
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "First , I 'd like to tell you that the hotel where you are going to stay is \" The Palace Hotel \" , wich is situated at the centre of the town .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centric",
+                                "Score": 0.57
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "For your last day I think it would be interesting to vistit our historic and famous city centre .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "cent-re",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "cent re",
+                                "Score": 0.46
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Your group has been booked into the Palace Hotel , which is situated in the city centre , 15 minutes ' walk from where the conference takes place .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centric",
+                                "Score": 0.49
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "In spite of the disadvantages , I would strongly recomended students and the public to visit the new Acapulco resort buildings and have a great experience learning about the buildings ' history and at the same time travelling around Mexico .\n",
+                        "Fake Incorrect Word": "travelling",
+                        "Candidates": [
+                            {
+                                "Word": "traveling",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "travel-ling",
+                                "Score": 0.47
+                            },
+                            {
+                                "Word": "travailing",
+                                "Score": 0.47
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It contains lots of archeological Etruscans founded and some remains from the Estruscans ' neoropolis .\n",
+                        "Fake Incorrect Word": "Estruscans",
+                        "Candidates": [
+                            {
+                                "Word": "Etruscans",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "Etruscan",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "Estrus cans",
+                                "Score": 0.49
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Since I have been travelling around the world , I would have imagined beeing in touch with my family or friends without the Internet or my mobile phone .\n",
+                        "Fake Incorrect Word": "travelling",
+                        "Candidates": [
+                            {
+                                "Word": "traveling",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "travailing",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "travel ling",
+                                "Score": 0.46
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "The group has been booked into the \" Maria Luisa \" Hotel , which is situated in the centre of Wimbledon called Wimbledon Village .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "recent",
+                                "Score": 0.49
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "For example , I work for a bank , and we need to have weekly meetings with our Director living 800 kilometres away , and he does not have to come here , we just have a phone conference where everybody can talk , and that is it !\n",
+                        "Fake Incorrect Word": "kilometres",
+                        "Candidates": [
+                            {
+                                "Word": "kilometers",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "kilometres",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "kilometer",
+                                "Score": 0.96
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Finally , on the last day you have three hours before you catch the plane so we suggest you go to the shopping centre and buy something for your special person or go to the museam because this museam is the biggest in the world now . It is up to you .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "cent",
+                                "Score": 0.71
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "From there you can get a taxi , catch the number seven and eleven buses , wich both take you very close to the conference centre , and also you can go by underground to get there .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centric",
+                                "Score": 0.51
+                            },
+                            {
+                                "Word": "cent-re",
+                                "Score": 0.47
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "For the last day , we have arranged a small party in the hotel . Then we all set off to go on a sightseeing tour of Bromley town centre for about two hours before you leave for the airport .\n",
+                        "Fake Incorrect Word": "Bromley",
+                        "Candidates": [
+                            {
+                                "Word": "the",
+                                "Score": 0.47
+                            },
+                            {
+                                "Word": "Los",
+                                "Score": 0.42
+                            },
+                            {
+                                "Word": "Bromide",
+                                "Score": 0.24
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "For the last day , we have arranged a small party in the hotel . Then we all set off to go on a sightseeing tour of Bromley town centre for about two hours before you leave for the airport .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centre.",
+                                "Score": 0.97
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Bromley town centre is the most beautiful shopping centre in South East London .\n",
+                        "Fake Incorrect Word": "Bromley",
+                        "Candidates": [
+                            {
+                                "Word": "Bromide",
+                                "Score": 0.18
+                            },
+                            {
+                                "Word": "s>The",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "s>Memphis",
+                                "Score": 0.14
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Bromley town centre is the most beautiful shopping centre in South East London .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "cent re",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "cent-re",
+                                "Score": 0.48
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Bromley town centre is the most beautiful shopping centre in South East London .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "cent",
+                                "Score": 0.74
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to inform you that the group you belong to has been booked into the Palace Hotel in the centre of London from the 24th of June until the 25th of June .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "cent-re",
+                                "Score": 0.48
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "1 ) \" Fontana di Trevi \" sited in Trevis Square in the centre of Rome .\n",
+                        "Fake Incorrect Word": "di",
+                        "Candidates": [
+                            {
+                                "Word": "d",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "i",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "do",
+                                "Score": 0.98
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "1 ) \" Fontana di Trevi \" sited in Trevis Square in the centre of Rome .\n",
+                        "Fake Incorrect Word": "Trevi",
+                        "Candidates": [
+                            {
+                                "Word": "Trev",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "",
+                                "Score": 0.79
+                            },
+                            {
+                                "Word": "Areni",
+                                "Score": 0.62
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "1 ) \" Fontana di Trevi \" sited in Trevis Square in the centre of Rome .\n",
+                        "Fake Incorrect Word": "Trevis",
+                        "Candidates": [
+                            {
+                                "Word": "Trevi",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "Tre",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "The",
+                                "Score": 0.89
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "1 ) \" Fontana di Trevi \" sited in Trevis Square in the centre of Rome .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centric",
+                                "Score": 0.47
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "1 ) First of all , they are located in the centre of Rome so they can take a bus to get to them move and around the city .\n",
+                        "Fake Incorrect Word": "centre",
+                        "Candidates": [
+                            {
+                                "Word": "center",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centre",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "centric",
+                                "Score": 0.51
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.91,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "After that our college has organised a barbequiou night , with traditional local music that you must not miss .\n",
+                        "Incorrect Word": "barbequiou",
+                        "Corrected Word": "barbeque",
+                        "Candidates": [
+                            {
+                                "Word": "a",
+                                "Score": 0.27
+                            },
+                            {
+                                "Word": "barbeque's",
+                                "Score": 0.25
+                            },
+                            {
+                                "Word": "nnu",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "lly",
+                                "Score": 0.14
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "There are five diffrent floors , each of them presents a diffrent chronical period of Greek history , starting from the period before the birth of Juisus and concluding with the revolution of 1967 .\n",
+                        "Incorrect Word": "Juisus",
+                        "Corrected Word": "Jesus",
+                        "Candidates": [
+                            {
+                                "Word": "Justis",
+                                "Score": 0.28
+                            },
+                            {
+                                "Word": "ums",
+                                "Score": 0.2
+                            },
+                            {
+                                "Word": "um",
+                                "Score": 0.2
+                            },
+                            {
+                                "Word": "nds",
+                                "Score": 0.17
+                            },
+                            {
+                                "Word": "sified",
+                                "Score": 0.14
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Architecture : It is a typical from this epoque with beautiful drawing on the wall and first kind of writing in the sports centre .\n",
+                        "Incorrect Word": "epoque",
+                        "Corrected Word": "epoch",
+                        "Candidates": [
+                            {
+                                "Word": "gate",
+                                "Score": 0.61
+                            },
+                            {
+                                "Word": "toque",
+                                "Score": 0.47
+                            },
+                            {
+                                "Word": "",
+                                "Score": 0.46
+                            },
+                            {
+                                "Word": "this",
+                                "Score": 0.33
+                            },
+                            {
+                                "Word": "thise",
+                                "Score": 0.17
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Firstly , there is the acquerium in the building .\n",
+                        "Incorrect Word": "acquerium",
+                        "Corrected Word": "aquarium",
+                        "Candidates": [
+                            {
+                                "Word": "bacterium",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "large",
+                                "Score": 0.35
+                            },
+                            {
+                                "Word": "un",
+                                "Score": 0.29
+                            },
+                            {
+                                "Word": "important",
+                                "Score": 0.28
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is easy to get there and free amittion .\n",
+                        "Incorrect Word": "amittion",
+                        "Corrected Word": "admission",
+                        "Candidates": [
+                            {
+                                "Word": "ammunition",
+                                "Score": 0.4
+                            },
+                            {
+                                "Word": "imitation",
+                                "Score": 0.38
+                            },
+                            {
+                                "Word": "ambition",
+                                "Score": 0.37
+                            },
+                            {
+                                "Word": "mitigation",
+                                "Score": 0.27
+                            },
+                            {
+                                "Word": "sc",
+                                "Score": 0.18
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I always had considered myself to be very looky to be born in the century because of all the amaizing human inventions .\n",
+                        "Incorrect Word": "looky",
+                        "Corrected Word": "lucky",
+                        "Candidates": [
+                            {
+                                "Word": "look",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "kooky",
+                                "Score": 0.59
+                            },
+                            {
+                                "Word": "looks",
+                                "Score": 0.56
+                            },
+                            {
+                                "Word": "hooky",
+                                "Score": 0.56
+                            },
+                            {
+                                "Word": "loopy",
+                                "Score": 0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However , I feel that at the moment there should emerge more grups to control this development because of the industrial polution that has been created and it seems that it 's very little , what is being done at the moment in relation to our embiroment .\n",
+                        "Incorrect Word": "embiroment",
+                        "Corrected Word": "environment",
+                        "Candidates": [
+                            {
+                                "Word": "embroilment",
+                                "Score": 0.28
+                            },
+                            {
+                                "Word": "fields",
+                                "Score": 0.27
+                            },
+                            {
+                                "Word": "embitterment",
+                                "Score": 0.21
+                            },
+                            {
+                                "Word": "entombment",
+                                "Score": 0.2
+                            },
+                            {
+                                "Word": "found",
+                                "Score": 0.18
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "You must have a TV because you can liten about what is happening in the world and you can see some places that you have not been to .\n",
+                        "Incorrect Word": "liten",
+                        "Corrected Word": "learn",
+                        "Candidates": [
+                            {
+                                "Word": "listen",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "live",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "like",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "liven",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "little",
+                                "Score": 0.67
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "People now had the chance to move to faraway places to spend their leassure time , to relax , or just to see something different than their home .\n",
+                        "Incorrect Word": "leassure",
+                        "Corrected Word": "leisure",
+                        "Candidates": [
+                            {
+                                "Word": "less",
+                                "Score": 0.85
+                            },
+                            {
+                                "Word": "pleasure",
+                                "Score": 0.74
+                            },
+                            {
+                                "Word": "leas-sure",
+                                "Score": 0.46
+                            },
+                            {
+                                "Word": "reassure",
+                                "Score": 0.45
+                            },
+                            {
+                                "Word": "leas sure",
+                                "Score": 0.43
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "There are eye - max cinema , museums , a garelty .\n",
+                        "Incorrect Word": "garelty",
+                        "Corrected Word": "gallery",
+                        "Candidates": [
+                            {
+                                "Word": "garrulity",
+                                "Score": 0.4
+                            },
+                            {
+                                "Word": "''",
+                                "Score": 0.29
+                            },
+                            {
+                                "Word": "erny",
+                                "Score": 0.18
+                            },
+                            {
+                                "Word": "NCH",
+                                "Score": 0.15
+                            },
+                            {
+                                "Word": "ernacular",
+                                "Score": 0.14
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I hope this letter aswer all your questions , if you whant to know more about it just give me a call or send me a letter .\n",
+                        "Incorrect Word": "aswer",
+                        "Corrected Word": "answers",
+                        "Candidates": [
+                            {
+                                "Word": "answer",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "answ",
+                                "Score": 0.82
+                            },
+                            {
+                                "Word": "you",
+                                "Score": 0.79
+                            },
+                            {
+                                "Word": "answr",
+                                "Score": 0.61
+                            },
+                            {
+                                "Word": "answerr",
+                                "Score": 0.58
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "In addition , the resort has an interesting historical background concerning the arquitectory and the best facilities and activities that you could have in Mexico , for example , it provides different kinds of tours around Mexico .\n",
+                        "Incorrect Word": "arquitectory",
+                        "Corrected Word": "architecture",
+                        "Candidates": [
+                            {
+                                "Word": "er",
+                                "Score": 0.19
+                            },
+                            {
+                                "Word": "nga",
+                                "Score": 0.18
+                            },
+                            {
+                                "Word": "architectonic",
+                                "Score": 0.18
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It inculds a labrary ,\n",
+                        "Incorrect Word": "inculds",
+                        "Corrected Word": "includes",
+                        "Candidates": [
+                            {
+                                "Word": "inculcates",
+                                "Score": 0.21
+                            },
+                            {
+                                "Word": "6",
+                                "Score": 0.19
+                            },
+                            {
+                                "Word": "ests",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "estricts",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "estrict",
+                                "Score": 0.14
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "The building was built by a very famious Russian architect and is a marvellouse example of Russian classic architerture of the XVIII century .\n",
+                        "Incorrect Word": "marvellouse",
+                        "Corrected Word": "marvellous",
+                        "Candidates": [
+                            {
+                                "Word": "marvelous",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "marvel louse",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "marvel-louse",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "\u2588\u2588\u2588\u2588\u2588\u2588\u2588",
+                                "Score": 0.15
+                            },
+                            {
+                                "Word": "ern",
+                                "Score": 0.15
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Hampton Court Palace is localizated in Hampton Court .\n",
+                        "Incorrect Word": "localizated",
+                        "Corrected Word": "located",
+                        "Candidates": [
+                            {
+                                "Word": "localized",
+                                "Score": 0.41
+                            },
+                            {
+                                "Word": "allocated",
+                                "Score": 0.28
+                            },
+                            {
+                                "Word": "viewed",
+                                "Score": 0.28
+                            },
+                            {
+                                "Word": "localization",
+                                "Score": 0.24
+                            },
+                            {
+                                "Word": "Street",
+                                "Score": 0.18
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "You will find there an amazing collection of old weapons , armores and , we are especially pround of it , the great collection of swords .\n",
+                        "Incorrect Word": "armores",
+                        "Corrected Word": "armour",
+                        "Candidates": [
+                            {
+                                "Word": "armor",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "armored",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "more",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "armors",
+                                "Score": 0.85
+                            },
+                            {
+                                "Word": "armories",
+                                "Score": 0.83
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "First of all they talk about the enviroment pollution which cars and other vechicles create , overspending the electricity using electric equipment and some other problems .\n",
+                        "Incorrect Word": "enviroment",
+                        "Corrected Word": "environmental",
+                        "Candidates": [
+                            {
+                                "Word": "environment",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "environ",
+                                "Score": 0.47
+                            },
+                            {
+                                "Word": "or",
+                                "Score": 0.19
+                            },
+                            {
+                                "Word": "c",
+                                "Score": 0.19
+                            },
+                            {
+                                "Word": "me",
+                                "Score": 0.19
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 0.97,
+                "acc@3": 1.0,
+                "Ranking Mistake": [
+                    {
+                        "Bad Ratio": 0.94,
+                        "Text": "There are five diffrent floors , each of them presents a diffrent chronical period of Greek history , starting from the period before the birth of Juisus and concluding with the revolution of 1967 .\n",
+                        "Incorrect Word": "chronical",
+                        "Corrected Word": "chronological",
+                        "Candidates": [
+                            {
+                                "Word": "chronicle",
+                                "Score": 0.95
+                            },
+                            {
+                                "Word": "chronological",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "chronic",
+                                "Score": 0.82
+                            },
+                            {
+                                "Word": "chronically",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "l",
+                                "Score": 0.2
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.95,
+                        "Text": "However , there was one persone wich told me he was not happy at all with the phone , because he used to writte a lot , especially at Christmas when he wanted to wish all his friends a very nice Christmas but now everybody phones him , ending a very old tradition .\n",
+                        "Incorrect Word": "wich",
+                        "Corrected Word": "who",
+                        "Candidates": [
+                            {
+                                "Word": "which",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "with",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "who",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "in",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "rich",
+                                "Score": 0.77
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.99,
+                        "Text": "When you take the class on computer programming , you will definetly need one and that holds true for the class on politics , because you have to study statistics on your computer to do social research and some analysys .\n",
+                        "Incorrect Word": "analysys",
+                        "Corrected Word": "analyses",
+                        "Candidates": [
+                            {
+                                "Word": "analysis",
+                                "Score": 0.98
+                            },
+                            {
+                                "Word": "analyses",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "analysts",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "analyst",
+                                "Score": 0.73
+                            },
+                            {
+                                "Word": "it",
+                                "Score": 0.29
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.99,
+                        "Text": "The aim of this report is to give some information about the new Acapulco resart buildings which were built 10 years ago . They are some of the first buildings that were built with the latest tecnonology and designed by an important Mexican arquitector .\n",
+                        "Incorrect Word": "arquitector",
+                        "Corrected Word": "architect",
+                        "Candidates": [
+                            {
+                                "Word": "architects",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "architect",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "architectonic",
+                                "Score": 0.21
+                            },
+                            {
+                                "Word": "doc",
+                                "Score": 0.18
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 1.0,
+                        "Text": "Nowdays everyone has a telephone .\n",
+                        "Incorrect Word": "Nowdays",
+                        "Corrected Word": "Nowadays",
+                        "Candidates": [
+                            {
+                                "Word": "Noways",
+                                "Score": 0.36
+                            },
+                            {
+                                "Word": "Nowadays",
+                                "Score": 0.36
+                            },
+                            {
+                                "Word": "Now days",
+                                "Score": 0.36
+                            },
+                            {
+                                "Word": "Now-days",
+                                "Score": 0.35
+                            },
+                            {
+                                "Word": "Noondays",
+                                "Score": 0.35
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0:26:45",
+            "Ranker Train": "0:00:00",
+            "Pipeline Eval": "0:10:03"
+        }
+    }
+]
