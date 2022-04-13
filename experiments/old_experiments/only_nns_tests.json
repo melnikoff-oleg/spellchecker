@@ -1,0 +1,1757 @@
+[
+    {
+        "Date": "12/12/2021 15:15:53",
+        "Model Config": {
+            "Detector": "HunspellDetector",
+            "Candidator": "NNCandidator NumHypos=10",
+            "Ranker": "CatBoostRanker",
+            "Features": {
+                "RankerFeatures": [
+                    "bart_prob",
+                    "bert_prob"
+                ]
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea500.clean",
+            "Dataset Size": 100,
+            "Train Size": 70,
+            "Test Size": 30
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "acc@1": 0.27,
+                "acc@3": 0.7
+            },
+            "Detector": {
+                "Precision": 0.85,
+                "Recall": 1.0,
+                "Mistakes Not Found": [],
+                "False Detection": [
+                    {
+                        "Text": "First of all , we would like to thank you very much for organising such a wonderfull trip with an interesting programme .\n",
+                        "Fake Incorrect Word": "organising",
+                        "Candidates": [
+                            {
+                                "Word": "sharing",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "making",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "providing",
+                                "Score": 0.95
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "First of all , we would like to thank you very much for organising such a wonderfull trip with an interesting programme .\n",
+                        "Fake Incorrect Word": "programme",
+                        "Candidates": [
+                            {
+                                "Word": "programme",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "program",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "programme.",
+                                "Score": 0.4
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It may , in many cases , not be true but we can suspect that most of them wanted to become a celebrity and they had to know there is no private life unseparately contected to it .\n",
+                        "Fake Incorrect Word": "unseparately",
+                        "Candidates": [
+                            {
+                                "Word": "-",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "complex",
+                                "Score": 0.5
+                            },
+                            {
+                                "Word": "star",
+                                "Score": 0.45
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "This is because people wo not give up the great taste of food . Although it could be subsituted with a vitamin pill or two .\n",
+                        "Fake Incorrect Word": "wo",
+                        "Candidates": [
+                            {
+                                "Word": "do",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "so",
+                                "Score": 0.78
+                            },
+                            {
+                                "Word": "to",
+                                "Score": 0.77
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Lastly , I think that all these changes wo not really be noticed as we change things daily and slowly instead of abruptedly .\n",
+                        "Fake Incorrect Word": "wo",
+                        "Candidates": [
+                            {
+                                "Word": "do",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "to",
+                                "Score": 0.84
+                            },
+                            {
+                                "Word": "won",
+                                "Score": 0.74
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Firstly , I 'm writing to thank you for the great opportunity you are giving us , especially in planning all this programme in such an acurate way .\n",
+                        "Fake Incorrect Word": "programme",
+                        "Candidates": [
+                            {
+                                "Word": "and",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "expedition",
+                                "Score": 0.79
+                            },
+                            {
+                                "Word": "\"",
+                                "Score": 0.77
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.79,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "It is a coinsidence which we would be extremely happy to take advantage of .\n",
+                        "Incorrect Word": "coinsidence",
+                        "Corrected Word": "coincidence",
+                        "Candidates": [
+                            {
+                                "Word": "detail",
+                                "Score": 0.28
+                            },
+                            {
+                                "Word": "crowdfunding",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "precedent",
+                                "Score": 0.12
+                            },
+                            {
+                                "Word": "generosity",
+                                "Score": 0.12
+                            },
+                            {
+                                "Word": "select",
+                                "Score": 0.09
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "This is a great opportunity for us to see the latest fashions and famous fashion models who we would like to have authograps from .\n",
+                        "Incorrect Word": "authograps",
+                        "Corrected Word": "autographs",
+                        "Candidates": [
+                            {
+                                "Word": "bookmarked",
+                                "Score": 0.41
+                            },
+                            {
+                                "Word": "shots",
+                                "Score": 0.17
+                            },
+                            {
+                                "Word": "character",
+                                "Score": 0.12
+                            },
+                            {
+                                "Word": "same",
+                                "Score": 0.12
+                            },
+                            {
+                                "Word": "filmed",
+                                "Score": 0.11
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I personally think the best would be to put the celebrities in cages and let people touch them , point and ask for authopraps .\n",
+                        "Incorrect Word": "authopraps",
+                        "Corrected Word": "autographs",
+                        "Candidates": [
+                            {
+                                "Word": "fingerprints.",
+                                "Score": 0.63
+                            },
+                            {
+                                "Word": "their",
+                                "Score": 0.53
+                            },
+                            {
+                                "Word": "tears.",
+                                "Score": 0.46
+                            },
+                            {
+                                "Word": "tears",
+                                "Score": 0.39
+                            },
+                            {
+                                "Word": "assurances",
+                                "Score": 0.39
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Yours sincerelly ,\n",
+                        "Incorrect Word": "sincerelly",
+                        "Corrected Word": "sincerely",
+                        "Candidates": [
+                            {
+                                "Word": "r",
+                                "Score": 0.58
+                            },
+                            {
+                                "Word": "ldo",
+                                "Score": 0.55
+                            },
+                            {
+                                "Word": "Notes,",
+                                "Score": 0.5
+                            },
+                            {
+                                "Word": "ri",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "ri,",
+                                "Score": 0.41
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Another succesfull carreer such as , film stars must also be balanced .\n",
+                        "Incorrect Word": "succesfull",
+                        "Corrected Word": "successful",
+                        "Candidates": [
+                            {
+                                "Word": "Another",
+                                "Score": 0.83
+                            },
+                            {
+                                "Word": "e",
+                                "Score": 0.69
+                            },
+                            {
+                                "Word": "are",
+                                "Score": 0.64
+                            },
+                            {
+                                "Word": "Reply",
+                                "Score": 0.45
+                            },
+                            {
+                                "Word": "dj",
+                                "Score": 0.42
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I mean I do not think we 'll change cars into aereoplanes ...\n",
+                        "Incorrect Word": "aereoplanes",
+                        "Corrected Word": "aeroplanes",
+                        "Candidates": [
+                            {
+                                "Word": "airplanes",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "airplanes...",
+                                "Score": 0.56
+                            },
+                            {
+                                "Word": "ABS...",
+                                "Score": 0.51
+                            },
+                            {
+                                "Word": "videogames...",
+                                "Score": 0.45
+                            },
+                            {
+                                "Word": "yours",
+                                "Score": 0.36
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I've recived your letter and I am pleased to have won because I needed some days to relax and to leave the city , which is very extressing .\n",
+                        "Incorrect Word": "extressing",
+                        "Corrected Word": "stressful",
+                        "Candidates": [
+                            {
+                                "Word": "expensive",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "interesting",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "depressing",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "professional.",
+                                "Score": 0.62
+                            },
+                            {
+                                "Word": "uplifting.",
+                                "Score": 0.59
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 0.35,
+                "acc@3": 0.88,
+                "Ranking Mistake": [
+                    {
+                        "Bad Ratio": 0.71,
+                        "Text": "Another succesfull carreer such as , film stars must also be balanced .\n",
+                        "Incorrect Word": "carreer",
+                        "Corrected Word": "career",
+                        "Candidates": [
+                            {
+                                "Word": "careers",
+                                "Score": 0.8
+                            },
+                            {
+                                "Word": "career",
+                                "Score": 0.57
+                            },
+                            {
+                                "Word": "Oscars",
+                                "Score": 0.25
+                            },
+                            {
+                                "Word": "vision",
+                                "Score": 0.11
+                            },
+                            {
+                                "Word": "great",
+                                "Score": 0.11
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.72,
+                        "Text": "I can travel in July only because I am working in an office and I must ask my boss for a holiday and it 's the mounth he can give me one , so I hope that is not a problem for you .\n",
+                        "Incorrect Word": "mounth",
+                        "Corrected Word": "month",
+                        "Candidates": [
+                            {
+                                "Word": "most",
+                                "Score": 0.95
+                            },
+                            {
+                                "Word": "only",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "fourth",
+                                "Score": 0.72
+                            },
+                            {
+                                "Word": "first",
+                                "Score": 0.71
+                            },
+                            {
+                                "Word": "month",
+                                "Score": 0.68
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.83,
+                        "Text": "This is because people wo not give up the great taste of food . Although it could be subsituted with a vitamin pill or two .\n",
+                        "Incorrect Word": "subsituted",
+                        "Corrected Word": "substituted",
+                        "Candidates": [
+                            {
+                                "Word": "better",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "substituted",
+                                "Score": 0.77
+                            },
+                            {
+                                "Word": "contrived",
+                                "Score": 0.26
+                            },
+                            {
+                                "Word": "mellowed",
+                                "Score": 0.2
+                            },
+                            {
+                                "Word": "packaged",
+                                "Score": 0.17
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.83,
+                        "Text": "Also , this show is free ( another positiu point ) .\n",
+                        "Incorrect Word": "positiu",
+                        "Corrected Word": "positive",
+                        "Candidates": [
+                            {
+                                "Word": "point",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "possible",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "post",
+                                "Score": 0.79
+                            },
+                            {
+                                "Word": "positive",
+                                "Score": 0.75
+                            },
+                            {
+                                "Word": "poster",
+                                "Score": 0.58
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.91,
+                        "Text": "Technical and Warm Home People 's way of life has been changed considerably by rapdily developing mordern technology .\n",
+                        "Incorrect Word": "rapdily",
+                        "Corrected Word": "rapidly",
+                        "Candidates": [
+                            {
+                                "Word": "the",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "rapidly",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "rapid",
+                                "Score": 0.79
+                            },
+                            {
+                                "Word": "experimentally",
+                                "Score": 0.11
+                            },
+                            {
+                                "Word": "family",
+                                "Score": 0.1
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.91,
+                        "Text": "Since the eletric fire and microwave oven had been invented , their lives have been far easier than before .\n",
+                        "Incorrect Word": "eletric",
+                        "Corrected Word": "electric",
+                        "Candidates": [
+                            {
+                                "Word": "first",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "electric",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "electrical",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "Electric",
+                                "Score": 0.57
+                            },
+                            {
+                                "Word": "day",
+                                "Score": 0.54
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.93,
+                        "Text": "I believe that if somebody wants fame and glory he must be tottally clear about the results .\n",
+                        "Incorrect Word": "tottally",
+                        "Corrected Word": "totally",
+                        "Candidates": [
+                            {
+                                "Word": "very",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "equally",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "totally",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "really",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "brutally",
+                                "Score": 0.79
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.94,
+                        "Text": "In conclusion , I strongly believe that the house of the future will be the house of a new awareness . It will be a very positiu point for opening up our lives .\n",
+                        "Incorrect Word": "positiu",
+                        "Corrected Word": "positive",
+                        "Candidates": [
+                            {
+                                "Word": "important",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "high",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "big",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "powerful",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "positive",
+                                "Score": 0.91
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.95,
+                        "Text": "Some people think that being a famous person is a very excuiting thing , that all the time this makes you feel complete and also they think that if you are famous you are special as well .\n",
+                        "Incorrect Word": "excuiting",
+                        "Corrected Word": "exciting",
+                        "Candidates": [
+                            {
+                                "Word": "special",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "important",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "exciting",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "prized",
+                                "Score": 0.45
+                            },
+                            {
+                                "Word": "ritual",
+                                "Score": 0.44
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.97,
+                        "Text": "Secondly , I belive you should know that a lot of people , including me , were not able to enjoy the concerts because some concert halls were too small .\n",
+                        "Incorrect Word": "belive",
+                        "Corrected Word": "believe",
+                        "Candidates": [
+                            {
+                                "Word": "think",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "believe",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "realize",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "Believe",
+                                "Score": 0.83
+                            },
+                            {
+                                "Word": "like",
+                                "Score": 0.75
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.98,
+                        "Text": "It does not matter what kind of carreer or job you have .\n",
+                        "Incorrect Word": "carreer",
+                        "Corrected Word": "career",
+                        "Candidates": [
+                            {
+                                "Word": "job",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "career",
+                                "Score": 0.95
+                            },
+                            {
+                                "Word": "car",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "degree",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "college",
+                                "Score": 0.91
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.98,
+                        "Text": "Firstly , I 'm writing to thank you for the great opportunity you are giving us , especially in planning all this programme in such an acurate way .\n",
+                        "Incorrect Word": "acurate",
+                        "Corrected Word": "accurate",
+                        "Candidates": [
+                            {
+                                "Word": "austere",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "aust",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "accurate",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "amazing",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "appropriate",
+                                "Score": 0.92
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.99,
+                        "Text": "Firstly , the actor was supposed to be Danny Brook , but he was not , it was another actor , who I have never seen before , so , as you can imagen , I was very disappointed .\n",
+                        "Incorrect Word": "imagen",
+                        "Corrected Word": "imagine",
+                        "Candidates": [
+                            {
+                                "Word": "see",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "imagine",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "tell",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "imagine,",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "read",
+                                "Score": 0.87
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.99,
+                        "Text": "Maria talked to Pat about the stupid thing that she had done , but Pat refused to apologaising to her , because she felt it was not a mistake and she did it for only one reason : to help Maria to get the man that she loved .\n",
+                        "Incorrect Word": "apologaising",
+                        "Corrected Word": "apologise",
+                        "Candidates": [
+                            {
+                                "Word": "",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "apologise",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "apologize",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "suppose",
+                                "Score": 0.67
+                            },
+                            {
+                                "Word": "you",
+                                "Score": 0.53
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.99,
+                        "Text": "Firstly , I would like to tell you that the idea of organizing an International Arts Festival is fantastic , but in your advertisement it said that I would find stars and artists from arround the world , when , in fact , they were from only six countries .\n",
+                        "Incorrect Word": "arround",
+                        "Corrected Word": "around",
+                        "Candidates": [
+                            {
+                                "Word": "all",
+                                "Score": 0.97
+                            },
+                            {
+                                "Word": "around",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "across",
+                                "Score": 0.95
+                            },
+                            {
+                                "Word": "about",
+                                "Score": 0.92
+                            },
+                            {
+                                "Word": "Around",
+                                "Score": 0.87
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 1.0,
+                        "Text": "Another way our home could be different in the future is probably the utilitles we will be using .\n",
+                        "Incorrect Word": "utilitles",
+                        "Corrected Word": "utilities",
+                        "Candidates": [
+                            {
+                                "Word": "utility",
+                                "Score": 0.71
+                            },
+                            {
+                                "Word": "utilities",
+                                "Score": 0.71
+                            },
+                            {
+                                "Word": "invention",
+                                "Score": 0.11
+                            },
+                            {
+                                "Word": "scale",
+                                "Score": 0.1
+                            },
+                            {
+                                "Word": "soft",
+                                "Score": 0.09
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 1.0,
+                        "Text": "I've recived your letter and I am pleased to have won because I needed some days to relax and to leave the city , which is very extressing .\n",
+                        "Incorrect Word": "recived",
+                        "Corrected Word": "received",
+                        "Candidates": [
+                            {
+                                "Word": "read",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "received",
+                                "Score": 0.96
+                            },
+                            {
+                                "Word": "decided",
+                                "Score": 0.74
+                            },
+                            {
+                                "Word": "been",
+                                "Score": 0.5
+                            },
+                            {
+                                "Word": "recovered",
+                                "Score": 0.45
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0:18:31",
+            "Ranker Train": "0:00:01",
+            "Pipeline Eval": "0:06:19"
+        }
+    },
+    {
+        "Date": "12/12/2021 15:33:27",
+        "Model Config": {
+            "Detector": "HunspellDetector",
+            "Candidator": "NNCandidator NumHypos=10",
+            "Ranker": "CatBoostRanker",
+            "Features": {
+                "RankerFeatures": [
+                    "bart_prob"
+                ]
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea500.clean",
+            "Dataset Size": 100,
+            "Train Size": 70,
+            "Test Size": 30
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "acc@1": 0.15,
+                "acc@3": 0.67
+            },
+            "Detector": {
+                "Precision": 0.85,
+                "Recall": 1.0,
+                "Mistakes Not Found": [],
+                "False Detection": [
+                    {
+                        "Text": "First of all , we would like to thank you very much for organising such a wonderfull trip with an interesting programme .\n",
+                        "Fake Incorrect Word": "organising",
+                        "Candidates": [
+                            {
+                                "Word": "sharing",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "giving",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "providing",
+                                "Score": 0.89
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "First of all , we would like to thank you very much for organising such a wonderfull trip with an interesting programme .\n",
+                        "Fake Incorrect Word": "programme",
+                        "Candidates": [
+                            {
+                                "Word": "program",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "programme",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "programme.",
+                                "Score": 0.57
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It may , in many cases , not be true but we can suspect that most of them wanted to become a celebrity and they had to know there is no private life unseparately contected to it .\n",
+                        "Fake Incorrect Word": "unseparately",
+                        "Candidates": [
+                            {
+                                "Word": "-",
+                                "Score": 0.82
+                            },
+                            {
+                                "Word": "via",
+                                "Score": 0.5
+                            },
+                            {
+                                "Word": "versus",
+                                "Score": 0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "This is because people wo not give up the great taste of food . Although it could be subsituted with a vitamin pill or two .\n",
+                        "Fake Incorrect Word": "wo",
+                        "Candidates": [
+                            {
+                                "Word": "do",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "who",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "so",
+                                "Score": 0.72
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Lastly , I think that all these changes wo not really be noticed as we change things daily and slowly instead of abruptedly .\n",
+                        "Fake Incorrect Word": "wo",
+                        "Candidates": [
+                            {
+                                "Word": "in",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "to",
+                                "Score": 0.88
+                            },
+                            {
+                                "Word": "we",
+                                "Score": 0.87
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Firstly , I 'm writing to thank you for the great opportunity you are giving us , especially in planning all this programme in such an acurate way .\n",
+                        "Fake Incorrect Word": "programme",
+                        "Candidates": [
+                            {
+                                "Word": "and",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "\"",
+                                "Score": 0.8
+                            },
+                            {
+                                "Word": "program",
+                                "Score": 0.64
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.79,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "It is a coinsidence which we would be extremely happy to take advantage of .\n",
+                        "Incorrect Word": "coinsidence",
+                        "Corrected Word": "coincidence",
+                        "Candidates": [
+                            {
+                                "Word": "select",
+                                "Score": 0.1
+                            },
+                            {
+                                "Word": "ride",
+                                "Score": 0.1
+                            },
+                            {
+                                "Word": "precedent",
+                                "Score": 0.1
+                            },
+                            {
+                                "Word": "generosity",
+                                "Score": 0.1
+                            },
+                            {
+                                "Word": "familiar",
+                                "Score": 0.1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "This is a great opportunity for us to see the latest fashions and famous fashion models who we would like to have authograps from .\n",
+                        "Incorrect Word": "authograps",
+                        "Corrected Word": "autographs",
+                        "Candidates": [
+                            {
+                                "Word": "bookmarked",
+                                "Score": 0.5
+                            },
+                            {
+                                "Word": "soon",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "shots",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "scooped",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "same",
+                                "Score": 0.14
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I personally think the best would be to put the celebrities in cages and let people touch them , point and ask for authopraps .\n",
+                        "Incorrect Word": "authopraps",
+                        "Corrected Word": "autographs",
+                        "Candidates": [
+                            {
+                                "Word": "their",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "tears.",
+                                "Score": 0.54
+                            },
+                            {
+                                "Word": "fingerprints.",
+                                "Score": 0.54
+                            },
+                            {
+                                "Word": "tears.000",
+                                "Score": 0.4
+                            },
+                            {
+                                "Word": "tour",
+                                "Score": 0.37
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Yours sincerelly ,\n",
+                        "Incorrect Word": "sincerelly",
+                        "Corrected Word": "sincerely",
+                        "Candidates": [
+                            {
+                                "Word": "r",
+                                "Score": 0.72
+                            },
+                            {
+                                "Word": "ldo",
+                                "Score": 0.54
+                            },
+                            {
+                                "Word": "Notes,",
+                                "Score": 0.54
+                            },
+                            {
+                                "Word": "ria",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "ri",
+                                "Score": 0.48
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Another succesfull carreer such as , film stars must also be balanced .\n",
+                        "Incorrect Word": "succesfull",
+                        "Corrected Word": "successful",
+                        "Candidates": [
+                            {
+                                "Word": "Another",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "e",
+                                "Score": 0.56
+                            },
+                            {
+                                "Word": "are",
+                                "Score": 0.51
+                            },
+                            {
+                                "Word": "will",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "Reply",
+                                "Score": 0.47
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I mean I do not think we 'll change cars into aereoplanes ...\n",
+                        "Incorrect Word": "aereoplanes",
+                        "Corrected Word": "aeroplanes",
+                        "Candidates": [
+                            {
+                                "Word": "airplanes",
+                                "Score": 0.82
+                            },
+                            {
+                                "Word": "ABS...",
+                                "Score": 0.56
+                            },
+                            {
+                                "Word": "videogames...",
+                                "Score": 0.54
+                            },
+                            {
+                                "Word": "airplanes...",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "yours",
+                                "Score": 0.08
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I've recived your letter and I am pleased to have won because I needed some days to relax and to leave the city , which is very extressing .\n",
+                        "Incorrect Word": "extressing",
+                        "Corrected Word": "stressful",
+                        "Candidates": [
+                            {
+                                "Word": "expensive",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "depressing",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "interesting",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "expensive.",
+                                "Score": 0.6
+                            },
+                            {
+                                "Word": "uplifting.",
+                                "Score": 0.56
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 0.19,
+                "acc@3": 0.85,
+                "Ranking Mistake": [
+                    {
+                        "Bad Ratio": 0.76,
+                        "Text": "Also , this show is free ( another positiu point ) .\n",
+                        "Incorrect Word": "positiu",
+                        "Corrected Word": "positive",
+                        "Candidates": [
+                            {
+                                "Word": "point",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "post",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "possible",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "positive",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "posting",
+                                "Score": 0.67
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.78,
+                        "Text": "This is because people wo not give up the great taste of food . Although it could be subsituted with a vitamin pill or two .\n",
+                        "Incorrect Word": "subsituted",
+                        "Corrected Word": "substituted",
+                        "Candidates": [
+                            {
+                                "Word": "better",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "substituted",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "mellowed",
+                                "Score": 0.36
+                            },
+                            {
+                                "Word": "contrived",
+                                "Score": 0.28
+                            },
+                            {
+                                "Word": "juiced",
+                                "Score": 0.14
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.83,
+                        "Text": "Another way our home could be different in the future is probably the utilitles we will be using .\n",
+                        "Incorrect Word": "utilitles",
+                        "Corrected Word": "utilities",
+                        "Candidates": [
+                            {
+                                "Word": "utility",
+                                "Score": 0.76
+                            },
+                            {
+                                "Word": "utilities",
+                                "Score": 0.63
+                            },
+                            {
+                                "Word": "soft",
+                                "Score": 0.09
+                            },
+                            {
+                                "Word": "scale",
+                                "Score": 0.09
+                            },
+                            {
+                                "Word": "s",
+                                "Score": 0.09
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.85,
+                        "Text": "I was enthusiatic about receiving your letter . I will give you all the necessary information .\n",
+                        "Incorrect Word": "enthusiatic",
+                        "Corrected Word": "enthusiastic",
+                        "Candidates": [
+                            {
+                                "Word": "very",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "enthusiastic",
+                                "Score": 0.8
+                            },
+                            {
+                                "Word": "who",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "staying",
+                                "Score": 0.48
+                            },
+                            {
+                                "Word": "speculating",
+                                "Score": 0.48
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.92,
+                        "Text": "Maria talked to Pat about the stupid thing that she had done , but Pat refused to apologaising to her , because she felt it was not a mistake and she did it for only one reason : to help Maria to get the man that she loved .\n",
+                        "Incorrect Word": "apologaising",
+                        "Corrected Word": "apologise",
+                        "Candidates": [
+                            {
+                                "Word": "",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "apologize",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "apologise",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "you",
+                                "Score": 0.55
+                            },
+                            {
+                                "Word": "suppose",
+                                "Score": 0.55
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.92,
+                        "Text": "It may , in many cases , not be true but we can suspect that most of them wanted to become a celebrity and they had to know there is no private life unseparately contected to it .\n",
+                        "Incorrect Word": "contected",
+                        "Corrected Word": "connected",
+                        "Candidates": [
+                            {
+                                "Word": "from",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "and",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "connected",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "protected",
+                                "Score": 0.63
+                            },
+                            {
+                                "Word": "collected",
+                                "Score": 0.48
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.92,
+                        "Text": "Some people think that being a famous person is a very excuiting thing , that all the time this makes you feel complete and also they think that if you are famous you are special as well .\n",
+                        "Incorrect Word": "excuiting",
+                        "Corrected Word": "exciting",
+                        "Candidates": [
+                            {
+                                "Word": "special",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "important",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "exciting",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "ritual",
+                                "Score": 0.51
+                            },
+                            {
+                                "Word": "prized",
+                                "Score": 0.51
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.92,
+                        "Text": "I believe that if somebody wants fame and glory he must be tottally clear about the results .\n",
+                        "Incorrect Word": "tottally",
+                        "Corrected Word": "totally",
+                        "Candidates": [
+                            {
+                                "Word": "very",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "really",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "totally",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "equally",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "brutally",
+                                "Score": 0.82
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.92,
+                        "Text": "In conclusion , I strongly believe that the house of the future will be the house of a new awareness . It will be a very positiu point for opening up our lives .\n",
+                        "Incorrect Word": "positiu",
+                        "Corrected Word": "positive",
+                        "Candidates": [
+                            {
+                                "Word": "important",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "big",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "powerful",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "high",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "exciting",
+                                "Score": 0.89
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.92,
+                        "Text": "Technical and Warm Home People 's way of life has been changed considerably by rapdily developing mordern technology .\n",
+                        "Incorrect Word": "rapdily",
+                        "Corrected Word": "rapidly",
+                        "Candidates": [
+                            {
+                                "Word": "the",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "rapidly",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "rapid",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "experimentally",
+                                "Score": 0.14
+                            },
+                            {
+                                "Word": "family",
+                                "Score": 0.09
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.93,
+                        "Text": "Since the eletric fire and microwave oven had been invented , their lives have been far easier than before .\n",
+                        "Incorrect Word": "eletric",
+                        "Corrected Word": "electric",
+                        "Candidates": [
+                            {
+                                "Word": "day",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "first",
+                                "Score": 0.88
+                            },
+                            {
+                                "Word": "electric",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "electrical",
+                                "Score": 0.7
+                            },
+                            {
+                                "Word": "Wright",
+                                "Score": 0.11
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.93,
+                        "Text": "I can travel in July only because I am working in an office and I must ask my boss for a holiday and it 's the mounth he can give me one , so I hope that is not a problem for you .\n",
+                        "Incorrect Word": "mounth",
+                        "Corrected Word": "month",
+                        "Candidates": [
+                            {
+                                "Word": "only",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "first",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "most",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "fourth",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "month",
+                                "Score": 0.86
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.95,
+                        "Text": "Firstly , I would like to tell you that the idea of organizing an International Arts Festival is fantastic , but in your advertisement it said that I would find stars and artists from arround the world , when , in fact , they were from only six countries .\n",
+                        "Incorrect Word": "arround",
+                        "Corrected Word": "around",
+                        "Candidates": [
+                            {
+                                "Word": "all",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "across",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "around",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "about",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "various",
+                                "Score": 0.86
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.95,
+                        "Text": "Secondly , I belive you should know that a lot of people , including me , were not able to enjoy the concerts because some concert halls were too small .\n",
+                        "Incorrect Word": "belive",
+                        "Corrected Word": "believe",
+                        "Candidates": [
+                            {
+                                "Word": "think",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "have",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "believe",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "realize",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "like",
+                                "Score": 0.85
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.95,
+                        "Text": "Firstly , I 'm writing to thank you for the great opportunity you are giving us , especially in planning all this programme in such an acurate way .\n",
+                        "Incorrect Word": "acurate",
+                        "Corrected Word": "accurate",
+                        "Candidates": [
+                            {
+                                "Word": "amazing",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "awesome",
+                                "Score": 0.89
+                            },
+                            {
+                                "Word": "auspicious",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "ausp",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "appropriate",
+                                "Score": 0.87
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.96,
+                        "Text": "It does not matter what kind of carreer or job you have .\n",
+                        "Incorrect Word": "carreer",
+                        "Corrected Word": "career",
+                        "Candidates": [
+                            {
+                                "Word": "job",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "college",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "career",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "car",
+                                "Score": 0.88
+                            },
+                            {
+                                "Word": "degree",
+                                "Score": 0.86
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.97,
+                        "Text": "Technical and Warm Home People 's way of life has been changed considerably by rapdily developing mordern technology .\n",
+                        "Incorrect Word": "mordern",
+                        "Corrected Word": "modern",
+                        "Candidates": [
+                            {
+                                "Word": "and",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "modern",
+                                "Score": 0.9
+                            },
+                            {
+                                "Word": "more",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "older",
+                                "Score": 0.63
+                            },
+                            {
+                                "Word": "Korean",
+                                "Score": 0.57
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.98,
+                        "Text": "Lastly , I think that all these changes wo not really be noticed as we change things daily and slowly instead of abruptedly .\n",
+                        "Incorrect Word": "abruptedly",
+                        "Corrected Word": "abruptly",
+                        "Candidates": [
+                            {
+                                "Word": "excessively",
+                                "Score": 0.09
+                            },
+                            {
+                                "Word": "abruptly",
+                                "Score": 0.09
+                            },
+                            {
+                                "Word": "tend",
+                                "Score": 0.08
+                            },
+                            {
+                                "Word": "tearing",
+                                "Score": 0.08
+                            },
+                            {
+                                "Word": "sh",
+                                "Score": 0.08
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.98,
+                        "Text": "Another succesfull carreer such as , film stars must also be balanced .\n",
+                        "Incorrect Word": "carreer",
+                        "Corrected Word": "career",
+                        "Candidates": [
+                            {
+                                "Word": "careers",
+                                "Score": 0.72
+                            },
+                            {
+                                "Word": "career",
+                                "Score": 0.71
+                            },
+                            {
+                                "Word": "vision",
+                                "Score": 0.08
+                            },
+                            {
+                                "Word": "report",
+                                "Score": 0.08
+                            },
+                            {
+                                "Word": "pieces",
+                                "Score": 0.08
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.98,
+                        "Text": "I've recived your letter and I am pleased to have won because I needed some days to relax and to leave the city , which is very extressing .\n",
+                        "Incorrect Word": "recived",
+                        "Corrected Word": "received",
+                        "Candidates": [
+                            {
+                                "Word": "been",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "received",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "read",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "decided",
+                                "Score": 0.86
+                            },
+                            {
+                                "Word": "revived",
+                                "Score": 0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Bad Ratio": 0.99,
+                        "Text": "Firstly , the actor was supposed to be Danny Brook , but he was not , it was another actor , who I have never seen before , so , as you can imagen , I was very disappointed .\n",
+                        "Incorrect Word": "imagen",
+                        "Corrected Word": "imagine",
+                        "Candidates": [
+                            {
+                                "Word": "see",
+                                "Score": 0.94
+                            },
+                            {
+                                "Word": "imagine",
+                                "Score": 0.93
+                            },
+                            {
+                                "Word": "tell",
+                                "Score": 0.91
+                            },
+                            {
+                                "Word": "see,",
+                                "Score": 0.87
+                            },
+                            {
+                                "Word": "read",
+                                "Score": 0.87
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0:12:52",
+            "Ranker Train": "0:00:00",
+            "Pipeline Eval": "0:04:41"
+        }
+    }
+]

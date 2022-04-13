@@ -1,0 +1,571 @@
+[
+    {
+        "Date": "18/03/2022 13:32:46",
+        "Model Config": {
+            "Detector": "T5",
+            "Candidator": "T5",
+            "Ranker": "T5",
+            "Features": {
+                "RankerFeatures": []
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "test.bea500.norm",
+            "Dataset Size": 1300500,
+            "Train Size": 1300000,
+            "Test Size": 500
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "Precision": 0.27,
+                "Recall": 0.38,
+                "F_0.5": 0.28,
+                "acc@1": 0.38,
+                "acc@3": 0.38
+            },
+            "Detector": {
+                "Precision": 0.42,
+                "Recall": 0.6,
+                "Mistakes Not Found": [
+                    {
+                        "Text": "IN MY OPINION FAMOUS PEOPLE ARE BEING OBLIGED TO PAY A PRICE FOR BEING FAMOUS THAT, IN SOME CASS, COSTS MORE THAN THEY DESERVE TO PAY.",
+                        "Incorrect Word": "CASS,",
+                        "Corrected Word": "CASES,"
+                    },
+                    {
+                        "Text": "I was trully dissapointed by it.",
+                        "Incorrect Word": "trully",
+                        "Corrected Word": "truly"
+                    },
+                    {
+                        "Text": "I was trully dissapointed by it.",
+                        "Incorrect Word": "dissapointed",
+                        "Corrected Word": "disappointed"
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Incorrect Word": "COMPLEINTS",
+                        "Corrected Word": "COMPLAINTS"
+                    },
+                    {
+                        "Text": "SECOND I GOT TO THE THEATRE AT 19.20 BECAUSE IN THE ADVERTISEMENT IT CLEARLY STATES THAT THE SHOW STARTS AT 19.30, AND I GOT REALLY MAD WHEN I LOOKED AT MY WATCH AND NOTICED THAT I HAD BEEN WAITING FOR 40 (FORTY) MINUTES AND THE SHOW HADN'T STARTED YET...I MEAN IT WAS AMAIZING!",
+                        "Incorrect Word": "AMAIZING!",
+                        "Corrected Word": "AMAZING!"
+                    },
+                    {
+                        "Text": "I COULDN'T BELIVE IT. HOW CAN THIS CLASS OF THEATRE BE SO..",
+                        "Incorrect Word": "BELIVE",
+                        "Corrected Word": "BELIEVE"
+                    },
+                    {
+                        "Text": "OH I'M GETING MAD AGAIN SO I AM GOING TO TELL YOU ONE LAST THING, IT WAS THE MOST HORRIBLE NIGHT I HAD EVER HAD SO I DEMEND MY MONEY BACK!",
+                        "Incorrect Word": "DEMEND",
+                        "Corrected Word": "DEMAND"
+                    },
+                    {
+                        "Text": "MODERN TECHNOLOGY HAS AFFECTED ME IN SEVERAL WAYS. I MEAN THE MORE THE TECHNOLOGY ADVANCES; THE MORE CONFORTNESSCOMFORTABLE WE GET.",
+                        "Incorrect Word": "CONFORTNESSCOMFORTABLE",
+                        "Corrected Word": "COMFORTCOMFORTABLE"
+                    },
+                    {
+                        "Text": "BUT I THINK ALSO THAT WITH MODERN TECHNOLOGY WE GET MORE COMFORTABLE SO THAT MAKES ME A PACIVE PERSON AND NOT SO ACTIVE.",
+                        "Incorrect Word": "PACIVE",
+                        "Corrected Word": "PASSIVE"
+                    },
+                    {
+                        "Text": "THIS CAN BE BAD TOO BECAUSE IF I GET USED TO BEING CONFORTABLE, WHEN I NEED TO DO HARD WORK I WON'T BE ABLE TO.",
+                        "Incorrect Word": "CONFORTABLE,",
+                        "Corrected Word": "COMFORTABLE,"
+                    },
+                    {
+                        "Text": "Disapponted!",
+                        "Incorrect Word": "Disapponted!",
+                        "Corrected Word": "Disappointed!"
+                    },
+                    {
+                        "Text": "I tought you inderstood' ; please send money back to me, you know why, don't answer me?",
+                        "Incorrect Word": "tought",
+                        "Corrected Word": "thought"
+                    },
+                    {
+                        "Text": "I tought you inderstood' ; please send money back to me, you know why, don't answer me?",
+                        "Incorrect Word": "inderstood'",
+                        "Corrected Word": "understood'"
+                    },
+                    {
+                        "Text": "Today, teachnology is a part of life.",
+                        "Incorrect Word": "teachnology",
+                        "Corrected Word": "technology"
+                    },
+                    {
+                        "Text": "It started from got up in the morning, we have the machine help us to cook, iron, cleanning, washing, and then we went out to work, there are car, sky train to travel for help us convenience and quickly.",
+                        "Incorrect Word": "cleanning,",
+                        "Corrected Word": "cleaning,"
+                    },
+                    {
+                        "Text": "It is a good start to go on a sightseeing bus on Monday morning, because we can se all the famous buildings in a few hours.",
+                        "Incorrect Word": "se",
+                        "Corrected Word": "see"
+                    },
+                    {
+                        "Text": "Firstly, it will introduce the latest fashions connecting Millenium.",
+                        "Incorrect Word": "Millenium.",
+                        "Corrected Word": "Millennium."
+                    },
+                    {
+                        "Text": "However, I would choose sailing because I am facinating with the sea and its misteries and I also like the watter, the wind in my face...",
+                        "Incorrect Word": "facinating",
+                        "Corrected Word": "fascinated"
+                    },
+                    {
+                        "Text": "However, I would choose sailing because I am facinating with the sea and its misteries and I also like the watter, the wind in my face...",
+                        "Incorrect Word": "watter,",
+                        "Corrected Word": "water,"
+                    },
+                    {
+                        "Text": "It was unbelivebly! ! !",
+                        "Incorrect Word": "unbelivebly!",
+                        "Corrected Word": "unbelievable!"
+                    }
+                ],
+                "False Detection": [
+                    {
+                        "Text": "IN MY OPINION FAMOUS PEOPLE ARE BEING OBLIGED TO PAY A PRICE FOR BEING FAMOUS THAT, IN SOME CASS, COSTS MORE THAN THEY DESERVE TO PAY.",
+                        "Fake Incorrect Word": "OPINION",
+                        "Candidates": [
+                            {
+                                "Word": "OPINION,",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "IN MY OPINION FAMOUS PEOPLE ARE BEING OBLIGED TO PAY A PRICE FOR BEING FAMOUS THAT, IN SOME CASS, COSTS MORE THAN THEY DESERVE TO PAY.",
+                        "Fake Incorrect Word": "OBLIGED",
+                        "Candidates": [
+                            {
+                                "Word": "O",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Fake Incorrect Word": "true",
+                        "Candidates": [
+                            {
+                                "Word": "became",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Fake Incorrect Word": "and",
+                        "Candidates": [
+                            {
+                                "Word": "true",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Fake Incorrect Word": "was",
+                        "Candidates": [
+                            {
+                                "Word": "and",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Fake Incorrect Word": "really",
+                        "Candidates": [
+                            {
+                                "Word": "was",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Fake Incorrect Word": "unexpected",
+                        "Candidates": [
+                            {
+                                "Word": "really",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Fake Incorrect Word": "for",
+                        "Candidates": [
+                            {
+                                "Word": "unexpected",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Fake Incorrect Word": "me!",
+                        "Candidates": [
+                            {
+                                "Word": "for",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "JAMES",
+                        "Candidates": [
+                            {
+                                "Word": "James",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "CAMIREZ",
+                        "Candidates": [
+                            {
+                                "Word": "Cameron",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "AND",
+                        "Candidates": [
+                            {
+                                "Word": "and",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "AM",
+                        "Candidates": [
+                            {
+                                "Word": "am",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "WRITING",
+                        "Candidates": [
+                            {
+                                "Word": "writing",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "THIS",
+                        "Candidates": [
+                            {
+                                "Word": "this",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "LETTER",
+                        "Candidates": [
+                            {
+                                "Word": "letter",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "TO",
+                        "Candidates": [
+                            {
+                                "Word": "to",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "YOU",
+                        "Candidates": [
+                            {
+                                "Word": "you",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "BECAUSE",
+                        "Candidates": [
+                            {
+                                "Word": "because",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Fake Incorrect Word": "HAVE",
+                        "Candidates": [
+                            {
+                                "Word": "have",
+                                "Score": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.64,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "In our Acadamy we are not allowed to smoke.",
+                        "Incorrect Word": "Acadamy",
+                        "Corrected Word": "Academy",
+                        "Candidates": [
+                            {
+                                "Word": "academy,",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Incorrect Word": "becames",
+                        "Corrected Word": "come",
+                        "Candidates": [
+                            {
+                                "Word": "that",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "The festival was excenent in many ways, and in particular it being an international festival was a challenging, but brilliant idea.",
+                        "Incorrect Word": "excenent",
+                        "Corrected Word": "excellent",
+                        "Candidates": [
+                            {
+                                "Word": "enjoyable",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Everybody attented go to the show, funny, and happ in the end, and what have we go then?",
+                        "Incorrect Word": "happ",
+                        "Corrected Word": "happy",
+                        "Candidates": [
+                            {
+                                "Word": "and",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "If you could not manage the programe, why didn't you informe people before the programe started?",
+                        "Incorrect Word": "programe,",
+                        "Corrected Word": "programme,",
+                        "Candidates": [
+                            {
+                                "Word": "program,",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "If you could not manage the programe, why didn't you informe people before the programe started?",
+                        "Incorrect Word": "programe",
+                        "Corrected Word": "programme",
+                        "Candidates": [
+                            {
+                                "Word": "program",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Now we know, our world has developed to new world, becase we have high technology to do.",
+                        "Incorrect Word": "becase",
+                        "Corrected Word": "because",
+                        "Candidates": [
+                            {
+                                "Word": "world,",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Nowadays the main attroction in the newspapers and on television is the private lives of famous people.",
+                        "Incorrect Word": "attroction",
+                        "Corrected Word": "attraction",
+                        "Candidates": [
+                            {
+                                "Word": "attack",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Whenever I recollet it, I feel self - confident.",
+                        "Incorrect Word": "recollet",
+                        "Corrected Word": "recollect",
+                        "Candidates": [
+                            {
+                                "Word": "remember",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However, I would choose sailing because I am facinating with the sea and its misteries and I also like the watter, the wind in my face...",
+                        "Incorrect Word": "misteries",
+                        "Corrected Word": "mysteries",
+                        "Candidates": [
+                            {
+                                "Word": "misterie",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I have never enjoyed doing shopping, but nowday there are some people who are called shopcholic.",
+                        "Incorrect Word": "nowday",
+                        "Corrected Word": "nowadays",
+                        "Candidates": [
+                            {
+                                "Word": "now",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I have never enjoyed doing shopping, but nowday there are some people who are called shopcholic.",
+                        "Incorrect Word": "shopcholic.",
+                        "Corrected Word": "shopaholics.",
+                        "Candidates": [
+                            {
+                                "Word": "shopholics",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Because nowdays whereever you go there is a big queue and I hate waiting.",
+                        "Incorrect Word": "nowdays",
+                        "Corrected Word": "nowadays",
+                        "Candidates": [
+                            {
+                                "Word": "now,",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Some people say \"shopping is not always enjoyable\" but for me it is definity unenjoyable and I think it will be the same for the rest of my life.",
+                        "Incorrect Word": "definity",
+                        "Corrected Word": "definitely",
+                        "Candidates": [
+                            {
+                                "Word": "infinitely",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to make some appoitments about the event that I went to.",
+                        "Incorrect Word": "appoitments",
+                        "Corrected Word": "comments",
+                        "Candidates": [
+                            {
+                                "Word": "observations",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Yours sincerily,",
+                        "Incorrect Word": "sincerily,",
+                        "Corrected Word": "sincerely,",
+                        "Candidates": [
+                            {
+                                "Word": "sincerily.",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Of course, you can't afford a luxualy car and a large apartment unless you're born with a silver spoon in your mouth.",
+                        "Incorrect Word": "luxualy",
+                        "Corrected Word": "luxury",
+                        "Candidates": [
+                            {
+                                "Word": "luxuries",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "The most suitable time for shopping is the weekand when parents don't work and children haven't got school.",
+                        "Incorrect Word": "weekand",
+                        "Corrected Word": "weekend",
+                        "Candidates": [
+                            {
+                                "Word": "the",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "You can't buy something in a peacful and calm athmospher.",
+                        "Incorrect Word": "athmospher.",
+                        "Corrected Word": "atmosphere.",
+                        "Candidates": [
+                            {
+                                "Word": "environment.",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "If you bought something goregous, you will be very happy.",
+                        "Incorrect Word": "goregous,",
+                        "Corrected Word": "gorgeous,",
+                        "Candidates": [
+                            {
+                                "Word": "wonderful,",
+                                "Score": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 1.0,
+                "acc@3": 1.0,
+                "Ranking Mistake": []
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0",
+            "Ranker Train": "0",
+            "Pipeline Eval": "0"
+        }
+    }
+]

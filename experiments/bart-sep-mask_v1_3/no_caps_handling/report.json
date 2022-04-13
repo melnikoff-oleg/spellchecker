@@ -1,0 +1,73 @@
+{
+    "Date": "04/04/2022 09:58",
+    "Model": "BART, checkpoint: bart-sep-mask_v1_3.pt",
+    "Metrics": {
+        "Precision": 0.82,
+        "Recall": 0.88,
+        "F_0_5": 0.83,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.05
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "However, I would choose sailing because I am facinating with the sea and its misteries and I also like the watter, the wind in my face...",
+                "Word noise": "facinating",
+                "Word gt": "fascinated",
+                "Word res": "fascinating"
+            },
+            {
+                "Text noise": "Wapons are designed to kill and defend in a fight. In the Second World War so many Germans were killed. Also many people died in other regions,",
+                "Word noise": "Wapons",
+                "Word gt": "Weapons",
+                "Word res": "Wins"
+            },
+            {
+                "Text noise": "In the hopeness that you understand me.",
+                "Word noise": "hopeness",
+                "Word gt": "hope",
+                "Word res": "hopeless"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I WOULD LIKE TO ASK YOU ABOUT THE WEATHER CONDITIONS, SO I CAN DECIDE ON WHAT CLOTHES TO TAKE, AND ABOUT COSTS, SO I CAN MAKE A BUDJET FOR THE HOLIDAY.",
+                "Word noise": "SO",
+                "Word gt": "SO",
+                "Word res": "COSTS,"
+            },
+            {
+                "Text noise": "In wars soilors communicate with moible phones though places to place to get or give information about themselves and the enarmys.",
+                "Word noise": "soilors",
+                "Word gt": "soilors",
+                "Word res": "soldiers"
+            },
+            {
+                "Text noise": "Yes, it is true. This is only because nowadays people have more money than ever before, and some women don't earn money. They have no idea how diffcult it is to earn money.",
+                "Word noise": "money.",
+                "Word gt": "money.",
+                "Word res": "moneys."
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "I'm writing to you followwing our visitting to your theatre last night.",
+                "Word noise": "visitting",
+                "Word gt": "visit",
+                "Word res": "visitting"
+            },
+            {
+                "Text noise": "Furthermore, it's a worthful experience for people who want to know about other countries' arts.",
+                "Word noise": "worthful",
+                "Word gt": "worthwhile",
+                "Word res": "worthful"
+            },
+            {
+                "Text noise": "Specting that you will resolve this misunderstanding.",
+                "Word noise": "Specting",
+                "Word gt": "Expecting",
+                "Word res": "Specting"
+            }
+        ]
+    }
+}

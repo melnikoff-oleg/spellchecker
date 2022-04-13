@@ -1,0 +1,572 @@
+[
+    {
+        "Date": "23/03/2022 18:49:45",
+        "Model Config": {
+            "Detector": "NeuSpell BERT",
+            "Candidator": "NeuSpell BERT",
+            "Ranker": "NeuSpell BERT",
+            "Features": {
+                "RankerFeatures": []
+            }
+        },
+        "Dataset": {
+            "Dataset Name": "bea60k.gt",
+            "Dataset Size": 1363045,
+            "Train Size": 1300000,
+            "Test Size": 63045
+        },
+        "Pipeline Results": {
+            "All Together": {
+                "Word-level accuracy": 0.94,
+                "Precision": 0.52,
+                "Recall": 0.77,
+                "F_0.5": 0.56,
+                "acc@1": 0.77,
+                "acc@3": 0.77
+            },
+            "Detector": {
+                "Precision": 0.63,
+                "Recall": 0.93,
+                "Mistakes Not Found": [
+                    {
+                        "Text": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                        "Incorrect Word": "COMPLEINTS",
+                        "Corrected Word": "COMPLAINTS"
+                    },
+                    {
+                        "Text": "SECOND I GOT TO THE THEATRE AT 19.20 BECAUSE IN THE ADVERTISEMENT IT CLEARLY STATES THAT THE SHOW STARTS AT 19.30, AND I GOT REALLY MAD WHEN I LOOKED AT MY WATCH AND NOTICED THAT I HAD BEEN WAITING FOR 40 (FORTY) MINUTES AND THE SHOW HADN'T STARTED YET... I MEAN IT WAS AMAIZING!",
+                        "Incorrect Word": "AMAIZING!",
+                        "Corrected Word": "AMAZING!"
+                    },
+                    {
+                        "Text": "I COULDN'T BELIVE IT. HOW CAN THIS CLASS OF THEATRE BE SO..",
+                        "Incorrect Word": "BELIVE",
+                        "Corrected Word": "BELIEVE"
+                    },
+                    {
+                        "Text": "OH I'M GETING MAD AGAIN SO I AM GOING TO TELL YOU ONE LAST THING, IT WAS THE MOST HORRIBLE NIGHT I HAD EVER HAD SO I DEMEND MY MONEY BACK!",
+                        "Incorrect Word": "DEMEND",
+                        "Corrected Word": "DEMAND"
+                    },
+                    {
+                        "Text": "MODERN TECHNOLOGY HAS AFFECTED ME IN SEVERAL WAYS. I MEAN THE MORE THE TECHNOLOGY ADVANCES; THE MORE CONFORTNESSCOMFORTABLE WE GET.",
+                        "Incorrect Word": "CONFORTNESSCOMFORTABLE",
+                        "Corrected Word": "COMFORTCOMFORTABLE"
+                    },
+                    {
+                        "Text": "BUT I THINK ALSO THAT WITH MODERN TECHNOLOGY WE GET MORE COMFORTABLE SO THAT MAKES ME A PACIVE PERSON AND NOT SO ACTIVE.",
+                        "Incorrect Word": "PACIVE",
+                        "Corrected Word": "PASSIVE"
+                    },
+                    {
+                        "Text": "THIS CAN BE BAD TOO BECAUSE IF I GET USED TO BEING CONFORTABLE, WHEN I NEED TO DO HARD WORK I WON'T BE ABLE TO.",
+                        "Incorrect Word": "CONFORTABLE,",
+                        "Corrected Word": "COMFORTABLE,"
+                    },
+                    {
+                        "Text": "Disapponted!",
+                        "Incorrect Word": "Disapponted!",
+                        "Corrected Word": "Disappointed!"
+                    },
+                    {
+                        "Text": "It is a good start to go on a sightseeing bus on Monday morning, because we can se all the famous buildings in a few hours.",
+                        "Incorrect Word": "se",
+                        "Corrected Word": "see"
+                    },
+                    {
+                        "Text": "Whenever I recollet it, I feel self - confident.",
+                        "Incorrect Word": "recollet",
+                        "Corrected Word": "recollect"
+                    },
+                    {
+                        "Text": "As you mentioned about the accomodation, I would prefer to stay in a tent, because it's more exciting and I really love camping.",
+                        "Incorrect Word": "accomodation,",
+                        "Corrected Word": "accommodation,"
+                    },
+                    {
+                        "Text": "I have never enjoyed doing shopping, but nowday there are some people who are called shopcholic.",
+                        "Incorrect Word": "shopcholic.",
+                        "Corrected Word": "shopaholics."
+                    },
+                    {
+                        "Text": "As they know about your interestings and personality, it is easy to help you.",
+                        "Incorrect Word": "interestings",
+                        "Corrected Word": "interests"
+                    },
+                    {
+                        "Text": "Nowdays we have many big shopping centers.",
+                        "Incorrect Word": "centers.",
+                        "Corrected Word": "centres."
+                    },
+                    {
+                        "Text": "Because of that, shopping centers are overcrowded.",
+                        "Incorrect Word": "centers",
+                        "Corrected Word": "centres"
+                    },
+                    {
+                        "Text": "However such centers are very useful and necessary.",
+                        "Incorrect Word": "centers",
+                        "Corrected Word": "centres"
+                    },
+                    {
+                        "Text": "Then, there was only one hour left to install the different color lights; it was just enought time.",
+                        "Incorrect Word": "color",
+                        "Corrected Word": "coloured"
+                    },
+                    {
+                        "Text": "Yours Sincererly,",
+                        "Incorrect Word": "Sincererly,",
+                        "Corrected Word": "sincerely,"
+                    },
+                    {
+                        "Text": "I'M VERY PROUD TO BE THE WINNER OF YOUR COMPETITION! I HAVE NEVER BEEN TO SUCH A CAMP BEFORE AND SO I'M LOOKING FORWART TO SPENDING TWO WEEKS THERE.",
+                        "Incorrect Word": "FORWART",
+                        "Corrected Word": "FORWARD"
+                    },
+                    {
+                        "Text": "IT IS ONLY POSSIBLE FOR ME TO TRAVEL IN JULY BECAUSE OF MY UNREGULAR WORK.",
+                        "Incorrect Word": "UNREGULAR",
+                        "Corrected Word": "IRREGULAR"
+                    }
+                ],
+                "False Detection": [
+                    {
+                        "Text": "I WANT TO THAK YOU FOR PREPARING SUCH A GOOD PROGRAMME FOR US AND ESPECIALLY FOR TAKING US ON THE RIVER TRIP TO GREENWICH.",
+                        "Fake Incorrect Word": "PROGRAMME",
+                        "Candidates": [
+                            {
+                                "Word": "PROGRAM",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "IN MY OPINION FAMOUS PEOPLE ARE BEING OBLIGED TO PAY A PRICE FOR BEING FAMOUS THAT, IN SOME CASS, COSTS MORE THAN THEY DESERVE TO PAY.",
+                        "Fake Incorrect Word": "FAMOUS",
+                        "Candidates": [
+                            {
+                                "Word": "FAIRFAX",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "IN MY OPINION FAMOUS PEOPLE ARE BEING OBLIGED TO PAY A PRICE FOR BEING FAMOUS THAT, IN SOME CASS, COSTS MORE THAN THEY DESERVE TO PAY.",
+                        "Fake Incorrect Word": "FAMOUS",
+                        "Candidates": [
+                            {
+                                "Word": "FAIRFAX",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "SECOND I GOT TO THE THEATRE AT 19.20 BECAUSE IN THE ADVERTISEMENT IT CLEARLY STATES THAT THE SHOW STARTS AT 19.30, AND I GOT REALLY MAD WHEN I LOOKED AT MY WATCH AND NOTICED THAT I HAD BEEN WAITING FOR 40 (FORTY) MINUTES AND THE SHOW HADN'T STARTED YET... I MEAN IT WAS AMAIZING!",
+                        "Fake Incorrect Word": "HADN'T",
+                        "Candidates": [
+                            {
+                                "Word": "HIGH'T",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Everybody attented go to the show, funny, and happ in the end, and what have we go then?",
+                        "Fake Incorrect Word": "attented",
+                        "Candidates": [
+                            {
+                                "Word": "attending",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Everybody attented go to the show, funny, and happ in the end, and what have we go then?",
+                        "Fake Incorrect Word": "go",
+                        "Candidates": [
+                            {
+                                "Word": "got",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Now we know, our world has developed to new world, becase we have high technology to do.",
+                        "Fake Incorrect Word": "to",
+                        "Candidates": [
+                            {
+                                "Word": "two",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It started from got up in the morning, we have the machine help us to cook, iron, cleanning, washing, and then we went out to work, there are car, sky train to travel for help us convenience and quickly.",
+                        "Fake Incorrect Word": "sky",
+                        "Candidates": [
+                            {
+                                "Word": "ski",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It started from got up in the morning, we have the machine help us to cook, iron, cleanning, washing, and then we went out to work, there are car, sky train to travel for help us convenience and quickly.",
+                        "Fake Incorrect Word": "train",
+                        "Candidates": [
+                            {
+                                "Word": "trains",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It started from got up in the morning, we have the machine help us to cook, iron, cleanning, washing, and then we went out to work, there are car, sky train to travel for help us convenience and quickly.",
+                        "Fake Incorrect Word": "us",
+                        "Candidates": [
+                            {
+                                "Word": "by",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a good start to go on a sightseeing bus on Monday morning, because we can se all the famous buildings in a few hours.",
+                        "Fake Incorrect Word": "se",
+                        "Candidates": [
+                            {
+                                "Word": "see",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "U.S.A?",
+                        "Candidates": [
+                            {
+                                "Word": "U.",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "What",
+                        "Candidates": [
+                            {
+                                "Word": "S.",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "kind",
+                        "Candidates": [
+                            {
+                                "Word": "A?",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "of",
+                        "Candidates": [
+                            {
+                                "Word": "What",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "clothes",
+                        "Candidates": [
+                            {
+                                "Word": "kind",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "will",
+                        "Candidates": [
+                            {
+                                "Word": "of",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "I",
+                        "Candidates": [
+                            {
+                                "Word": "clothes",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "need",
+                        "Candidates": [
+                            {
+                                "Word": "will",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                        "Fake Incorrect Word": "and",
+                        "Candidates": [
+                            {
+                                "Word": "I",
+                                "Score": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Candidator": {
+                "acc@inf": 0.83,
+                "Correct Cand Not Found": [
+                    {
+                        "Text": "I WANT TO THAK YOU FOR PREPARING SUCH A GOOD PROGRAMME FOR US AND ESPECIALLY FOR TAKING US ON THE RIVER TRIP TO GREENWICH.",
+                        "Incorrect Word": "THAK",
+                        "Corrected Word": "THANK",
+                        "Candidates": [
+                            {
+                                "Word": "THINK",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "IN MY OPINION FAMOUS PEOPLE ARE BEING OBLIGED TO PAY A PRICE FOR BEING FAMOUS THAT, IN SOME CASS, COSTS MORE THAN THEY DESERVE TO PAY.",
+                        "Incorrect Word": "CASS,",
+                        "Corrected Word": "CASES,",
+                        "Candidates": [
+                            {
+                                "Word": "CAST,",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It is a dream becames true and was really unexpected for me!",
+                        "Incorrect Word": "becames",
+                        "Corrected Word": "come",
+                        "Candidates": [
+                            {
+                                "Word": "becomes",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "The festival was excenent in many ways, and in particular it being an international festival was a challenging, but brilliant idea.",
+                        "Incorrect Word": "excenent",
+                        "Corrected Word": "excellent",
+                        "Candidates": [
+                            {
+                                "Word": "evident",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It started from got up in the morning, we have the machine help us to cook, iron, cleanning, washing, and then we went out to work, there are car, sky train to travel for help us convenience and quickly.",
+                        "Incorrect Word": "cleanning,",
+                        "Corrected Word": "cleaning,",
+                        "Candidates": [
+                            {
+                                "Word": "clean,",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "However, I would choose sailing because I am facinating with the sea and its misteries and I also like the watter, the wind in my face...",
+                        "Incorrect Word": "facinating",
+                        "Corrected Word": "fascinated",
+                        "Candidates": [
+                            {
+                                "Word": "fascinating",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "It was unbelivebly!!!",
+                        "Incorrect Word": "unbelivebly!!!",
+                        "Corrected Word": "unbelievable!!!",
+                        "Candidates": [
+                            {
+                                "Word": "unbelievably!!!",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I have never enjoyed doing shopping, but nowday there are some people who are called shopcholic.",
+                        "Incorrect Word": "nowday",
+                        "Corrected Word": "nowadays",
+                        "Candidates": [
+                            {
+                                "Word": "today",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Specialy if you want to buy clothes with your girlfriend or if you are a girl, you have to be ready to spend hours trying on clothes.",
+                        "Incorrect Word": "Specialy",
+                        "Corrected Word": "Especially",
+                        "Candidates": [
+                            {
+                                "Word": "Specialty",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I would like to make some appoitments about the event that I went to.",
+                        "Incorrect Word": "appoitments",
+                        "Corrected Word": "comments",
+                        "Candidates": [
+                            {
+                                "Word": "appointments",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Of course, you can't afford a luxualy car and a large apartment unless you're born with a silver spoon in your mouth.",
+                        "Incorrect Word": "luxualy",
+                        "Corrected Word": "luxury",
+                        "Candidates": [
+                            {
+                                "Word": "luxurious",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Or going to the show on wensday morning and in the afternoon, we can choose between free time or the National Art Gallery.",
+                        "Incorrect Word": "wensday",
+                        "Corrected Word": "Wednesday",
+                        "Candidates": [
+                            {
+                                "Word": "weekday",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Tairs ran down my face as I admitted having stolen.",
+                        "Incorrect Word": "Tairs",
+                        "Corrected Word": "Tears",
+                        "Candidates": [
+                            {
+                                "Word": "This",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "Firstly, it was mentioned that there were going to be two starrings but, in fact, only one actor was performing in the show.",
+                        "Incorrect Word": "starrings",
+                        "Corrected Word": "stars",
+                        "Candidates": [
+                            {
+                                "Word": "starring",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "He did it some more times, and in the end nobody took any notice of the shoutings.",
+                        "Incorrect Word": "shoutings.",
+                        "Corrected Word": "shouts.",
+                        "Candidates": [
+                            {
+                                "Word": "shootings.",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "If I could go in July that would be greate.",
+                        "Incorrect Word": "greate.",
+                        "Corrected Word": "grate.",
+                        "Candidates": [
+                            {
+                                "Word": "great.",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "fortunetly nothing had happend.",
+                        "Incorrect Word": "fortunetly",
+                        "Corrected Word": "Fortunately",
+                        "Candidates": [
+                            {
+                                "Word": "fortunately",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "After all of this we saw the show from the best place, near the stage and afterwards, the thing that I most liked, we were convidated to see the group and got their signatures.",
+                        "Incorrect Word": "convidated",
+                        "Corrected Word": "invited",
+                        "Candidates": [
+                            {
+                                "Word": "convinced",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "I have got a few things to complain about regarding your theart.",
+                        "Incorrect Word": "theart.",
+                        "Corrected Word": "theatre.",
+                        "Candidates": [
+                            {
+                                "Word": "threatened.",
+                                "Score": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Text": "In addition to this, you may have some roboters bringing the newspaper to the table, tidying up the house, and doing the shopping. Maybe they will also be your life patners.",
+                        "Incorrect Word": "roboters",
+                        "Corrected Word": "robots",
+                        "Candidates": [
+                            {
+                                "Word": "customers",
+                                "Score": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Ranker": {
+                "acc@1": 1.0,
+                "acc@3": 1.0,
+                "Ranking Mistake": []
+            }
+        },
+        "Runtime": {
+            "Data Preparation": "0",
+            "Ranker Train": "0",
+            "Pipeline Eval": "0"
+        }
+    }
+]

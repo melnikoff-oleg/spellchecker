@@ -1,0 +1,73 @@
+{
+    "Date": "28/03/2022 13:03",
+    "Model": "Char-Based Transformer, checkpoint: model_small_2_4_9.pt",
+    "Metrics": {
+        "Precision": 0.64,
+        "Recall": 0.51,
+        "F_0_5": 0.61,
+        "Word-level accuracy": 0.96,
+        "Broken tokenization cases": 0.04
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "In my opinion, it might be better to have time with a variety of nationallites.",
+                "Word noise": "nationallites.",
+                "Word gt": "nationalities.",
+                "Word res": "nationallities."
+            },
+            {
+                "Text noise": "The International Arts Festival was organised quite well. I would only recomended you have more artists and the classical concert should be in a bigger hall.",
+                "Word noise": "recomended",
+                "Word gt": "recommend",
+                "Word res": "recommended"
+            },
+            {
+                "Text noise": "The contrast will be especially attractiv.",
+                "Word noise": "attractiv.",
+                "Word gt": "attractive.",
+                "Word res": "attractic."
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "But some naughty students in my class were throwing paper aeroplanes when the teacher was writting something on the board.",
+                "Word noise": "naughty",
+                "Word gt": "naughty",
+                "Word res": "maughty"
+            },
+            {
+                "Text noise": "I WANT TO THAK YOU FOR PREPARING SUCH A GOOD PROGRAMME FOR US AND ESPECIALLY FOR TAKING US ON THE RIVER TRIP TO GREENWICH.",
+                "Word noise": "PROGRAMME",
+                "Word gt": "PROGRAMME",
+                "Word res": "PROGRAME"
+            },
+            {
+                "Text noise": "That evening my father said a few words: 'May this be the end of your career as a thief; we are only ready to forgive if you promiss never to start again'",
+                "Word noise": "again'",
+                "Word gt": "again'",
+                "Word res": "again''"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "sincinerly Ki",
+                "Word noise": "sincinerly",
+                "Word gt": "sincerely",
+                "Word res": "sincinerly"
+            },
+            {
+                "Text noise": "Suddenly, an enourmous saddness caught me, because Philip had begged me not to tell anyone, so he would definately break up with me, and I knew I was going to stop talking to Pat, because she had just ruined my happiness and I couldn't trust her anymore.",
+                "Word noise": "enourmous",
+                "Word gt": "enormous",
+                "Word res": "enourmous"
+            },
+            {
+                "Text noise": "Today 5 out of every 10 pupils can use a computer basicly.",
+                "Word noise": "basicly.",
+                "Word gt": "basically.",
+                "Word res": "basicly."
+            }
+        ]
+    }
+}

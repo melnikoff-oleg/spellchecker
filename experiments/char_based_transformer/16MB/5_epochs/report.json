@@ -1,0 +1,73 @@
+{
+    "Date": "28/03/2022 12:54",
+    "Model": "Char-Based Transformer, checkpoint: model_small_2_4.pt",
+    "Metrics": {
+        "Precision": 0.47,
+        "Recall": 0.38,
+        "F_0_5": 0.45,
+        "Word-level accuracy": 0.95,
+        "Broken tokenization cases": 0.06
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "So we did, but unforturnily it was closed and I was so dissapointed about it, not only because we had expected Danny Brook and Tina Truelove to be the actor of starring.",
+                "Word noise": "dissapointed",
+                "Word gt": "disappointed",
+                "Word res": "dissappointed"
+            },
+            {
+                "Text noise": "The porpouse of this letter is to complain about my experience with the musical \"Over the Rainbow\", wich really disapointed me.",
+                "Word noise": "porpouse",
+                "Word gt": "purpose",
+                "Word res": "propose"
+            },
+            {
+                "Text noise": "Furthermore the style of the clothes is going to be more crazy and individuell but there will still be enumerous clothes for conservative people.",
+                "Word noise": "individuell",
+                "Word gt": "individual",
+                "Word res": "individually"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "His mother always says: \"If you are smailing and are nice to people, poeple will be nice and will smail at you\".",
+                "Word noise": "you\".",
+                "Word gt": "you\".",
+                "Word res": "you.\""
+            },
+            {
+                "Text noise": "YOU KNOW THAT I ALWAYS WANTED TO HELP AT A CONCERT. TO BE PART OF THE STAFF WOULD BE WONDERFUL, I THOUGTH. AND I WAS RIGHT!",
+                "Word noise": "AND",
+                "Word gt": "AND",
+                "Word res": "AnD"
+            },
+            {
+                "Text noise": "Then, I was forced to wait forty - five minutes to see the show because it started at 20:75 instead of 19:30 and, when it finally started, I was really disapointed to see that the actors weren't Danny and Tina as it had said in the advertisement.",
+                "Word noise": "advertisement.",
+                "Word gt": "advertisement.",
+                "Word res": "thire."
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "For the accomodation at Camp California, I would prefer to have a log cabin because I think it is more comfortable than a tent, and in case there is a big storm with heavy rain. A log cabin's more resistant than a tent.",
+                "Word noise": "accomodation",
+                "Word gt": "accommodation",
+                "Word res": "accomodation"
+            },
+            {
+                "Text noise": "Firstly, the great boom in mass comunication wich happened at the beginning of our decade, with the devellopment of telephones, radio stations, television and even satelites, and of course, the Internet, gave ordinary people the chance to take off on a trip all over the world, and this allowed health and education research to increase as well.",
+                "Word noise": "comunication",
+                "Word gt": "communication",
+                "Word res": "comunication"
+            },
+            {
+                "Text noise": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                "Word noise": "COMPLEINTS",
+                "Word gt": "COMPLAINTS",
+                "Word res": "COMPLEINTS"
+            }
+        ]
+    }
+}

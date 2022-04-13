@@ -1,0 +1,73 @@
+{
+    "Date": "28/03/2022 13:17",
+    "Model": "Char-Based Transformer, checkpoint: model_big_0_4.pt",
+    "Metrics": {
+        "Precision": 0.66,
+        "Recall": 0.7,
+        "F_0_5": 0.67,
+        "Word-level accuracy": 0.97,
+        "Broken tokenization cases": 0.04
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "She became very shy and engry. She couldn't talk with people and she was just very sad.",
+                "Word noise": "engry.",
+                "Word gt": "angry.",
+                "Word res": "entry."
+            },
+            {
+                "Text noise": "Today the fashion industrie has a great importance in the commercial market.",
+                "Word noise": "industrie",
+                "Word gt": "industry",
+                "Word res": "industries"
+            },
+            {
+                "Text noise": "Regarding the accommodation, I would prefer to stay in tents rather than log carbins because I have a lot of experience of putting up my own tents.",
+                "Word noise": "carbins",
+                "Word gt": "cabins",
+                "Word res": "carbons"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "This activity of shopping has become one of our most important, after all, we go shopping for any reason, we have developed such an instinc for shopping that we can proudly say that we are some sort of kings of the urban jungle.",
+                "Word noise": "urban",
+                "Word gt": "urban",
+                "Word res": "burban"
+            },
+            {
+                "Text noise": "Then, I was forced to wait forty - five minutes to see the show because it started at 20:75 instead of 19:30 and, when it finally started, I was really disapointed to see that the actors weren't Danny and Tina as it had said in the advertisement.",
+                "Word noise": "20:75",
+                "Word gt": "20:75",
+                "Word res": "20:"
+            },
+            {
+                "Text noise": "For the activities, I chose climbing because I took a cours for 2 weeks last year and now I have a good level of proficiency. For the other one I chose photography but I am not a proffesional, I just take some pictures on my holiday!",
+                "Word noise": "holiday!",
+                "Word gt": "holiday!",
+                "Word res": "holiday."
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "To help us to live happily, sciencetist can easily perdict the changes on earth, so that we can have time to perpare or defend ourselves from natural diseasters.",
+                "Word noise": "perpare",
+                "Word gt": "prepare",
+                "Word res": "perpare"
+            },
+            {
+                "Text noise": "All those innacuracies spoilt what should have been a memoriable evening so I would like to be refunded at least for the price of my ticket.",
+                "Word noise": "memoriable",
+                "Word gt": "memorable",
+                "Word res": "memoriable"
+            },
+            {
+                "Text noise": "Furthermore, it's a worthful experience for people who want to know about other countries' arts.",
+                "Word noise": "worthful",
+                "Word gt": "worthwhile",
+                "Word res": "worthful"
+            }
+        ]
+    }
+}
