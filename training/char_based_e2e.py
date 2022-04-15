@@ -1,4 +1,4 @@
-from training.common_parts import char_based_model_init, get_sep_mask_training_dataset, launch_training
+from training.common_parts import char_based_model_init, get_end_2_end_training_dataset, launch_training
 from model.spellcheck_model import CharBasedTransformerChecker
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
@@ -6,17 +6,17 @@ PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 def main():
     # data and model prep
-    train_data, val_data = get_sep_mask_training_dataset(char_based=True)
-    tokenizer, model = char_based_model_init(d_model=512)
+    train_data, val_data = get_end_2_end_training_dataset(char_based=True)
+    tokenizer, model = char_based_model_init(d_model=256)
 
     # set important learning params ------------------------------------------
-    checkpoint = PATH_PREFIX + 'training/checkpoints/' + 'char-based-xl-explode_v1_9.pt'
-    device_name = 'cuda:1'
-    model_version = 2
-    model_name = 'char-based-sep-mask'
+    checkpoint = PATH_PREFIX + 'training/checkpoints/' + 'char_based_big_v0_19.pt'
+    device_name = 'cuda:8'
+    model_version = 1
+    model_name = 'char_based_big'
     lr = 0.00005
     test_mode = False
-    batch_size = 32
+    batch_size = 64
     num_epochs = 10
     print_n_batches = 2000
     st_epoch = 0

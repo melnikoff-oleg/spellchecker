@@ -29,7 +29,6 @@ class SpellCheckModelBase(ABC):
                     dest_texts.write(self.correct(text[:-1]) + '\n')
 
 
-
 class CharBasedTransformerChecker(SpellCheckModelBase):
 
     class BartTokenizer(RobertaTokenizer):

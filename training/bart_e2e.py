@@ -1,26 +1,26 @@
-from training.common_parts import char_based_model_init, get_sep_mask_training_dataset, launch_training
-from model.spellcheck_model import CharBasedTransformerChecker
+from model.spellcheck_model import BartChecker
+from training.common_parts import bart_model_init, get_end_2_end_training_dataset, launch_training
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 
 def main():
     # data and model prep
-    train_data, val_data = get_sep_mask_training_dataset(char_based=True)
-    tokenizer, model = char_based_model_init(d_model=512)
+    train_data, val_data = get_end_2_end_training_dataset()
+    tokenizer, model = bart_model_init()
 
     # set important learning params ------------------------------------------
-    checkpoint = PATH_PREFIX + 'training/checkpoints/' + 'char-based-xl-explode_v1_9.pt'
-    device_name = 'cuda:1'
+    checkpoint = PATH_PREFIX + 'training/checkpoints/' + 'bart-base_v1_4.pt'
+    device_name = 'cuda:2'
     model_version = 2
-    model_name = 'char-based-sep-mask'
+    model_name = 'bart-base'
     lr = 0.00005
     test_mode = False
+    st_epoch = 5
     batch_size = 32
     num_epochs = 10
-    print_n_batches = 2000
-    st_epoch = 0
-    spellcheck_class = CharBasedTransformerChecker
+    print_n_batches = 4000
+    spellcheck_class = BartChecker
     save_model_interval = 30000
 
     # setup all remaining parts for learning

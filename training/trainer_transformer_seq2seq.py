@@ -6,18 +6,18 @@ import datetime
 import os
 
 from data_utils.utils import get_texts_from_file
-from model.spellcheck_model import BART
+from model.spellcheck_model import BartChecker
 from evaluation.evaluate import evaluate
 
-# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
-PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
+PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
+# PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
-# one can make using tb through decorator
+# maybe it's possible to use tb through decorator
 
 
 def train_model(model, tokenizer, optimizer, scheduler, train_data, val_data, batch_size: int = 32,
                 print_n_batches: int = 2000, num_epochs: int = 10, st_epoch: int = 0, model_name: str = 'bart',
-                spellcheck_class = BART, device=torch.device('cuda'), save_model=False, use_tensorboard=False,
+                spellcheck_class=BartChecker, device=torch.device('cuda'), save_model=False, use_tensorboard=False,
                 model_version=0, test_mode: bool = True, save_model_interval=None):
 
     # Init tensorboard for logs writing
@@ -36,9 +36,6 @@ def train_model(model, tokenizer, optimizer, scheduler, train_data, val_data, ba
             batch = train_data[i * batch_size: min(i * batch_size + batch_size, len(train_data))]
             prefix = [i[0] for i in batch]
             suffix = [i[1] for i in batch]
-            # DEBUG
-            # print('Training:', prefix[0], suffix[0], '\n')
-            # sleep(5)
             encoder_input = tokenizer(prefix, return_tensors='pt', padding=True).to(device)
             decoder_input = tokenizer(suffix, return_tensors='pt', padding=True).to(device)
             result = model(**encoder_input, labels=decoder_input['input_ids'])
@@ -142,4 +139,3 @@ def train_model(model, tokenizer, optimizer, scheduler, train_data, val_data, ba
             tb.add_scalar("Train loss on epoch", epoch_loss / len(train_data), epoch)
     if use_tensorboard:
         tb.close()
-
