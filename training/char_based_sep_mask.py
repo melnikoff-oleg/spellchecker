@@ -1,7 +1,7 @@
 from training.common_parts import char_based_model_init, get_sep_mask_training_dataset, launch_training
 from model.spellcheck_model import CharBasedTransformerChecker
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
-PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 def main():
@@ -11,11 +11,11 @@ def main():
 
     # set important learning params ------------------------------------------
     checkpoint = PATH_PREFIX + 'training/checkpoints/' + 'char-based-xl-explode_v1_9.pt'
-    device_name = 'cuda:1'
+    device_name = 'cuda:2'
     model_version = 2
     model_name = 'char-based-sep-mask'
     lr = 0.00005
-    test_mode = False
+    test_mode = True
     batch_size = 32
     num_epochs = 10
     print_n_batches = 2000

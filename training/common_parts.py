@@ -5,13 +5,13 @@ from transformers import get_cosine_with_hard_restarts_schedule_with_warmup
 import torch
 from training.trainer_transformer_seq2seq import train_model
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
-PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 def char_based_model_init(d_model=256):
     tokenizer = CharBasedTransformerChecker.BartTokenizer(
-        PATH_PREFIX + "data_utils/char_based_transformer_vocab/url_vocab.json",
-        PATH_PREFIX + "data_utils/char_based_transformer_vocab/url_merges.txt"
+        PATH_PREFIX + 'data_utils/char_based_transformer_vocab/url_vocab.json',
+        PATH_PREFIX + 'data_utils/char_based_transformer_vocab/url_merges.txt'
     )
     config = BartConfig(vocab_size=tokenizer.vocab_size, d_model=d_model, encoder_layers=6, decoder_layers=6,
                         encoder_attention_heads=8, decoder_attention_heads=8, encoder_ffn_dim=d_model * 4,

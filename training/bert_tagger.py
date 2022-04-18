@@ -4,28 +4,61 @@
 # тут все что нужно, датасет соберем из своих файлов, а дальше выравняем по лейблам токенизацию и гоу
 from transformers import AutoTokenizer
 import transformers
-from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
-from datasets import load_dataset, load_metric
+from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification
+from datasets import load_dataset
 import torch
 import nltk
-
-# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/grazie/spell/main/'
+import numpy as np
+from typing import List
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 
+def compute_metrics(p):
+    predictions, labels = p
+    predictions = np.argmax(predictions, axis=2)
+
+    # Remove ignored index (special tokens)
+    true_predictions = [
+        [p for (p, l) in zip(prediction, label) if l != -100]
+        for prediction, label in zip(predictions, labels)
+    ]
+    true_labels = [
+        [l for (p, l) in zip(prediction, label) if l != -100]
+        for prediction, label in zip(predictions, labels)
+    ]
+
+    tp, tn, fp, fn = 0, 0, 0, 0
+    for i, j in zip(true_predictions, true_labels):
+        for k, t in zip(i, j):
+            if k == 1:
+                if k == t:
+                    tp += 1
+                else:
+                    fn += 1
+            else:
+                if k == t:
+                    tn += 1
+                else:
+                    fp += 1
+    return {
+        "precision": tp / (tp + fp),
+        "recall": tp / (tp + fn),
+        "accuracy": (tp + tn) / (tp + tn + fp + fn),
+    }
+
+
 def main():
+
+    # model prep
     model_checkpoint = "distilbert-base-uncased"
-    batch_size = 64
-
-
-    datasets = load_dataset('json', data_files={'train': PATH_PREFIX + 'data/datasets/1blm/1blm.train.tagging',
-                                               'val': PATH_PREFIX + 'data/datasets/bea/bea500.tagging',
-                                               'test': PATH_PREFIX + 'data/datasets/bea/bea500.tagging'})
-
-    print(datasets)
-
+    model = AutoModelForTokenClassification.from_pretrained(model_checkpoint, num_labels=2)
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
+    # data prep
+    datasets = load_dataset('json', data_files={'train': PATH_PREFIX + 'datasets/1blm/1blm.train.tagging',
+                                                'val': PATH_PREFIX + 'datasets/bea/bea500.tagging',
+                                                'test': PATH_PREFIX + 'datasets/bea/bea500.tagging'})
     def tokenize_and_align_labels(examples):
         label_all_tokens = False
         try:
@@ -57,141 +90,89 @@ def main():
 
         tokenized_inputs["labels"] = labels
         return tokenized_inputs
-
-    print(tokenize_and_align_labels(datasets['train'][:5]))
-
+    # DEBUG
+    # print(tokenize_and_align_labels(datasets['train'][:5]))
     tokenized_datasets = datasets.map(tokenize_and_align_labels, batched=True)
-
-
-    # to enable tensorboard should pass callback function to trainer
-
-    from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
-
-    model = AutoModelForTokenClassification.from_pretrained(model_checkpoint, num_labels=2)
-
-    model_name = model_checkpoint.split("/")[-1]
-    args = TrainingArguments(
-        output_dir=f"{model_name}-finetuned-{'tagging'}",
-        evaluation_strategy="steps",
-        eval_steps=2000,
-        learning_rate=2e-5,
-        per_device_train_batch_size=batch_size,
-        per_device_eval_batch_size=batch_size,
-        num_train_epochs=2,
-        weight_decay=0.01,
-        push_to_hub=False,
-    )
-
-    from transformers import DataCollatorForTokenClassification
-
     data_collator = DataCollatorForTokenClassification(tokenizer)
 
-    # metric = load_metric("seqeval")
-    example = datasets["train"][4]
-    labels = [i for i in example["labels"]]
+    # metrics calculation
+    # DEBUG
+    # example = datasets["train"][4]
+    # labels = [i for i in example["labels"]]
+    # print(sample_metric(predictions=[labels], references=[labels]))
 
-    def sample_metric(predictions=[[1, 2, 3], [2, 2]], references=[[1, 2, 3], [2, 2]]):
-        tp, tn, fp, fn = 0, 0, 0, 0
-        for i, j in zip(predictions, references):
-            for k, t in zip(i, j):
-                if k == 1:
-                    if k == t:
-                        tp += 1
-                    else:
-                        fn += 1
-                else:
-                    if k == t:
-                        tn += 1
-                    else:
-                        fp += 1
-        return {
-            "precision": tp / (tp + fp),
-            "recall": tp / (tp + fn),
-            "accuracy": (tp + tn) / (tp + tn + fp + fn),
-        }
+    # set training params
+    lr = 2e-5
+    eval_steps = 2000
+    batch_size = 64
+    num_train_epochs = 2
+    weight_decay = 0.01
+    device = 3
+    model_version = 2
+    model_name = 'bert-detector'
 
-    print(sample_metric(predictions=[labels], references=[labels]))
+    # launch learning
+    torch.cuda.set_device(device)
+    model = model.to(torch.device(f'cuda:{device}'))
+    print(f'Device: {model.device}')
+    # to enable custom tensorboard should pass callback function to trainer
+    args = TrainingArguments(
+        output_dir=f'{PATH_PREFIX}training/checkpoints/{model_name}_v{model_version}',
+        evaluation_strategy="steps",
+        save_strategy="epoch",
+        logging_dir=f'{PATH_PREFIX}training/tensorboard_logs',
+        eval_steps=eval_steps,
+        learning_rate=lr,
+        per_device_train_batch_size=batch_size,
+        per_device_eval_batch_size=batch_size,
+        num_train_epochs=num_train_epochs,
+        weight_decay=weight_decay,
+        push_to_hub=False,
+    )
+    trainer = Trainer(
+        model,
+        args,
+        train_dataset=tokenized_datasets["train"],
+        eval_dataset=tokenized_datasets["val"],
+        data_collator=data_collator,
+        tokenizer=tokenizer,
+        compute_metrics=compute_metrics,
+    )
+    trainer.train()
 
-    import numpy as np
-
-    def compute_metrics(p):
-        predictions, labels = p
-        predictions = np.argmax(predictions, axis=2)
-
-        # Remove ignored index (special tokens)
-        true_predictions = [
-            [p for (p, l) in zip(prediction, label) if l != -100]
-            for prediction, label in zip(predictions, labels)
-        ]
-        true_labels = [
-            [l for (p, l) in zip(prediction, label) if l != -100]
-            for prediction, label in zip(predictions, labels)
-        ]
-
-        results = sample_metric(predictions=true_predictions, references=true_labels)
-        return results
-
-    for i in range(0, 1):
-        try:
-            torch.cuda.set_device(i)
-            model = model.to(torch.device(f'cuda:{i}'))
-            print('DEVICE', model.device)
-
-            trainer = Trainer(
-                model,
-                args,
-                train_dataset=tokenized_datasets["train"],
-                eval_dataset=tokenized_datasets["val"],
-                data_collator=data_collator,
-                tokenizer=tokenizer,
-                compute_metrics=compute_metrics,
-            )
-
-            trainer.train()
-            break
-        except Exception as e:
-            print(e)
-
+    # eval model
     trainer.evaluate()
-
     predictions, labels, _ = trainer.predict(tokenized_datasets["test"])
-    predictions = np.argmax(predictions, axis=2)
-
-    # Remove ignored index (special tokens)
-    true_predictions = [
-        [p for (p, l) in zip(prediction, label) if l != -100]
-        for prediction, label in zip(predictions, labels)
-    ]
-    true_labels = [
-        [l for (p, l) in zip(prediction, label) if l != -100]
-        for prediction, label in zip(predictions, labels)
-    ]
-
-    results = sample_metric(predictions=true_predictions, references=true_labels)
+    results = compute_metrics((predictions, labels))
     print(results)
 
+    # save model
+    model.save_pretrained(PATH_PREFIX + 'training/checkpoints/bert-detector-save2')
 
-    model.save_pretrained(PATH_PREFIX + 'training/checkpoints/bert-detector-0')
 
 def infer_bert_tagger():
-    # checkpoint = '/home/ubuntu/omelnikov/grazie/spell/main/training/checkpoints/bert-detector-0'
+
+    # model prep
+    # checkpoint = '/home/ubuntu/omelnikov/spellchecker/training/checkpoints/bert-detector-0'
     checkpoint = '/home/ubuntu/omelnikov/distilbert-base-uncased-finetuned-tagging/checkpoint-124500'
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = AutoModelForTokenClassification.from_pretrained(checkpoint, num_labels=2)
     model = model.to(device)
-    text = 'Secondly, I had to wait fourty - five minutes before the show finally began.'
-    word_tokens = nltk.word_tokenize(text)
     model_checkpoint = "distilbert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
-    tokenized_inputs = tokenizer(word_tokens, truncation=True, is_split_into_words=True, return_tensors='pt').to(device)["input_ids"]
-    res = model(tokenized_inputs)
 
+    # text prep
+    text = 'Secondly, I had to wait fourty - five minutes before the show finally began.'
+    word_tokens = nltk.word_tokenize(text)
+    tokenized_inputs = tokenizer(word_tokens, truncation=True, is_split_into_words=True, return_tensors='pt').to(device)["input_ids"]
+
+    # get model results
+    res = model(tokenized_inputs)
     tokenized_input = tokenizer(word_tokens, is_split_into_words=True)
     tokens = tokenizer.convert_ids_to_tokens(tokenized_input["input_ids"])
     labels = torch.argmax(res.logits, dim=2).to('cpu').tolist()[0]
     # print(labels[0])
     word_ids = tokenized_input.word_ids()
-
     def spans(txt):
         tokens = nltk.word_tokenize(txt)
         offset = 0
@@ -199,10 +180,7 @@ def infer_bert_tagger():
             offset = txt.find(token, offset)
             yield offset, offset + len(token)
             offset += len(token)
-
     word_spans = list(spans(text))
-
-
     final_labels = [0 for i in word_tokens]
     for ind in range(len(labels)):
         if labels[ind] == 1:
@@ -210,10 +188,7 @@ def infer_bert_tagger():
     print(word_tokens)
     print(word_spans)
     print(final_labels)
-    # print(tokenized_input.word_ids())
-    # print(tokens)
-    # print(torch.argmax(res.logits, dim=2))
+
 
 if __name__ == '__main__':
-    # main()
-    infer_bert_tagger()
+    main()

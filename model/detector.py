@@ -25,8 +25,9 @@ class BaseDetector(ABC):
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
         raise NotImplementedError
 
-# Разве норм что тут везде ищется именно первое вхождение слова в текст? если есть 2 одинаковых ошибки
-# Вторая останется пропущенной
+
+# Разве норм что тут везде ищется именно первое вхождение слова в текст? если есть 2 одинаковых ошибки - Fixed
+# Вторая останется пропущенной - Fixed
 class IdealDetector(BaseDetector):
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
         true_spells = kwargs["true_spells"]
@@ -91,7 +92,6 @@ class BERTDetector(BaseDetector):
         return intervals
 
 
-
 class WordBaseDetector(BaseDetector):
     def __init__(self):
         super().__init__()
@@ -101,19 +101,19 @@ class WordBaseDetector(BaseDetector):
         fict_text = text
         intervals = []
         words = self._tokenizer.tokenize(text)
+
+        # single quote handle
         real_words = []
-        n = len(words)
-        for i in range(n):
-            if i < n - 1 and words[i + 1] in ["'re", "'ve", "'s", "'t", "n't", "'d"]:
-                real_words.append(words[i] + words[i + 1])
+        for i, word in enumerate(words):
+            if i < len(words) - 1 and words[i + 1] in ["'re", "'ve", "'s", "'t", "n't", "'d"]:
+                real_words.append(word + words[i + 1])
                 continue
-            if "'" in words[i]:
+            if word in ["'re", "'ve", "'s", "'t", "n't", "'d"]:
                 continue
-            real_words.append(words[i])
+            real_words.append(word)
         words = real_words
 
-
-        # Тут тоже только первое вхождение ошибки
+        # Тут тоже только первое вхождение ошибки - Fixed
         for i, word in enumerate(words):
             if self.is_spelled(word):
                 start = fict_text.find(word)
@@ -128,6 +128,7 @@ class WordBaseDetector(BaseDetector):
 
     def is_spelled(self, word: str) -> bool:
         raise NotImplementedError
+
 
 # Тупо проверяем есть ли слово в словаре
 class DictionaryDetector(WordBaseDetector):
@@ -157,6 +158,7 @@ class HunspellDetector(WordBaseDetector):
     def is_spelled(self, word: str) -> bool:
         spelled = self.is_word(word) and not self._hunspell.spell(word)
         return spelled
+
 
 if __name__ == '__main__':
     h = HunspellDetector()

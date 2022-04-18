@@ -1,7 +1,7 @@
 from tqdm import tqdm
 import random
-# PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '//'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 
 
 def create_dataset_for_sep_mask(noise_old: str, gt_old: str, noise_new: str, gt_new: str):
@@ -37,8 +37,8 @@ def create_dataset_for_sep_mask(noise_old: str, gt_old: str, noise_new: str, gt_
 
 
 def test():
-    create_dataset_for_sep_mask('datasets/bea/bea60k.noise', 'datasets/bea/bea60k.gt',
-                                'datasets/bea/bea60k.noise.sep_mask', 'datasets/bea/bea60k.gt.sep_mask')
+    create_dataset_for_sep_mask('datasets/1blm/1blm.train.noise', 'datasets/1blm/1blm.train.gt',
+                                'datasets/1blm/1blm.train.noise.sep_mask', 'datasets/1blm/1blm.train.gt.sep_mask')
 
 
 if __name__ == '__main__':

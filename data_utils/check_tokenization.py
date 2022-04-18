@@ -1,5 +1,5 @@
-# PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '//'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 
 
 def check_tokenization(noise: str, gt: str):
@@ -18,7 +18,7 @@ def check_tokenization(noise: str, gt: str):
 
 
 def test():
-    check_tokenization(noise='datasets/1blm/1blm.test.noise', gt='datasets/1blm/1blm.test.gt')
+    check_tokenization(noise='datasets/1blm/1blm.train.noise', gt='datasets/1blm/1blm.train.gt')
 
 
 if __name__ == '__main__':

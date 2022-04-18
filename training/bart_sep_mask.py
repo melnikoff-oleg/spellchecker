@@ -1,7 +1,7 @@
 from model.spellcheck_model import BertBartChecker
 from training.common_parts import bart_model_init, get_sep_mask_training_dataset, launch_training
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
-PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 def main():
@@ -11,11 +11,11 @@ def main():
 
     # set important learning params ------------------------------------------
     checkpoint = None
-    device_name = 'cuda:0'
+    device_name = 'cuda:1'
     model_version = 2
     model_name = 'bart-sep-mask'
     lr = 0.00005
-    test_mode = False
+    test_mode = True
     batch_size = 32
     num_epochs = 10
     print_n_batches = 2000

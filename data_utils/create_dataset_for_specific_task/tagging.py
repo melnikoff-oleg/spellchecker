@@ -1,8 +1,8 @@
 from tqdm import tqdm
 import json
 import nltk
-# PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '//'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 
 # Example
 # {'chunk_tags': [11, 21, 11, 12, 21, 22, 11, 12, 0],
@@ -58,7 +58,18 @@ def create_dataset_for_tagging(noise_old: str, gt_old: str, tagging_new: str):
 
 def test():
     nltk.download('punkt')
-    create_dataset_for_tagging('datasets/bea/bea10.noise', 'datasets/bea/bea10.gt', 'datasets/bea/bea10.tagging')
+    # noise_old = 'datasets/bea/bea500.noise'
+    # gt_old = 'datasets/bea/bea500.gt'
+    # tagging_new = 'datasets/bea/bea500.tagging'
+
+    # noise_old = 'datasets/1blm/1blm.test.noise'
+    # gt_old = 'datasets/1blm/1blm.test.gt'
+    # tagging_new = 'datasets/1blm/1blm.test.tagging'
+
+    noise_old = 'datasets/1blm/1blm.train.noise'
+    gt_old = 'datasets/1blm/1blm.train.gt'
+    tagging_new = 'datasets/1blm/1blm.train.tagging'
+    create_dataset_for_tagging(noise_old, gt_old, tagging_new)
 
 
 if __name__ == '__main__':
