@@ -2,7 +2,7 @@ from tqdm import tqdm
 import json
 import nltk
 # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/'
+PATH_PREFIX = '//'
 
 # Example
 # {'chunk_tags': [11, 21, 11, 12, 21, 22, 11, 12, 0],

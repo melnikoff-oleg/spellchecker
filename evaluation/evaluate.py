@@ -12,7 +12,7 @@ from model.spellcheck_model import SpellCheckModelBase
 # one can make saving to file through decorator
 
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/grazie/spell/main/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/grazie/spell/main/'
 
 
 def evaluate(model: SpellCheckModelBase, texts_gt: List[str], texts_noise: List[str], exp_save_dir: str = None) -> Dict:

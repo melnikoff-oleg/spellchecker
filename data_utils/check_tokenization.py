@@ -1,5 +1,5 @@
 # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/'
+PATH_PREFIX = '//'
 
 
 def check_tokenization(noise: str, gt: str):

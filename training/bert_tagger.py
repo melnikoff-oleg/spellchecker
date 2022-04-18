@@ -9,7 +9,7 @@ from datasets import load_dataset, load_metric
 import torch
 import nltk
 
-# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/grazie/spell/main/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/grazie/spell/main/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 

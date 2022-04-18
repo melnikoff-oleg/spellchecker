@@ -4,7 +4,7 @@ from data_utils.utils import get_parallel_texts_from_files
 from transformers import get_cosine_with_hard_restarts_schedule_with_warmup
 import torch
 from training.trainer_transformer_seq2seq import train_model
-# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 

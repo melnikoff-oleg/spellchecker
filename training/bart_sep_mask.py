@@ -1,6 +1,6 @@
 from model.spellcheck_model import BertBartChecker
 from training.common_parts import bart_model_init, get_sep_mask_training_dataset, launch_training
-# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 

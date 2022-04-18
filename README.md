@@ -12,7 +12,7 @@
 # Installation
 
 ```bash
-git clone https://github.com/melnikoff-oleg/spellchecker; cd spellcheker
+git clone https://github.com/melnikoff-oleg/spellchecker; cd spellchecker
 pip install -r requirements.txt
 ```
 

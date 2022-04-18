@@ -7,7 +7,7 @@ from datasets.spell.main.model.spellcheck_model import BART, MaskWordBART
 from datasets.spell.main.training.data_processing import read_data
 
 
-# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 

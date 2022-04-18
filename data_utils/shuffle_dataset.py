@@ -1,7 +1,7 @@
 from tqdm import tqdm
 import random
 # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/'
+PATH_PREFIX = '//'
 
 
 def shuffle_dataset(noise_old: str, gt_old: str, noise_new: str, gt_new: str):
