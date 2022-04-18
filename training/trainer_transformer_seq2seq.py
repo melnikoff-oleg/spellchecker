@@ -9,8 +9,7 @@ from data_utils.utils import get_texts_from_file
 from model.spellcheck_model import BartChecker
 from evaluation.evaluate import evaluate
 
-PATH_PREFIX = '//'
-# PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 # maybe it's possible to use tb through decorator
 
@@ -117,8 +116,8 @@ def train_model(model, tokenizer, optimizer, scheduler, train_data, val_data, ba
                     else:
                         dataset_name = 'bea/bea500'
                         exp_save_dir = PATH_PREFIX + f'data/experiments/{model_name}_v{model_version}_epoch_{epoch}/'
-                    texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + f'data/datasets/{dataset_name}.gt'), \
-                                            get_texts_from_file(PATH_PREFIX + f'data/datasets/{dataset_name}.noise')
+                    texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + f'dataset/{dataset_name}.gt'), \
+                                            get_texts_from_file(PATH_PREFIX + f'dataset/{dataset_name}.noise')
 
                     evaluation_report = evaluate(spellcheck_model, texts_gt, texts_noise, exp_save_dir)
 

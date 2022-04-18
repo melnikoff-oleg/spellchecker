@@ -1,5 +1,5 @@
 from training.common_parts import char_based_model_init, get_sep_mask_training_dataset, launch_training
-from model.spellcheck_model import CharBasedTransformerChecker
+from model.spellcheck_model import CharBasedSepMask
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
@@ -12,15 +12,15 @@ def main():
     # set important learning params ------------------------------------------
     checkpoint = PATH_PREFIX + 'training/checkpoints/' + 'char-based-xl-explode_v1_9.pt'
     device_name = 'cuda:2'
-    model_version = 2
+    model_version = 0
     model_name = 'char-based-sep-mask'
     lr = 0.00005
-    test_mode = True
+    test_mode = False
     batch_size = 32
     num_epochs = 10
     print_n_batches = 2000
     st_epoch = 0
-    spellcheck_class = CharBasedTransformerChecker
+    spellcheck_class = CharBasedSepMask
     save_model_interval = 30000
 
     # setup all remaining parts for learning

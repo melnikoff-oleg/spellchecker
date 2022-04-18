@@ -37,8 +37,8 @@ def create_dataset_for_sep_mask(noise_old: str, gt_old: str, noise_new: str, gt_
 
 
 def test():
-    create_dataset_for_sep_mask('datasets/1blm/1blm.train.noise', 'datasets/1blm/1blm.train.gt',
-                                'datasets/1blm/1blm.train.noise.sep_mask', 'datasets/1blm/1blm.train.gt.sep_mask')
+    create_dataset_for_sep_mask('dataset/1blm/1blm.train.noise', 'dataset/1blm/1blm.train.gt',
+                                'dataset/1blm/1blm.train.noise.sep_mask', 'dataset/1blm/1blm.train.gt.sep_mask')
 
 
 if __name__ == '__main__':

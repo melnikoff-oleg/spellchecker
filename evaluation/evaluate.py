@@ -11,7 +11,7 @@ from model.spellcheck_model import SpellCheckModelBase
 
 # one can make saving to file through decorator
 
-PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/grazie/spell/main/'
 
 
@@ -138,8 +138,8 @@ def evaluate(model: SpellCheckModelBase, texts_gt: List[str], texts_noise: List[
 
 if __name__ == '__main__':
     path_prefix = '/home/ubuntu/omelnikov/grazie/spell/main/'
-    texts_gt, texts_noise = get_texts_from_file(path_prefix + 'data/datasets/bea/bea500.gt'), \
-                            get_texts_from_file(path_prefix + 'data/datasets/bea/bea500.noise')
+    texts_gt, texts_noise = get_texts_from_file(path_prefix + 'dataset/bea/bea500.gt'), \
+                            get_texts_from_file(path_prefix + 'dataset/bea/bea500.noise')
 
     # bart-base
     # checkpoint = 'training/checkpoints/bart-base_v0_3.pt'

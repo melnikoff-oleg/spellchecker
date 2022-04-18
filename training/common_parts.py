@@ -27,21 +27,21 @@ def bart_model_init():
 
 
 def get_end_2_end_training_dataset(char_based: bool = False):
-    train = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'datasets/1blm/1blm.train.gt',
-                                          file2_path=PATH_PREFIX + 'datasets/1blm/1blm.train.noise',
+    train = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'dataset/1blm/1blm.train.noise',
+                                          file2_path=PATH_PREFIX + 'dataset/1blm/1blm.train.gt',
                                           char_based=char_based)
-    val = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'datasets/1blm/1blm.test.gt',
-                                        file2_path=PATH_PREFIX + 'datasets/1blm/1blm.test.noise',
+    val = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'dataset/1blm/1blm.test.noise',
+                                        file2_path=PATH_PREFIX + 'dataset/1blm/1blm.test.gt',
                                         char_based=char_based)
     return train, val
 
 
 def get_sep_mask_training_dataset(char_based: bool = False):
-    train = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'datasets/1blm/1blm.train.gt.sep_mask.shuffled',
-                                          file2_path=PATH_PREFIX + 'datasets/1blm/1blm.train.noise.sep_mask.shuffled',
+    train = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'dataset/1blm/1blm.train.noise.sep_mask',
+                                          file2_path=PATH_PREFIX + 'dataset/1blm/1blm.train.gt.sep_mask',
                                           char_based=char_based)
-    val = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'datasets/1blm/1blm.test.gt.sep_mask.shuffled',
-                                        file2_path=PATH_PREFIX + 'datasets/1blm/1blm.test.noise.sep_mask.shuffled',
+    val = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'dataset/1blm/1blm.test.noise.sep_mask',
+                                        file2_path=PATH_PREFIX + 'dataset/1blm/1blm.test.gt.sep_mask',
                                         char_based=char_based)
     return train, val
 

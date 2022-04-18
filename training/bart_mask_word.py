@@ -8,14 +8,14 @@ from datasets.spell.main.training.data_processing import read_data
 
 
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
-PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 def main():
-    train_data = read_data(gt_path=PATH_PREFIX + 'data/datasets/1blm/1blm.train.gt.mask_word',
-                      noise_path=PATH_PREFIX + 'data/datasets/1blm/1blm.train.noise.mask_word')
-    val_data = read_data(gt_path=PATH_PREFIX + 'data/datasets/1blm/1blm.test.gt.mask_word',
-                    noise_path=PATH_PREFIX + 'data/datasets/1blm/1blm.test.noise.mask_word')
+    train_data = read_data(gt_path=PATH_PREFIX + 'dataset/1blm/1blm.train.gt.mask_word',
+                      noise_path=PATH_PREFIX + 'dataset/1blm/1blm.train.noise.mask_word')
+    val_data = read_data(gt_path=PATH_PREFIX + 'dataset/1blm/1blm.test.gt.mask_word',
+                    noise_path=PATH_PREFIX + 'dataset/1blm/1blm.test.noise.mask_word')
 
     tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
     model = BartForConditionalGeneration.from_pretrained('facebook/bart-base')

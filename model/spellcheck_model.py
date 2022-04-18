@@ -10,7 +10,7 @@ from model.detector import HunspellDetector, BERTDetector
 from data_utils.utils import get_texts_from_file
 
 # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '//'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 class SpellCheckModelBase(ABC):
@@ -83,7 +83,7 @@ class SpellCheckModelNeuSpell(SpellCheckModelBase):
         return 'NeuSpell BERT'
 
     def correct(self, text: str) -> str:
-        with open(PATH_PREFIX + 'datasets/bea/bea60k.noise') as x:
+        with open(PATH_PREFIX + 'dataset/bea/bea60k.noise') as x:
             p = x.readlines()
         with open(PATH_PREFIX + 'experiments/neuspell_bert/result_4.txt') as y:
             q = y.readlines()
@@ -136,7 +136,6 @@ class BartChecker(SpellCheckModelBase):
                                       num_beams=5, min_length=5, max_length=500)
         ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
         return ' '.join(ans_tokens)
-
 
 
 class BertBartChecker(SpellCheckModelBase):
@@ -194,6 +193,87 @@ class BertBartChecker(SpellCheckModelBase):
             ans_ids = self.model.generate(self.tokenizer([new_text], return_tensors='pt').to(self.device)["input_ids"],
                                       num_beams=5, min_length=5, max_length=500)
             ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+            text = ' '.join(ans_tokens)
+            spells = detector.detect(text)
+            col += 1
+
+        if col > 1:
+            print('Init text:', init_text)
+            print('Cur text:', text)
+            print()
+
+        if init_text == init_text.upper():
+            text = text.upper()
+        return text
+
+
+class CharBasedSepMask(SpellCheckModelBase):
+
+    class BartTokenizer(RobertaTokenizer):
+        vocab_files_names = {"vocab_file": PATH_PREFIX + "data_utils/char_based_transformer_vocab/vocab.json",
+                             "merges_file": PATH_PREFIX + "data_utils/char_based_transformer_vocab/merges.txt"}
+
+    def __init__(self, config: dict = None, checkpoint: str = 'No learning', model: BartForConditionalGeneration = None,
+                 device: torch.device = None):
+        self.checkpoint = checkpoint
+        transformers.set_seed(42)
+        self.tokenizer = CharBasedTransformerChecker.BartTokenizer(
+            PATH_PREFIX + "data_utils/char_based_transformer_vocab/url_vocab.json",
+            PATH_PREFIX + "data_utils/char_based_transformer_vocab/url_merges.txt"
+        )
+        if not config is None:
+            config['vocab_size'] = self.tokenizer.vocab_size
+        if device is None:
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        else:
+            self.device = device
+
+        if model is not None:
+            self.model = model
+        else:
+            model_config = BartConfig(**config)
+            self.model = BartForConditionalGeneration(model_config)
+            if checkpoint != 'No learning':
+                # Model was trained on GPU, maybe we are inferring on CPU
+                if self.device == torch.device('cpu'):
+                    self.model.load_state_dict(torch.load(checkpoint, map_location='cpu'))
+                else:
+                    self.model.load_state_dict(torch.load(checkpoint))
+
+        self.model = self.model.to(self.device)
+
+    def __str__(self):
+        return f'Char-Based Transformer, checkpoint: {self.checkpoint.split("/")[-1]}'
+
+    def correct(self, text: str) -> str:
+        init_text = text
+        if text.upper() == text:
+            text = text.lower()
+        detector = HunspellDetector()
+        # detector = BERTDetector()
+        try:
+            spells = detector.detect(text)
+        except Exception as e:
+            print(e)
+            return text
+
+
+        col = 0
+
+        while len(spells) > 0 and col < 1:
+            spell_ind = 0
+            # spell_ind = random.randint(0, len(spells) - 1)
+            new_text = spells[spell_ind].word + ' <sep> ' + text[: spells[spell_ind].interval[0]] + '<mask>'+ text[spells[spell_ind].interval[1]: ]
+            if col > 0:
+                print('Init tex:', init_text)
+                print('Cur text:', text)
+                print(f'New spell:|{spells[spell_ind].word}|')
+            new_text = new_text.replace(' ', '_')
+            ans_ids = self.model.generate(self.tokenizer([new_text], return_tensors='pt').to(self.device)["input_ids"],
+                                      num_beams=5, min_length=5, max_length=500)
+            ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+            for ind, i in enumerate(ans_tokens):
+                ans_tokens[ind] = ans_tokens[ind].replace('_', ' ')[7:].split('<')[0]
             text = ' '.join(ans_tokens)
             spells = detector.detect(text)
             col += 1
@@ -296,8 +376,8 @@ def bart_pretrain_test():
     # → ["I look forward to receiving your reply"]
 
     """ evaluation of models """
-    # texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + 'datasets/bea/bea2.gt'), \
-    #                         get_texts_from_file(PATH_PREFIX + 'datasets/bea/bea2.noise')
+    # texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea2.gt'), \
+    #                         get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea2.noise')
     # evaluate(checker, texts_gt=texts_gt, texts_noise=texts_noise)
     # spellcheck_model_test(checker)
 

@@ -18,7 +18,7 @@ def check_tokenization(noise: str, gt: str):
 
 
 def test():
-    check_tokenization(noise='datasets/1blm/1blm.train.noise', gt='datasets/1blm/1blm.train.gt')
+    check_tokenization(noise='dataset/1blm/1blm.train.noise', gt='dataset/1blm/1blm.train.gt')
 
 
 if __name__ == '__main__':

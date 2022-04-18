@@ -58,17 +58,9 @@ def create_dataset_for_tagging(noise_old: str, gt_old: str, tagging_new: str):
 
 def test():
     nltk.download('punkt')
-    # noise_old = 'datasets/bea/bea500.noise'
-    # gt_old = 'datasets/bea/bea500.gt'
-    # tagging_new = 'datasets/bea/bea500.tagging'
-
-    # noise_old = 'datasets/1blm/1blm.test.noise'
-    # gt_old = 'datasets/1blm/1blm.test.gt'
-    # tagging_new = 'datasets/1blm/1blm.test.tagging'
-
-    noise_old = 'datasets/1blm/1blm.train.noise'
-    gt_old = 'datasets/1blm/1blm.train.gt'
-    tagging_new = 'datasets/1blm/1blm.train.tagging'
+    noise_old = 'dataset/1blm/1blm.train.noise'
+    gt_old = 'dataset/1blm/1blm.train.gt'
+    tagging_new = 'dataset/1blm/1blm.train.tagging'
     create_dataset_for_tagging(noise_old, gt_old, tagging_new)
 
 

@@ -15,7 +15,7 @@ def main():
     model_version = 2
     model_name = 'bart-base'
     lr = 0.00005
-    test_mode = True
+    test_mode = False
     st_epoch = 5
     batch_size = 32
     num_epochs = 10

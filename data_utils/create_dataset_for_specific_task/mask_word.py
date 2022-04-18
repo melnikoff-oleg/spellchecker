@@ -2,10 +2,9 @@ from tqdm import tqdm
 
 if __name__ == '__main__':
     # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-    PATH_PREFIX = '/datasets/spell/main/'
+    PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
-    # dataset_paths = ['data/datasets/1blm/1blm.train', 'data/datasets/1blm/1blm.test']
-    dataset_paths = ['data/datasets/bea/bea500']
+    dataset_paths = ['dataset/bea/bea500']
     for dataset_path in dataset_paths:
         with open(PATH_PREFIX + dataset_path + '.noise') as f:
             with open(PATH_PREFIX + dataset_path + '.gt') as g:

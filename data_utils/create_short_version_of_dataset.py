@@ -1,5 +1,5 @@
 # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '//'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 def create_short_version_of_dataset(length: int, noise_old: str, gt_old: str, noise_new: str, gt_new: str):
@@ -16,8 +16,8 @@ def create_short_version_of_dataset(length: int, noise_old: str, gt_old: str, no
 
 
 def test():
-    create_short_version_of_dataset(2, 'datasets/bea/bea60k.noise', 'datasets/bea/bea60k.gt', 'datasets/bea/bea2.noise',
-                                    'datasets/bea/bea2.gt')
+    create_short_version_of_dataset(2, 'dataset/bea/bea60k.noise', 'dataset/bea/bea60k.gt', 'dataset/bea/bea2.noise',
+                                    'dataset/bea/bea2.gt')
 
 
 if __name__ == '__main__':

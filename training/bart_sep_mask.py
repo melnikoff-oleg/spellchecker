@@ -15,7 +15,7 @@ def main():
     model_version = 2
     model_name = 'bart-sep-mask'
     lr = 0.00005
-    test_mode = True
+    test_mode = False
     batch_size = 32
     num_epochs = 10
     print_n_batches = 2000

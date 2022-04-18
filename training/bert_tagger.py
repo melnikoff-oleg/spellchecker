@@ -11,7 +11,7 @@ import nltk
 import numpy as np
 from typing import List
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
-PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 def compute_metrics(p):
@@ -56,9 +56,9 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
     # data prep
-    datasets = load_dataset('json', data_files={'train': PATH_PREFIX + 'datasets/1blm/1blm.train.tagging',
-                                                'val': PATH_PREFIX + 'datasets/bea/bea500.tagging',
-                                                'test': PATH_PREFIX + 'datasets/bea/bea500.tagging'})
+    datasets = load_dataset('json', data_files={'train': PATH_PREFIX + 'dataset/1blm/1blm.train.tagging',
+                                                'val': PATH_PREFIX + 'dataset/bea/bea500.tagging',
+                                                'test': PATH_PREFIX + 'dataset/bea/bea500.tagging'})
     def tokenize_and_align_labels(examples):
         label_all_tokens = False
         try:
@@ -105,7 +105,7 @@ def main():
     lr = 2e-5
     eval_steps = 2000
     batch_size = 64
-    num_train_epochs = 2
+    num_train_epochs = 5
     weight_decay = 0.01
     device = 3
     model_version = 2

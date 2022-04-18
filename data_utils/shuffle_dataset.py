@@ -1,7 +1,7 @@
 from tqdm import tqdm
 import random
 # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '//'
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 def shuffle_dataset(noise_old: str, gt_old: str, noise_new: str, gt_new: str):
@@ -17,8 +17,8 @@ def shuffle_dataset(noise_old: str, gt_old: str, noise_new: str, gt_new: str):
 
 
 def test():
-    shuffle_dataset('datasets/bea/bea10.noise', 'datasets/bea/bea10.gt', 'datasets/bea/bea10.noise.shuffled',
-                    'datasets/bea/bea10.gt.shuffled')
+    shuffle_dataset('dataset/bea/bea10.noise', 'dataset/bea/bea10.gt', 'dataset/bea/bea10.noise.shuffled',
+                    'dataset/bea/bea10.gt.shuffled')
 
 
 if __name__ == '__main__':
