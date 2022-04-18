@@ -9,7 +9,7 @@ from data_utils.utils import get_texts_from_file
 from model.spellcheck_model import BartChecker
 from evaluation.evaluate import evaluate
 
-PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
+PATH_PREFIX = '//'
 # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 # maybe it's possible to use tb through decorator

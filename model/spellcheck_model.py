@@ -10,7 +10,7 @@ from model.detector import HunspellDetector, BERTDetector
 from data_utils.utils import get_texts_from_file
 
 # PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
-PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
+PATH_PREFIX = '//'
 
 
 class SpellCheckModelBase(ABC):

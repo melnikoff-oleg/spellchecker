@@ -1,6 +1,6 @@
 from training.common_parts import char_based_model_init, get_end_2_end_training_dataset, launch_training
 from model.spellcheck_model import CharBasedTransformerChecker
-# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/jb-spellchecker/'
+# PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellcheker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 
 
