@@ -9,6 +9,7 @@ from datasets import load_dataset
 import torch
 import nltk
 import numpy as np
+import os
 from typing import List
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
@@ -104,16 +105,19 @@ def main():
     # set training params
     lr = 2e-5
     eval_steps = 2000
-    batch_size = 64
+    batch_size = 1
     num_train_epochs = 5
     weight_decay = 0.01
-    device = 3
+    device = 'cuda:4'
     model_version = 2
     model_name = 'bert-detector'
+    # os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+    os.environ["CUDA_VISIBLE_DEVICES"] = f"{device}"
+    torch.cuda.set_device(device)
 
     # launch learning
-    torch.cuda.set_device(device)
-    model = model.to(torch.device(f'cuda:{device}'))
+    # torch.cuda.set_device(1)
+    model = model.to(torch.device(f'{device}'))
     print(f'Device: {model.device}')
     # to enable custom tensorboard should pass callback function to trainer
     args = TrainingArguments(

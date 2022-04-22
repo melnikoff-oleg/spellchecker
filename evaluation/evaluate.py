@@ -7,7 +7,7 @@ import os
 from tqdm import tqdm
 
 from data_utils.utils import get_texts_from_file
-from model.spellcheck_model import SpellCheckModelBase
+from model.spellcheck_model import SpellCheckModelBase, BartChecker
 
 # one can make saving to file through decorator
 
@@ -133,18 +133,16 @@ def evaluate(model: SpellCheckModelBase, texts_gt: List[str], texts_noise: List[
 #                             get_texts_from_file(path_prefix + 'data/datasets/bea/bea50.noise')
 #
 #     evaluate(model, texts_gt, texts_noise, path_prefix + 'data/experiments/char_based_transformer_big_10_epochs_test/')
-#
 
 
 if __name__ == '__main__':
-    path_prefix = '/home/ubuntu/omelnikov/grazie/spell/main/'
-    texts_gt, texts_noise = get_texts_from_file(path_prefix + 'dataset/bea/bea500.gt'), \
-                            get_texts_from_file(path_prefix + 'dataset/bea/bea500.noise')
+    texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.gt'), \
+                            get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.noise')
 
     # bart-base
-    # checkpoint = 'training/checkpoints/bart-base_v0_3.pt'
-    # model = BART(checkpoint=path_prefix + checkpoint, device=torch.device('cuda:3'))
-    # evaluate(model, texts_gt, texts_noise, path_prefix + 'data/experiments/bart-base_v0_3/')
+    checkpoint = 'training/checkpoints/bart-base_v1_4.pt'
+    model = BartChecker(checkpoint=PATH_PREFIX + checkpoint, device=torch.device('cuda:6'))
+    evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bart-base_v1_4/')
 
     # bart sep mask
     # model_name = 'bart-sep-mask_v1_3'
@@ -156,7 +154,6 @@ if __name__ == '__main__':
     # checkpoint = 'training/checkpoints/bart-mask-word_v0_2.pt'
     # model = MaskWordBART(checkpoint=path_prefix + checkpoint, device=torch.device('cuda:0'))
     # evaluate(model, texts_gt, texts_noise, path_prefix + 'data/experiments/bart-mask-word_v0_2/')
-
 
     # old BART + lev
     # model = three_part_model_train()

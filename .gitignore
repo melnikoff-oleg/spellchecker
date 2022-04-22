@@ -1,8 +1,8 @@
 venv/
 model/neuspell/*
 experiments/**/*.txt
-datasets/1blm/*
-datasets/bea/bea60k*
+dataset/1blm/*
+dataset/bea/bea60k*
 __pycache__/
 .DS_Store
 .idea/

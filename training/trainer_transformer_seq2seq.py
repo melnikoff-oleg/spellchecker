@@ -115,7 +115,7 @@ def train_model(model, tokenizer, optimizer, scheduler, train_data, val_data, ba
                         exp_save_dir = None
                     else:
                         dataset_name = 'bea/bea500'
-                        exp_save_dir = PATH_PREFIX + f'data/experiments/{model_name}_v{model_version}_epoch_{epoch}/'
+                        exp_save_dir = PATH_PREFIX + f'training/intermediate_reports/{model_name}_v{model_version}_epoch_{epoch}/'
                     texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + f'dataset/{dataset_name}.gt'), \
                                             get_texts_from_file(PATH_PREFIX + f'dataset/{dataset_name}.noise')
 

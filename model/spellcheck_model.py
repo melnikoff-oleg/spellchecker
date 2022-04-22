@@ -121,9 +121,10 @@ class BartChecker(SpellCheckModelBase):
                 if self.device == torch.device('cpu'):
                     self.model.load_state_dict(torch.load(checkpoint, map_location='cpu'))
                 else:
-                    self.model.load_state_dict(torch.load(checkpoint))
+                    self.model.load_state_dict(torch.load(checkpoint, map_location=self.device))
 
         self.model = self.model.to(self.device)
+        print(f'Device: {self.device}')
 
     def from_pretrained(self):
         self.model = BartForConditionalGeneration.from_pretrained("melnikoff-oleg/bart-end-to-end")

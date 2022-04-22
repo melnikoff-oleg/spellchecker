@@ -1,0 +1,73 @@
+{
+    "Date": "19/04/2022 09:50",
+    "Model": "BART, checkpoint: bart-base_v1_4.pt",
+    "Metrics": {
+        "Precision": 0.8,
+        "Recall": 0.86,
+        "F_0_5": 0.81,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.03
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "But the play started fourty - five minutes late, and the star of the show, of whom I'm a great fan an who was the main reason for why I decided to see the play, had been changed for another actor, who turned out to be really bad.",
+                "Word noise": "fourty",
+                "Word gt": "forty",
+                "Word res": "fourth"
+            },
+            {
+                "Text noise": "I sometimes lose my desire to buy a thing because of their bad behaviers.",
+                "Word noise": "behaviers.",
+                "Word gt": "behaviour.",
+                "Word res": "behavior."
+            },
+            {
+                "Text noise": "Circle Theater",
+                "Word noise": "Theater",
+                "Word gt": "Theatre",
+                "Word res": "Theater."
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                "Word noise": "U.S.A.",
+                "Word gt": "U.S.A.",
+                "Word res": "U,\"A."
+            },
+            {
+                "Text noise": "IM QUITE GOOD AT PLAYING BASKETBALL BECAUSE I USED TO PLAY FOR ABOUT FIVE YEARS AT SCHOOL. WE USED TO HAVE TRAINING SESSIONS TWICE A WEEK AND AT LEAST TWO GAMES A MONTH AGAINST ANOTHER SCHOOL, WHICH WAS GREAT.",
+                "Word noise": "USED",
+                "Word gt": "USED",
+                "Word res": "USEDs"
+            },
+            {
+                "Text noise": "I WOULD LIKE TO ASK YOU ABOUT THE WEATHER CONDITIONS, SO I CAN DECIDE ON WHAT CLOTHES TO TAKE, AND ABOUT COSTS, SO I CAN MAKE A BUDJET FOR THE HOLIDAY.",
+                "Word noise": "I",
+                "Word gt": "I",
+                "Word res": "In"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "However such centers are very useful and necessary.",
+                "Word noise": "centers",
+                "Word gt": "centres",
+                "Word res": "centers"
+            },
+            {
+                "Text noise": "While I will be at the Camp I would like sailing, because it is my favorite sport.",
+                "Word noise": "favorite",
+                "Word gt": "favourite",
+                "Word res": "favorite"
+            },
+            {
+                "Text noise": "I love swimming and also I've got a scubar diving licence.",
+                "Word noise": "scubar",
+                "Word gt": "scuba",
+                "Word res": "scubar"
+            }
+        ]
+    }
+}
