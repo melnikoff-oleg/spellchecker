@@ -1,0 +1,73 @@
+{
+    "Date": "22/04/2022 15:10",
+    "Model": "SepMaskBART, checkpoint: bart-sep-mask_v2_997234.pt",
+    "Metrics": {
+        "Precision": 0.81,
+        "Recall": 0.85,
+        "F_0_5": 0.82,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.03
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "Yours faightfully",
+                "Word noise": "faightfully",
+                "Word gt": "faithfully",
+                "Word res": "frightfully"
+            },
+            {
+                "Text noise": "It gives us knowledge usefull for many school clubs, like the \"marathon shell\" club or the robotich club.",
+                "Word noise": "robotich",
+                "Word gt": "robotics",
+                "Word res": "robotic"
+            },
+            {
+                "Text noise": "I guess they will wear a sort of tunique over a shirt and a skirt, or more masculine clothes because they want to change.",
+                "Word noise": "tunique",
+                "Word gt": "tunic",
+                "Word res": "technique"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "In addition, the advertisment mentioned that the restaurant would be open after the show but it was closed because short of cooker.",
+                "Word noise": "cooker.",
+                "Word gt": "cooker.",
+                "Word res": "cookers."
+            },
+            {
+                "Text noise": "Everybody attented go to the show, funny, and happ in the end, and what have we go then?",
+                "Word noise": "attented",
+                "Word gt": "attented",
+                "Word res": "wanted"
+            },
+            {
+                "Text noise": "The rules at home are very different. I am allowed to do what I want as long as I studie enough to aprove.",
+                "Word noise": "aprove.",
+                "Word gt": "aprove.",
+                "Word res": "approve."
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "Weapons and factories are destroing our planet and we need to realise that we have to use tecnology to impruve our lives, while always triying to respect nature.",
+                "Word noise": "triying",
+                "Word gt": "trying",
+                "Word res": "triying"
+            },
+            {
+                "Text noise": "The smokers in the school yard, the buffett and the other pupils, who are sitting at their tables doing their homework.",
+                "Word noise": "buffett",
+                "Word gt": "buffet",
+                "Word res": "buffett"
+            },
+            {
+                "Text noise": "While I will be at the Camp I would like sailing, because it is my favorite sport.",
+                "Word noise": "favorite",
+                "Word gt": "favourite",
+                "Word res": "favorite"
+            }
+        ]
+    }
+}

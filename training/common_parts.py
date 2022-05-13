@@ -3,6 +3,7 @@ from transformers import BartConfig, BartForConditionalGeneration, BartTokenizer
 from data_utils.utils import get_parallel_texts_from_files
 from transformers import get_cosine_with_hard_restarts_schedule_with_warmup
 import torch
+from typing import List
 from training.trainer_transformer_seq2seq import train_model
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
@@ -20,9 +21,19 @@ def char_based_model_init(d_model=256):
     return tokenizer, model
 
 
-def bart_model_init():
+def bart_model_init(checkpoint: str = None, config: BartConfig = None):
     tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
-    model = BartForConditionalGeneration.from_pretrained('facebook/bart-base')
+    if checkpoint is None:
+        model = BartForConditionalGeneration.from_pretrained('facebook/bart-base')
+    else:
+        model = BartForConditionalGeneration(config)
+        model.load_state_dict(torch.load(checkpoint))
+    return tokenizer, model
+
+
+def bart_distil_model_init(checkpoint, config):
+    tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
+    model = BartForConditionalGeneration.from_pretrained(checkpoint, config)
     return tokenizer, model
 
 
@@ -36,12 +47,30 @@ def get_end_2_end_training_dataset(char_based: bool = False):
     return train, val
 
 
-def get_sep_mask_training_dataset(char_based: bool = False):
-    train = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'dataset/1blm/1blm.train.noise.sep_mask',
-                                          file2_path=PATH_PREFIX + 'dataset/1blm/1blm.train.gt.sep_mask',
+def get_sep_mask_training_dataset(char_based: bool = False, all_mistakes: bool = True, sent: bool = True):
+
+    if not all_mistakes:
+        train_noise_path = 'dataset/1blm/1blm.train.noise.sep_mask'
+        train_gt_path = 'dataset/1blm/1blm.train.gt.sep_mask'
+        test_noise_path = 'dataset/1blm/1blm.test.noise.sep_mask'
+        test_gt_path = 'dataset/1blm/1blm.test.gt.sep_mask'
+    else:
+        if sent:
+            train_noise_path = 'dataset/1blm/1blm.train.noise.sep_mask_all_sent'
+            train_gt_path = 'dataset/1blm/1blm.train.gt.sep_mask_all_sent'
+            test_noise_path = 'dataset/1blm/1blm.test.noise.sep_mask_all_sent'
+            test_gt_path = 'dataset/1blm/1blm.test.gt.sep_mask_all_sent'
+        else:
+            train_noise_path = 'dataset/1blm/1blm.train.noise.sep_mask_all_sep'
+            train_gt_path = 'dataset/1blm/1blm.train.gt.sep_mask_all_sep'
+            test_noise_path = 'dataset/1blm/1blm.test.noise.sep_mask_all_sep'
+            test_gt_path = 'dataset/1blm/1blm.test.gt.sep_mask_all_sep'
+
+    train = get_parallel_texts_from_files(file1_path=PATH_PREFIX + train_noise_path,
+                                          file2_path=PATH_PREFIX + train_gt_path,
                                           char_based=char_based)
-    val = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'dataset/1blm/1blm.test.noise.sep_mask',
-                                        file2_path=PATH_PREFIX + 'dataset/1blm/1blm.test.gt.sep_mask',
+    val = get_parallel_texts_from_files(file1_path=PATH_PREFIX + test_noise_path,
+                                        file2_path=PATH_PREFIX + test_gt_path,
                                         char_based=char_based)
     return train, val
 

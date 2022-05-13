@@ -1,0 +1,43 @@
+{
+    "Date": "12/05/2022 11:28",
+    "Model": "<model.spellcheck_model.DetectorCandidatorRanker object at 0x7f2286817ba8>",
+    "Metrics": {
+        "Precision@1": 0.96,
+        "True": 453,
+        "False": 18
+    },
+    "Mistakes examples": {
+        "Wrong candidate choosen": [
+            [
+                "Sentence: IN MY OPINION FAMOUS PEOPLE ARE BEING OBLIGED TO PAY A PRICE FOR BEING FAMOUS THAT, IN SOME CASS, COSTS MORE THAN THEY DESERVE TO PAY., Corr word: CASES,, Res word: CASS,"
+            ],
+            [
+                "Sentence: Thirdly, the advertisment said that discounts were avaliable but the ticket seller said that there was no discount allowing or avaliable., Corr word: advertisement, Res word: advertiser"
+            ],
+            [
+                "Sentence: WE WERE A GROUPE! ONE TEAM! BEFORE THE CONCERT WE HAD A BREAK TO EAT SOMETHING AND TO TALK TO EACH OTHER., Corr word: GROUP!, Res word: GROUSE!"
+            ],
+            [
+                "Sentence: In addition to this, you may have some roboters bringing the newspaper to the table, tidying up the house, and doing the shopping. Maybe they will also be your life patners., Corr word: robots, Res word: robbers"
+            ],
+            [
+                "Sentence: AS YOU KNOW I WROTE TO THAT ORGANISATION WHICH IS ALWAYS RESPONSBLE FOR BIG EVENTS., Corr word: RESPONSIBLE, Res word: RESPONSE"
+            ],
+            [
+                "Sentence: Secondly, the show was meant to begin at 19.30 pm, actually it began at 20.15 pm and that was without giving any explainations!, Corr word: explanation!, Res word: explanations!"
+            ],
+            [
+                "Sentence: Fistly, the English lessons must be filmed as the most interesting lessons at our school because it will give students an interest in studying and improving their noleges., Corr word: Firstly,, Res word: Fistful,"
+            ],
+            [
+                "Sentence: First, we couldn't get a discount, although you mention it in your advertisment., Corr word: advertisement., Res word: advertising."
+            ],
+            [
+                "Sentence: THIS CAN BE BAD TOO BECAUSE IF I GET USED TO BEING CONFORTABLE, WHEN I NEED TO DO HARD WORK I WON'T BE ABLE TO., Corr word: COMFORTABLE,, Res word: CONFORMABLE,"
+            ],
+            [
+                "Sentence: When we arrived at the theatre we realised that there were no discount tickets available as were mentioned in your advertisment so we had to buy the most expensive ones., Corr word: advertisement, Res word: advertising"
+            ]
+        ]
+    }
+}

@@ -8,3 +8,4 @@ __pycache__/
 .idea/
 training/checkpoints/
 training/tensorboard_logs/
+training/intermediate_reports/

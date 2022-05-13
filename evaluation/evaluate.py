@@ -1,13 +1,11 @@
 import json
-import torch
-from typing import List, Dict
-import random
 import datetime
 import os
 from tqdm import tqdm
-
+from model.spellcheck_model import *
 from data_utils.utils import get_texts_from_file
-from model.spellcheck_model import SpellCheckModelBase, BartChecker
+import string
+
 
 # one can make saving to file through decorator
 
@@ -121,40 +119,121 @@ def evaluate(model: SpellCheckModelBase, texts_gt: List[str], texts_noise: List[
     return report
 
 
-# def evaluation_test():
-#     path_prefix = '/home/ubuntu/omelnikov/grazie/spell/main/'
-#     d_model = 256
-#     checkpoint = 'training/model_big_0_9.pt'
-#     model = CharBasedTransformerChecker(config={'d_model': d_model, 'encoder_layers': 6, 'decoder_layers': 6,
-#                                          'encoder_attention_heads': 8, 'decoder_attention_heads': 8,
-#                                          'encoder_ffn_dim': d_model * 4, 'decoder_ffn_dim': d_model * 4},
-#                                  checkpoint=path_prefix + checkpoint)
-#     texts_gt, texts_noise = get_texts_from_file(path_prefix + 'data/datasets/bea/bea50.gt'), \
-#                             get_texts_from_file(path_prefix + 'data/datasets/bea/bea50.noise')
-#
-#     evaluate(model, texts_gt, texts_noise, path_prefix + 'data/experiments/char_based_transformer_big_10_epochs_test/')
+def evaluate_ranker(model: DetectorCandidatorRanker, texts_gt: List[str], texts_noise: List[str], exp_save_dir: str = None) -> Dict:
+    t, f = 0, 0
+    f_examples = []
+
+    # Prepare folder and file to save info
+    if exp_save_dir is not None:
+        if not os.path.exists(exp_save_dir):
+            os.makedirs(exp_save_dir)
+
+    def intersect_segments(l1, r1, l2, r2):
+        return max(0, abs(min(r1, r2) - max(l1, l2)))
+
+    # Iterating over all texts, comparing corrected version to gt
+    for text_gt, text_noise in tqdm(zip(texts_gt, texts_noise), total=len(texts_gt)):
+        text_res, spelled_words, candidates, corrections = model.correct(text_noise, return_all_stages=True)
+        words_gt, words_noise, words_res = text_gt.split(' '), text_noise.split(' '), text_res.split(' ')
+
+        # If tokenization not preserved, then continue
+        if len(words_res) != len(words_noise):
+            continue
+
+        cur_ind = 0
+        for word_gt, word_init, word_res in zip(words_gt, words_noise, words_res):
+            cur_end = cur_ind + len(word_init)
+            if word_init != word_gt:
+                if word_res == word_gt:
+                    t += 1
+                else:
+                    spelled_word_index = None
+                    for idx, spelled_word in enumerate(spelled_words):
+                        if intersect_segments(cur_ind, cur_end, spelled_word.interval[0], spelled_word.interval[1]) >= len(word_init) - 2:
+                            spelled_word_index = idx
+                            break
+                    if spelled_word_index is None:
+                        continue
+                    cur_candidates = candidates[spelled_word_index]
+                    correct_variant_exists = False
+                    for cand in cur_candidates:
+                        x = [cand, word_gt]
+                        for i in range(2):
+                            x[i] = x[i].strip()
+                            x[i] = x[i].translate(str.maketrans('', '', string.punctuation))
+                        if x[0] == x[1]:
+                            correct_variant_exists = True
+                            break
+                    if correct_variant_exists:
+                        f += 1
+                        f_examples.append([f'Sentence: {text_noise}, Corr word: {word_gt}, Res word: {word_res}'])
+
+            cur_ind += 1 + len(word_init)
+
+    # Calculating metrics
+    precision_at_1 = round(t / (t + f), 2)
+
+    # Leave at most 3 random examples of each mistake
+    sample = lambda array: random.sample(array, min(len(array), 10))
+    f_examples = sample(f_examples)
+
+    # Collecting all evaluation info to one json
+    report = {
+        'Date': datetime.datetime.now().strftime("%d/%m/%Y %H:%M"),
+        'Model': str(model),
+        'Metrics': {
+            'Precision@1': precision_at_1,
+            'True': t,
+            'False': f
+        },
+        'Mistakes examples': {
+            'Wrong candidate choosen': f_examples,
+        }
+    }
+
+    # Saving evaluation report
+    if exp_save_dir is not None:
+        with open(exp_save_dir + 'report.json', 'w') as result_file:
+            json.dump(report, result_file, indent=4)
+
+    # Printing report
+    print(f'\nEvaluation report:\n{report}\n')
+
+    return report
+
+
+def evaluation_test():
+    d_model = 256
+    checkpoint = 'training/model_big_0_9.pt'
+    model = CharBasedTransformerChecker(config={'d_model': d_model, 'encoder_layers': 6, 'decoder_layers': 6,
+                                         'encoder_attention_heads': 8, 'decoder_attention_heads': 8,
+                                         'encoder_ffn_dim': d_model * 4, 'decoder_ffn_dim': d_model * 4},
+                                 checkpoint=PATH_PREFIX + checkpoint)
+    texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea50.gt'), \
+                            get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea50.noise')
+
+    evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/char_based_transformer_big_10_epochs_test/')
 
 
 if __name__ == '__main__':
     texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.gt'), \
                             get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.noise')
 
-    # bart-base
-    checkpoint = 'training/checkpoints/bart-base_v1_4.pt'
-    model = BartChecker(checkpoint=PATH_PREFIX + checkpoint, device=torch.device('cuda:6'))
-    evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bart-base_v1_4/')
+    # detector candidator ranker
+    model = DetectorCandidatorRanker()
+    evaluate_ranker(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/3-stage-bartfinetune-ranker/')
 
-    # bart sep mask
-    # model_name = 'bart-sep-mask_v1_3'
+    # bert bart 214056 1236504
+    # model_name = 'bart-sep-mask-all-sent_v0_214056'
     # checkpoint = f'training/checkpoints/{model_name}'
-    # model = BertBartChecker(checkpoint=path_prefix + checkpoint + '.pt', device=torch.device('cuda:1'))
-    # evaluate(model, texts_gt, texts_noise, path_prefix + f'data/experiments/bert_detector_{model_name}/')
+    # model = BertBartChecker(checkpoint=PATH_PREFIX + checkpoint + '.pt', device=torch.device('cuda'))
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bert065_bart-sep-mask-all_v0_214056/')
 
-    # bart mask word 0 3 4 5 6 7
-    # checkpoint = 'training/checkpoints/bart-mask-word_v0_2.pt'
-    # model = MaskWordBART(checkpoint=path_prefix + checkpoint, device=torch.device('cuda:0'))
-    # evaluate(model, texts_gt, texts_noise, path_prefix + 'data/experiments/bart-mask-word_v0_2/')
+    # detector candidator ranker
+    # model = DetectorCandidatorRanker()
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/DCR-bert-hs-bartsepmaskall/')
 
-    # old BART + lev
-    # model = three_part_model_train()
-    # evaluate(model, texts_gt, texts_noise, path_prefix + 'data/experiments/old_bart_lev/')
+    # bart-base
+    # checkpoint = 'training/checkpoints/bart-base_v1_4.pt'
+    # model = BartChecker(checkpoint=PATH_PREFIX + checkpoint, device=torch.device('cuda:6'))
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bart-base_v1_4/')

@@ -47,15 +47,17 @@ class IdealDetector(BaseDetector):
 
 
 class BERTDetector(BaseDetector):
-    def __init__(self):
+    def __init__(self, threshold: float = 0.5):
         super().__init__()
-        model_checkpoint = '/home/ubuntu/omelnikov/distilbert-base-uncased-finetuned-tagging/checkpoint-124500'
+        # model_checkpoint = '/home/ubuntu/omelnikov/distilbert-base-uncased-finetuned-tagging/checkpoint-124500'\
+        model_checkpoint = '/home/ubuntu/omelnikov/spellchecker/training/checkpoints/BERT-detector-2-epochs'
         self.model = AutoModelForTokenClassification.from_pretrained(model_checkpoint, num_labels=2)
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = self.model.to(self.device)
         tokenizer_checkpoint = "distilbert-base-uncased"
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_checkpoint)
+        self.threshold = threshold
 
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
 
@@ -63,10 +65,19 @@ class BERTDetector(BaseDetector):
         tokenized_inputs = self.tokenizer(word_tokens, truncation=True, is_split_into_words=True,
                                           return_tensors='pt').to(self.device)["input_ids"]
         result = self.model(tokenized_inputs)
-        labels = torch.argmax(result.logits, dim=2).to('cpu').tolist()[0]
+        # labels = torch.argmax(result.logits, dim=2).to('cpu').tolist()[0]
+        labels_threshold = torch.softmax(result.logits.to('cpu')[0], dim=1)[:, 1] > self.threshold
 
         tokenized_input = self.tokenizer(word_tokens, is_split_into_words=True)
         word_ids = tokenized_input.word_ids()
+
+        # DEBUG
+        # print('Word ids:', word_ids)
+        # print('Logits:', result.logits.to('cpu'))
+        # print('Probs:', torch.softmax(result.logits.to('cpu')[0], dim=1))
+        # print('Diffs:', torch.softmax(result.logits.to('cpu')[0], dim=1)[:, 1] > threshold)
+        # print('Labels:', labels)
+        # print()
 
         intervals = []
 
@@ -81,13 +92,17 @@ class BERTDetector(BaseDetector):
         word_spans = list(spans(text))
 
         final_labels = [0 for i in word_tokens]
-        for ind in range(len(labels)):
-            if labels[ind] == 1:
+        for ind in range(len(labels_threshold)):
+            if labels_threshold[ind]:
                 final_labels[word_ids[ind]] = 1
 
         for ind, i in enumerate(final_labels):
             if i == 1:
                 intervals.append(SpelledWord(text, word_spans[ind]))
+
+        # DEBUG
+        # print(f'Final labels:', final_labels)
+        # print(f'Intervals:', intervals)
 
         return intervals
 
@@ -160,9 +175,17 @@ class HunspellDetector(WordBaseDetector):
         return spelled
 
 
+def test():
+    bert_detector = BERTDetector()
+    sent = 'Hello we arre th company of frineds'
+    print('Test sentence:', sent)
+    bert_detector.detect(sent)
+
+
 if __name__ == '__main__':
-    h = HunspellDetector()
-    print(h.detect("On the we're, being rich and famous doesn't always bring happeness, whereas the majority of the population wish they were rich and famous."))
+    test()
+    # h = HunspellDetector()
+    # print(h.detect("On the we're, being rich and famous doesn't always bring happeness, whereas the majority of the population wish they were rich and famous."))
     # tokenizer = SyntokTextTokenizer()
     # print(tokenizer.tokenize("On the we're, being rich and famous doesn't always bring happeness, whereas the majority of the population wish they were rich and famous."))
 

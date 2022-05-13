@@ -1,0 +1,43 @@
+{
+    "Date": "06/05/2022 09:27",
+    "Model": "<model.spellcheck_model.DetectorCandidatorRanker object at 0x7f7adb9b8940>",
+    "Metrics": {
+        "Precision@1": 0.87,
+        "True": 402,
+        "False": 62
+    },
+    "Mistakes examples": {
+        "Wrong candidate choosen": [
+            [
+                "Sentence: Although, I would have felt better if I had had a discount on my ticket, as you mentionned in the advertisement, but unfortunately, these couldn't possibly be given either!, Corr word: mentioned, Res word: mention"
+            ],
+            [
+                "Sentence: I really recomend you to help them, I think this is a good oppotunity and I want you to understand my feeling well., Corr word: recommend, Res word: commend"
+            ],
+            [
+                "Sentence: With reference to our trip to London, on behalf of all of us, the English class in this college, we would like to thank you for your special atention in organising a good programme to learn about the interesting and cultural places in London., Corr word: attention, Res word: intention"
+            ],
+            [
+                "Sentence: Sometimes they geve up, befor they get something,, Corr word: give, Res word: gave"
+            ],
+            [
+                "Sentence: For the activities, I chose climbing because I took a cours for 2 weeks last year and now I have a good level of proficiency. For the other one I chose photography but I am not a proffesional, I just take some pictures on my holiday!, Corr word: course, Res word: ours"
+            ],
+            [
+                "Sentence: My marks weren't good enought to obtain my degree in Computer Science, and the exam session was finished., Corr word: enough, Res word: ought"
+            ],
+            [
+                "Sentence: So he decidet to go for a last trip in his life., Corr word: decided, Res word: decide"
+            ],
+            [
+                "Sentence: And if someone elso knew, I wouldn't be able to go back to heaven unless I killed the person who told my secret., Corr word: else, Res word: also"
+            ],
+            [
+                "Sentence: Actualy most people work hard to earn their money and consequently, the occasion on which this money is spent to buy something useful, or simply something they like, should be considered a very pleasant occasion., Corr word: Actually, Res word: Actual"
+            ],
+            [
+                "Sentence: I would definitly choose basketball and swimming wich are my dream sports., Corr word: definitely, Res word: defiantly"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "Date": "09/05/2022 11:21",
+    "Model": "<model.spellcheck_model.DetectorCandidatorRanker object at 0x7fe58f1cb940>",
+    "Metrics": {
+        "Precision@1": 0.97,
+        "True": 458,
+        "False": 12
+    },
+    "Mistakes examples": {
+        "Wrong candidate choosen": [
+            [
+                "Sentence: In my opinion the worst thing which may happen is an extremly long queu for the changing room., Corr word: extremely, Res word: extreme"
+            ],
+            [
+                "Sentence: We shouldn't disregard and neglect to film the buildings and the gardens of our beautiful college, especially if we take into consideration the fact that it is in the city of Shakespear., Corr word: Shakespeare., Res word: Peshawar."
+            ],
+            [
+                "Sentence: Today 5 out of every 10 pupils can use a computer basicly., Corr word: basically., Res word: basic."
+            ],
+            [
+                "Sentence: ALL OF THE STAFF AND THE ORGANISATION SPOK ABOUT THE RULES AND HOW TO SAVE PEOPLE., Corr word: SPOKE, Res word: SPOT"
+            ],
+            [
+                "Sentence: I COULDN'T BELIVE IT. HOW CAN THIS CLASS OF THEATRE BE SO.., Corr word: BELIEVE, Res word: BELIE"
+            ],
+            [
+                "Sentence: IN MY OPINION FAMOUS PEOPLE ARE BEING OBLIGED TO PAY A PRICE FOR BEING FAMOUS THAT, IN SOME CASS, COSTS MORE THAN THEY DESERVE TO PAY., Corr word: CASES,, Res word: CASE,"
+            ],
+            [
+                "Sentence: Disapponted!, Corr word: Disappointed!, Res word: Disappointing!"
+            ],
+            [
+                "Sentence: I would like to know if the,, travel costs '' which you had paid include entrance tickets to the museums or any other cultural places, because I would like to do some sightseeing in the U.S.A. Furthermore, if there will be cmy tumple dryer or washing maschine to clean our clothes and if there will be a guide who will be responsible for us and the camp., Corr word: tumble, Res word: temple"
+            ],
+            [
+                "Sentence: If I could go in July that would be greate., Corr word: grate., Res word: great."
+            ],
+            [
+                "Sentence: The band \"Three Kings\" apresented a new stily of music., Corr word: presented, Res word: represent"
+            ]
+        ]
+    }
+}

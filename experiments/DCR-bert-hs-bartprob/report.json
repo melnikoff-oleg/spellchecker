@@ -1,0 +1,73 @@
+{
+    "Date": "22/04/2022 14:34",
+    "Model": "<model.spellcheck_model.DetectorCandidatorRanker object at 0x7f54b340c8d0>",
+    "Metrics": {
+        "Precision": 0.68,
+        "Recall": 0.92,
+        "F_0_5": 0.72,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.0
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "Without technology I would get realy bored.",
+                "Word noise": "realy",
+                "Word gt": "really",
+                "Word res": "real"
+            },
+            {
+                "Text noise": "Yours Sincererly,",
+                "Word noise": "Sincererly,",
+                "Word gt": "sincerely,",
+                "Word res": "Sincerely,"
+            },
+            {
+                "Text noise": "Those are totally unexpectable so I would like to get paid for my ticket cost.",
+                "Word noise": "unexpectable",
+                "Word gt": "unacceptable",
+                "Word res": "undetectable"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "The rules at home are very different. I am allowed to do what I want as long as I studie enough to aprove.",
+                "Word noise": "aprove.",
+                "Word gt": "aprove.",
+                "Word res": "approve."
+            },
+            {
+                "Text noise": "Therefore I would like are refund of my ticket and I would like an apolygists.",
+                "Word noise": "are",
+                "Word gt": "are",
+                "Word res": "rare"
+            },
+            {
+                "Text noise": "He is only looking for the biggest fishes and he has been unsuccesfull for 86 days.",
+                "Word noise": "fishes",
+                "Word gt": "fishes",
+                "Word res": "dishes"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "Regarding the choice of tents or log cabins, I think I will turn to the first one because I have always loved camping close to nature, if possible, in front of a lake or a river, if your campsite has one, so that I will be able to do my favorite and skillful hobby: sailing.",
+                "Word noise": "favorite",
+                "Word gt": "favourite",
+                "Word res": "favorite"
+            },
+            {
+                "Text noise": "One day, when the old man went into the bambo bush, he found some bambo gritted white.",
+                "Word noise": "bambo",
+                "Word gt": "bamboo",
+                "Word res": "bambo"
+            },
+            {
+                "Text noise": "PAINTING ALWAYS DID FASCINATE ME, EVEN THOUGH I'M NOT SO GOOD AT IT, BUT MY FRIENDS SAY I CAN REALLY PAINT AND THEY LOVE THE THINGS I DO. THE TECHNIK I LIKE THE MOST IS WATERCOLORS.",
+                "Word noise": "WATERCOLORS.",
+                "Word gt": "WATERCOLOURS.",
+                "Word res": "WATERCOLORS."
+            }
+        ]
+    }
+}

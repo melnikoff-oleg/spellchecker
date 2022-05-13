@@ -4,7 +4,7 @@ import torch
 from transformers import get_linear_schedule_with_warmup, get_cosine_schedule_with_warmup
 from datasets.spell.main.model.spellcheck_model import BART, MaskWordBART
 
-from datasets.spell.main.training.data_processing import read_data
+from dataset.spell.main.training.data_processing import read_data
 
 
 # PATH_PREFIX = '/Users/olegmelnikov/PycharmProjects/spellchecker/'

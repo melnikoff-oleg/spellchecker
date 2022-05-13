@@ -110,6 +110,7 @@ def train_model(model, tokenizer, optimizer, scheduler, train_data, val_data, ba
 
                     # Calculate metrics on test dataset
                     spellcheck_model = spellcheck_class(model=model, device=device)
+                    spellcheck_model.tokenizer = tokenizer
                     if test_mode:
                         dataset_name = 'bea/bea2'
                         exp_save_dir = None
