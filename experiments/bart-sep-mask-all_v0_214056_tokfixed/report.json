@@ -1,0 +1,73 @@
+{
+    "Date": "13/05/2022 13:04",
+    "Model": "SepMaskBART, checkpoint: bart-sep-mask-all-sent_v0_214056.pt",
+    "Metrics": {
+        "Precision": 0.75,
+        "Recall": 0.89,
+        "F_0_5": 0.77,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.1
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                "Word noise": "COMPLEINTS",
+                "Word gt": "COMPLAINTS",
+                "Word res": "condiments"
+            },
+            {
+                "Text noise": "However, I would choose sailing because I am facinating with the sea and its misteries and I also like the watter, the wind in my face...",
+                "Word noise": "facinating",
+                "Word gt": "fascinated",
+                "Word res": "fascinating"
+            },
+            {
+                "Text noise": "I have never enjoyed doing shopping, but nowday there are some people who are called shopcholic.",
+                "Word noise": "shopcholic.",
+                "Word gt": "shopaholics.",
+                "Word res": "shopaholic."
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I realy hate going shopping with girls to buy clothes because when they go into a shop they want to try on every single item of clothing and they do not realise the time.",
+                "Word noise": "realise",
+                "Word gt": "realise",
+                "Word res": "realize"
+            },
+            {
+                "Text noise": "I WANT TO THAK YOU FOR PREPARING SUCH A GOOD PROGRAMME FOR US AND ESPECIALLY FOR TAKING US ON THE RIVER TRIP TO GREENWICH.",
+                "Word noise": "PROGRAMME",
+                "Word gt": "PROGRAMME",
+                "Word res": "PROGRAM"
+            },
+            {
+                "Text noise": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                "Word noise": "CAMIREZ",
+                "Word gt": "CAMIREZ",
+                "Word res": "CACRAMENTZ"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "The queues are not the only problem. If you go by car there is the problem of parking, if you go by bus there are also queues and you have to carry a lot of carrier bag carrier bags during your journey and you won't always be luky enough to find a seat.",
+                "Word noise": "luky",
+                "Word gt": "lucky",
+                "Word res": "luky"
+            },
+            {
+                "Text noise": "SECOND I GOT TO THE THEATRE AT 19.20 BECAUSE IN THE ADVERTISEMENT IT CLEARLY STATES THAT THE SHOW STARTS AT 19.30, AND I GOT REALLY MAD WHEN I LOOKED AT MY WATCH AND NOTICED THAT I HAD BEEN WAITING FOR 40 (FORTY) MINUTES AND THE SHOW HADN'T STARTED YET... I MEAN IT WAS AMAIZING!",
+                "Word noise": "AMAIZING!",
+                "Word gt": "AMAZING!",
+                "Word res": "AMAIZING!"
+            },
+            {
+                "Text noise": "OH I'M GETING MAD AGAIN SO I AM GOING TO TELL YOU ONE LAST THING, IT WAS THE MOST HORRIBLE NIGHT I HAD EVER HAD SO I DEMEND MY MONEY BACK!",
+                "Word noise": "DEMEND",
+                "Word gt": "DEMAND",
+                "Word res": "DEMEND"
+            }
+        ]
+    }
+}

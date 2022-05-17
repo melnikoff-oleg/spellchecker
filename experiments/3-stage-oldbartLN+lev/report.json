@@ -1,0 +1,67 @@
+{
+    "Date": "16/05/2022 11:39",
+    "Model": "<model.spellcheck_model.DetectorCandidatorRanker object at 0x7fdc65cf9940>",
+    "Metrics": {
+        "Precision": 0.69,
+        "Recall": 0.96,
+        "F_0_5": 0.73,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.0
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "If you could not manage the programe, why didn't you informe people before the programe started?",
+                "Word noise": "programe",
+                "Word gt": "programme",
+                "Word res": "program"
+            },
+            {
+                "Text noise": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                "Word noise": "specialy",
+                "Word gt": "especially",
+                "Word res": "specially"
+            },
+            {
+                "Text noise": "However, I would choose sailing because I am facinating with the sea and its misteries and I also like the watter, the wind in my face...",
+                "Word noise": "facinating",
+                "Word gt": "fascinated",
+                "Word res": "fascinating"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I realy hate going shopping with girls to buy clothes because when they go into a shop they want to try on every single item of clothing and they do not realise the time.",
+                "Word noise": "realise",
+                "Word gt": "realise",
+                "Word res": "realize"
+            },
+            {
+                "Text noise": "OH I'M GETING MAD AGAIN SO I AM GOING TO TELL YOU ONE LAST THING, IT WAS THE MOST HORRIBLE NIGHT I HAD EVER HAD SO I DEMEND MY MONEY BACK!",
+                "Word noise": "GETING",
+                "Word gt": "GETING",
+                "Word res": "GETTING"
+            },
+            {
+                "Text noise": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                "Word noise": "CAMIREZ",
+                "Word gt": "CAMIREZ",
+                "Word res": "RAMIREZ"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "However, I would choose sailing because I am facinating with the sea and its misteries and I also like the watter, the wind in my face...",
+                "Word noise": "watter,",
+                "Word gt": "water,",
+                "Word res": "watter,"
+            },
+            {
+                "Text noise": "MODERN TECHNOLOGY HAS AFFECTED ME IN SEVERAL WAYS. I MEAN THE MORE THE TECHNOLOGY ADVANCES; THE MORE CONFORTNESSCOMFORTABLE WE GET.",
+                "Word noise": "CONFORTNESSCOMFORTABLE",
+                "Word gt": "COMFORTCOMFORTABLE",
+                "Word res": "CONFORTNESSCOMFORTABLE"
+            }
+        ]
+    }
+}

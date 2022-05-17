@@ -1,4 +1,6 @@
 import random
+import string
+
 from transformers import RobertaTokenizer
 import time
 from transformers import BartConfig
@@ -30,7 +32,7 @@ class SpellCheckModelBase(ABC):
 class DetectorCandidatorRanker(SpellCheckModelBase):
 
     def __init__(self):
-        self.detector: BaseDetector = BERTDetector()
+        self.detector: BaseDetector = HunspellDetector()
         self.candidator: BaseCandidator = HunspellCandidator()
         # self.ranker: BaseRanker = BartRanker()
         # config = BartConfig(vocab_size=50265, max_position_embeddings=1024, encoder_layers=6, encoder_ffn_dim=3072,
@@ -50,25 +52,49 @@ class DetectorCandidatorRanker(SpellCheckModelBase):
         # self.ranker = BartSepMaskAllRanker(
         #     checkpoint_path=PATH_PREFIX + 'training/checkpoints/bart-sep-mask-all-sent_v0_1236504.pt',
         #     device=torch.device('cuda'))
-        self.ranker: BaseRanker = BartFineTuneRanker()
+        # self.ranker: BaseRanker = BartFineTuneRanker()
+        self.ranker: BaseRanker = LogisticRegressionMetaRanker()
 
     def correct(self, text: str, return_all_stages: bool = False):
+
+        # DEBUG
+        print(f'Text: {text}')
+
+        caps = (text.upper() == text)
+        if caps:
+            text = text.lower()
+
         spelled_words = self.detector.detect(text)
-        # print(spelled_words)
+
+        # DEBUG
+        print(f'Detections: {spelled_words}')
+
         candidates = self.candidator.get_candidates(text, spelled_words)
-        # print(candidates)
-        corrections = self.ranker.rank(text, spelled_words, candidates) if len(candidates) > 0 and len(candidates[0]) > 0 else []
-        # print(corrections)
-        if len(corrections) == 0:
-            if return_all_stages:
-                return text, spelled_words, candidates, corrections
-            else:
-                return text
+
+        # DEBUG
+        print(f'Candidates: {candidates}')
+
+        _spelled_words, _candidates = [], []
+        for idx, (spelled_word, cands) in enumerate(zip(spelled_words, candidates)):
+            if len(candidates[idx]) > 0:
+                _spelled_words.append(spelled_word)
+                _candidates.append(cands)
+        spelled_words, candidates = _spelled_words, _candidates
+
+        corrections = self.ranker.rank(text, spelled_words, candidates) if len(candidates) > 0 else []
+
+        # DEBUG
+        print(f'Corrections: {corrections}')
+
         shift = 0
         res_text = text
         for i, spelled_word in enumerate(spelled_words):
             res_text = res_text[: shift + spelled_word.interval[0]] + corrections[i] + res_text[shift + spelled_word.interval[1]: ]
             shift += len(corrections[i]) - len(spelled_word.word)
+
+        if caps:
+            res_text = res_text.upper()
+
         if return_all_stages:
             return res_text, spelled_words, candidates, corrections
         else:
@@ -185,6 +211,12 @@ class BartChecker(SpellCheckModelBase):
         return ' '.join(ans_tokens)
 
 
+def is_needed_to_add_dot_to_end(s: string):
+    if len(s) == 0:
+        return False
+    return not s[-1] in string.punctuation
+
+
 class BertBartChecker(SpellCheckModelBase):
 
     def __init__(self, checkpoint: str = 'No learning', model: BartForConditionalGeneration = None,
@@ -219,15 +251,20 @@ class BertBartChecker(SpellCheckModelBase):
         return f'SepMaskBART, checkpoint: {self.checkpoint.split("/")[-1]}'
 
     def correct(self, text: str) -> str:
-        init_text = text
-        if text.upper() == text:
+
+        # CAPS handling
+        caps = (text.upper() == text)
+        if caps:
+            print('Using CAPS:')
+            print(text)
             text = text.lower()
 
-        try:
-            spells = self.detector.detect(text)
-        except Exception as e:
-            print(e)
-            return text
+        # no dot at the end handle
+        add_dot = is_needed_to_add_dot_to_end(text)
+        if add_dot:
+            text += '.'
+
+        spells = self.detector.detect(text)
 
         # Надо подравить инференс на все токены
         shift = 0
@@ -237,36 +274,47 @@ class BertBartChecker(SpellCheckModelBase):
             shift += 6 - len(spell.word)
             pref += spell.word + ' </s> '
         text = pref + text
-        # print(text)
 
+        # print(text)
         ans_ids = self.model.generate(self.tokenizer([text], return_tensors='pt').to(self.device)["input_ids"],
                                       num_beams=5, min_length=5, max_length=500)
         ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
         text = ' '.join(ans_tokens)
 
-        # col = 0
-        # while len(spells) > 0 and col < 2:
-        #     spell_ind = 0
-        #     # spell_ind = random.randint(0, len(spells) - 1)
-        #     new_text = spells[spell_ind].word + ' </s> ' + text[: spells[spell_ind].interval[0]] + '<mask>'+ text[spells[spell_ind].interval[1]: ]
-        #     if col > 0:
-        #         print('Init tex:', init_text)
-        #         print('Cur text:', text)
-        #         print(f'New spell:|{spells[spell_ind].word}|')
-        #     ans_ids = self.model.generate(self.tokenizer([new_text], return_tensors='pt').to(self.device)["input_ids"],
-        #                               num_beams=5, min_length=5, max_length=500)
-        #     ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
-        #     text = ' '.join(ans_tokens)
-        #     spells = detector.detect(text)
-        #     col += 1
+        # first space fix
+        if text[0] == ' ':
+            text = text[1:]
 
-        # if col > 1:
-        #     print('Init text:', init_text)
-        #     print('Cur text:', text)
-        #     print()
+        # text = text.strip()
 
-        if init_text == init_text.upper():
+        # dct = HunspellDetector()
+        # toks = text.split(' ')
+
+        # for ind, tok in enumerate(toks):
+        #     haspunct = False
+        #     for ch in tok:
+        #         if ch in string.punctuation:
+        #             haspunct = True
+        #     if dct.is_spelled(tok) and not haspunct:
+        #         fnd = False
+        #         for i in range(1, len(tok) - 1):
+        #             pr = tok[:i]
+        #             sf = tok[i:]
+        #             if not dct.is_spelled(pr) and not dct.is_spelled(sf):
+        #                 fnd = True
+        #                 toks = toks[:ind] + [pr, sf] + toks[ind + 1:]
+        #                 break
+        #         if fnd:
+        #             break
+
+        # text = ' '.join(toks)
+
+        if add_dot:
+            text = text[:-1]
+
+        if caps:
             text = text.upper()
+
         return text
 
 
@@ -477,5 +525,7 @@ def detector_candidator_ranker_test():
     spellcheck_model_test(model)
 
 
+
 if __name__ == '__main__':
-    bert_bart_test()
+    # bert_bart_test()
+    print(HunspellDetector().is_spelled('allowed'))

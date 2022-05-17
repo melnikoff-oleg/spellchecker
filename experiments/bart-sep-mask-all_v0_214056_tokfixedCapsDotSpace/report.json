@@ -1,0 +1,73 @@
+{
+    "Date": "16/05/2022 09:49",
+    "Model": "SepMaskBART, checkpoint: bart-sep-mask-all-sent_v0_214056.pt",
+    "Metrics": {
+        "Precision": 0.78,
+        "Recall": 0.93,
+        "F_0_5": 0.81,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.02
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "The band \"Three Kings\" apresented a new stily of music.",
+                "Word noise": "apresented",
+                "Word gt": "presented",
+                "Word res": "represented"
+            },
+            {
+                "Text noise": "Specting that you will resolve this misunderstanding.",
+                "Word noise": "Specting",
+                "Word gt": "Expecting",
+                "Word res": "Suspecting"
+            },
+            {
+                "Text noise": "Firstly, it was mentioned that there were going to be two starrings but, in fact, only one actor was performing in the show.",
+                "Word noise": "starrings",
+                "Word gt": "stars",
+                "Word res": "starings"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I would like to know how the weather is in California during the summer so I can bring with me the appropiate clothes and the last thing I need to know is the amount of money that I have to bring with me.",
+                "Word noise": "me",
+                "Word gt": "me",
+                "Word res": "my"
+            },
+            {
+                "Text noise": "On behalf of the class I would like to thank you for the excellent programme you have organised, especially the idea of visiting a galery.",
+                "Word noise": "programme",
+                "Word gt": "programme",
+                "Word res": "programs"
+            },
+            {
+                "Text noise": "I would like to know if the,, travel costs '' which you had paid include entrance tickets to the museums or any other cultural places, because I would like to do some sightseeing in the U.S.A. Furthermore, if there will be cmy tumple dryer or washing maschine to clean our clothes and if there will be a guide who will be responsible for us and the camp.",
+                "Word noise": "Furthermore,",
+                "Word gt": "Furthermore,",
+                "Word res": "if"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "I would like to notice that the dance show was absolutelly marvelous.",
+                "Word noise": "marvelous.",
+                "Word gt": "marvellous.",
+                "Word res": "marvelous."
+            },
+            {
+                "Text noise": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                "Word noise": "COMPLEINTS",
+                "Word gt": "COMPLAINTS",
+                "Word res": "COMPLEINTS"
+            },
+            {
+                "Text noise": "I am really surprised for the information because I won, and I would like to say thank you for everyting. This is why I wrote and sent this letter with the information you need I can only travel in July because it is the only time when I can do it before for my work I do not really care what accommodation I will have. I would prefer to come in July I will be avaliabel for the moment. I would really apreciated it if you could tell the people who work at Camp California I choose the Golf and Photography because I think I am really interested in those subjects. I am not really really good but I have some experience.",
+                "Word noise": "everyting.",
+                "Word gt": "everything.",
+                "Word res": "everyting."
+            }
+        ]
+    }
+}

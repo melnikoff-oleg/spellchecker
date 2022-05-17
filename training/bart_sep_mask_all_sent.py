@@ -22,6 +22,8 @@ def main():
     checkpoint = PATH_PREFIX + 'training/checkpoints/bart-distil-dec05.pt'
     train_data, val_data = get_sep_mask_training_dataset(all_mistakes=True)
     tokenizer, model = bart_model_init(checkpoint, config)
+    tokenizer.add_tokens(['<sent>', '</syn>'])
+    model.resize_token_embeddings(len(tokenizer))
     # tokenizer.add_special_tokens(special_tokens_dict)
     # print(tokenizer.special_tokens_map)
 
@@ -46,4 +48,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    with open(PATH_PREFIX + 'dataset/1blm/1blm.train.noise.sep_mask_all_sep') as f:
+        for line in f:
+            print(line)
+            break

@@ -1,0 +1,73 @@
+{
+    "Date": "16/05/2022 09:24",
+    "Model": "SepMaskBART, checkpoint: bart-sep-mask-all-sent_v0_214056.pt",
+    "Metrics": {
+        "Precision": 0.82,
+        "Recall": 0.92,
+        "F_0_5": 0.84,
+        "Word-level accuracy": 0.99,
+        "Broken tokenization cases": 0.04
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "Of course, you can't afford a luxualy car and a large apartment unless you're born with a silver spoon in your mouth.",
+                "Word noise": "luxualy",
+                "Word gt": "luxury",
+                "Word res": "usually"
+            },
+            {
+                "Text noise": "It would be wonderful to buy some books or programms with the signatures of all the stars and artists taking part in the festival.",
+                "Word noise": "programms",
+                "Word gt": "programmes",
+                "Word res": "programs"
+            },
+            {
+                "Text noise": "It gives us knowledge usefull for many school clubs, like the \"marathon shell\" club or the robotich club.",
+                "Word noise": "robotich",
+                "Word gt": "robotics",
+                "Word res": "robotic"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "I went to buy a ticket and as I like to enjoy the show near the stage I bought a \u00a3 20 tiket but when I asked for a discount they told me, \"I am sorry but there was an error in the advertisement. It will be impossible to give you a discount\".",
+                "Word noise": "\u00a3",
+                "Word gt": "\u00a3",
+                "Word res": "$"
+            },
+            {
+                "Text noise": "I would like to know how the weather is in California during the summer so I can bring with me the appropiate clothes and the last thing I need to know is the amount of money that I have to bring with me.",
+                "Word noise": "me",
+                "Word gt": "me",
+                "Word res": "you"
+            },
+            {
+                "Text noise": "I love swimming and also I've got a scubar diving licence.",
+                "Word noise": "licence.",
+                "Word gt": "licence.",
+                "Word res": "license."
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "Yours Sincelery,",
+                "Word noise": "Sincelery,",
+                "Word gt": "Sincerely,",
+                "Word res": "Sincelery,"
+            },
+            {
+                "Text noise": "But where is the bad part of it? Well shopping can became horrible at christmast for example, when houndred of people go to the shopping center and it also can cause many problems when you become an impulsive buyer.",
+                "Word noise": "center",
+                "Word gt": "centre",
+                "Word res": "center"
+            },
+            {
+                "Text noise": "In fact, the shopping you do for your daily needs is seldom enjouble, as it is clearly more a duty than a pleasure and morover you are often faced with some nasty situations.",
+                "Word noise": "morover",
+                "Word gt": "moreover",
+                "Word res": "morover"
+            }
+        ]
+    }
+}

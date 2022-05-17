@@ -1,0 +1,43 @@
+{
+    "Date": "16/05/2022 13:24",
+    "Model": "<model.spellcheck_model.DetectorCandidatorRanker object at 0x7f9101103940>",
+    "Metrics": {
+        "Precision@1": 0.98,
+        "True": 469,
+        "False": 12
+    },
+    "Mistakes examples": {
+        "Wrong candidate choosen": [
+            [
+                "Sentence: Absolutely it was very dissapointing, Corr word: disappointing, Res word: disappointed"
+            ],
+            [
+                "Sentence: As they know about your interestings and personality, it is easy to help you., Corr word: interests, Res word: interesting"
+            ],
+            [
+                "Sentence: I would definitly choose basketball and swimming wich are my dream sports., Corr word: which, Res word: with"
+            ],
+            [
+                "Sentence: I want to apologise to you, because I haven't written to you recently, but I want to tell you what hapend to me last week. I had the opportunity to help at one of the most pop concerts in my city. So imagen, I felt really really good and excited. I don't have words to describe it but I will try to do it, OK?, Corr word: imagine,, Res word: images,"
+            ],
+            [
+                "Sentence: One day, when the old man went into the bambo bush, he found some bambo gritted white., Corr word: bamboo, Res word: bimbo"
+            ],
+            [
+                "Sentence: We have been very excited about this and coincidentely we have found another option to add to our programme, certainly if you agree with it., Corr word: coincidentally, Res word: coincidently"
+            ],
+            [
+                "Sentence: If I could go in July that would be greate., Corr word: grate., Res word: great."
+            ],
+            [
+                "Sentence: Today 5 out of every 10 pupils can use a computer basicly., Corr word: basically., Res word: basic."
+            ],
+            [
+                "Sentence: It was a very unpleasent evening., Corr word: unpleasant, Res word: pleasant"
+            ],
+            [
+                "Sentence: Firstly, it will introduce the latest fashions connecting Millenium., Corr word: Millennium., Res word: Millennial."
+            ]
+        ]
+    }
+}

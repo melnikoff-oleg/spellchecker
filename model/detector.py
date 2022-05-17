@@ -26,8 +26,6 @@ class BaseDetector(ABC):
         raise NotImplementedError
 
 
-# Разве норм что тут везде ищется именно первое вхождение слова в текст? если есть 2 одинаковых ошибки - Fixed
-# Вторая останется пропущенной - Fixed
 class IdealDetector(BaseDetector):
     def detect(self, text: str, **kwargs) -> List[SpelledWord]:
         true_spells = kwargs["true_spells"]
@@ -129,15 +127,18 @@ class WordBaseDetector(BaseDetector):
         words = real_words
 
         # Тут тоже только первое вхождение ошибки - Fixed
+        cur_shift = 0
         for i, word in enumerate(words):
+            start = fict_text.find(word, cur_shift)
             if self.is_spelled(word):
-                start = fict_text.find(word)
                 finish = start + len(word)
                 assert fict_text[start:finish] == word
                 # mark this occurrence of word
                 gap = ''.join('#' for ind in range(start, finish))
                 fict_text = fict_text[:start] + gap + fict_text[finish:]
                 intervals.append(SpelledWord(text, (start, finish)))
+            cur_shift += len(word)
+            cur_shift = max(cur_shift, start + len(word))
 
         return intervals
 

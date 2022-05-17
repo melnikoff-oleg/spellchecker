@@ -129,7 +129,7 @@ def evaluate_ranker(model: DetectorCandidatorRanker, texts_gt: List[str], texts_
             os.makedirs(exp_save_dir)
 
     def intersect_segments(l1, r1, l2, r2):
-        return max(0, abs(min(r1, r2) - max(l1, l2)))
+        return max(0, min(r1, r2) - max(l1, l2))
 
     # Iterating over all texts, comparing corrected version to gt
     for text_gt, text_noise in tqdm(zip(texts_gt, texts_noise), total=len(texts_gt)):
@@ -221,17 +221,17 @@ if __name__ == '__main__':
 
     # detector candidator ranker
     model = DetectorCandidatorRanker()
-    evaluate_ranker(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/3-stage-bartfinetune-ranker/')
+    evaluate_ranker(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/3-stage-oldbartLN+lev-ranker/')
 
     # bert bart 214056 1236504
     # model_name = 'bart-sep-mask-all-sent_v0_214056'
     # checkpoint = f'training/checkpoints/{model_name}'
     # model = BertBartChecker(checkpoint=PATH_PREFIX + checkpoint + '.pt', device=torch.device('cuda'))
-    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bert065_bart-sep-mask-all_v0_214056/')
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bart-sep-mask-all_v0_214056_tokfixedCapsDotSpace/')
 
     # detector candidator ranker
     # model = DetectorCandidatorRanker()
-    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/DCR-bert-hs-bartsepmaskall/')
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/3-stage-oldbartLN+lev/')
 
     # bart-base
     # checkpoint = 'training/checkpoints/bart-base_v1_4.pt'
