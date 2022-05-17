@@ -56,10 +56,10 @@ def get_sep_mask_training_dataset(char_based: bool = False, all_mistakes: bool =
         test_gt_path = 'dataset/1blm/1blm.test.gt.sep_mask'
     else:
         if sent:
-            train_noise_path = 'dataset/1blm/1blm.train.noise.sep_mask_all_sent'
-            train_gt_path = 'dataset/1blm/1blm.train.gt.sep_mask_all_sent'
-            test_noise_path = 'dataset/1blm/1blm.test.noise.sep_mask_all_sent'
-            test_gt_path = 'dataset/1blm/1blm.test.gt.sep_mask_all_sent'
+            train_noise_path = 'dataset/1blm/1blm.train.noise.sep_mask_all_2'
+            train_gt_path = 'dataset/1blm/1blm.train.gt.sep_mask_all_2'
+            test_noise_path = 'dataset/1blm/1blm.test.noise.sep_mask_all_2'
+            test_gt_path = 'dataset/1blm/1blm.test.gt.sep_mask_all_2'
         else:
             train_noise_path = 'dataset/1blm/1blm.train.noise.sep_mask_all_sep'
             train_gt_path = 'dataset/1blm/1blm.train.gt.sep_mask_all_sep'

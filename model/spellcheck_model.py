@@ -255,8 +255,8 @@ class BertBartChecker(SpellCheckModelBase):
         # CAPS handling
         caps = (text.upper() == text)
         if caps:
-            print('Using CAPS:')
-            print(text)
+            # print('Using CAPS:')
+            # print(text)
             text = text.lower()
 
         # no dot at the end handle
@@ -282,8 +282,8 @@ class BertBartChecker(SpellCheckModelBase):
         text = ' '.join(ans_tokens)
 
         # first space fix
-        if text[0] == ' ':
-            text = text[1:]
+        # if text[0] == ' ':
+        #     text = text[1:]
 
         # text = text.strip()
 
