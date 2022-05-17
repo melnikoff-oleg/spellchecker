@@ -6,7 +6,7 @@ import datetime
 import os
 
 from data_utils.utils import get_texts_from_file
-from model.spellcheck_model import BartChecker
+from model.spellcheck_model import *
 from evaluation.evaluate import evaluate
 
 PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
@@ -16,7 +16,7 @@ PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 def train_model(model, tokenizer, optimizer, scheduler, train_data, val_data, batch_size: int = 32,
                 print_n_batches: int = 2000, num_epochs: int = 10, st_epoch: int = 0, model_name: str = 'bart',
-                spellcheck_class=BartChecker, device=torch.device('cuda'), save_model=False, use_tensorboard=False,
+                spellcheck_class=BertBartChecker, device=torch.device('cuda'), save_model=False, use_tensorboard=False,
                 model_version=0, test_mode: bool = True, save_model_interval=None):
 
     # Init tensorboard for logs writing
@@ -109,8 +109,7 @@ def train_model(model, tokenizer, optimizer, scheduler, train_data, val_data, ba
                         print('\n')
 
                     # Calculate metrics on test dataset
-                    spellcheck_model = spellcheck_class(model=model, device=device)
-                    spellcheck_model.tokenizer = tokenizer
+                    spellcheck_model = spellcheck_class(model=model, device=device, tokenizer=tokenizer)
                     if test_mode:
                         dataset_name = 'bea/bea2'
                         exp_save_dir = None

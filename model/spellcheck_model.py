@@ -29,6 +29,105 @@ class SpellCheckModelBase(ABC):
                     dest_texts.write(self.correct(text[:-1]) + '\n')
 
 
+class OldBartChecker(SpellCheckModelBase):
+    def __init__(self, checkpoint: str = 'No learning', model: BartForConditionalGeneration = None,
+                 device: torch.device = None):
+        self.checkpoint = checkpoint
+        transformers.set_seed(42)
+        self.tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
+        self.detector = HunspellDetector()
+        if device is None:
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        else:
+            self.device = device
+
+        if model is not None:
+            self.model = model
+        else:
+            if checkpoint == 'No learning':
+                self.model = BartForConditionalGeneration.from_pretrained('facebook/bart-base')
+            else:
+                config = BartForConditionalGeneration.from_pretrained('facebook/bart-base').config
+                self.model = BartForConditionalGeneration(config)
+                # Model was trained on GPU, maybe we are inferring on CPU
+                if self.device == torch.device('cpu'):
+                    self.model.load_state_dict(torch.load(checkpoint, map_location='cpu'))
+                else:
+                    self.model.load_state_dict(torch.load(checkpoint))
+
+        self.model = self.model.to(self.device)
+
+    def __str__(self):
+        return f'SepMaskBART, checkpoint: {self.checkpoint.split("/")[-1]}'
+
+    def correct(self, text: str) -> str:
+
+        # CAPS handling
+        caps = (text.upper() == text)
+        if caps:
+            # print('Using CAPS:')
+            # print(text)
+            text = text.lower()
+
+        # no dot at the end handle
+        add_dot = is_needed_to_add_dot_to_end(text)
+        if add_dot:
+            text += '.'
+
+        spells = self.detector.detect(text)
+
+        # Надо подравить инференс на все токены
+        shift = 0
+        pref = ''
+        for spell in spells:
+            text = text[: shift + spell.interval[0]] + '<mask>' + text[shift + spell.interval[1]:]
+            shift += 6 - len(spell.word)
+            pref += spell.word + ' </s> '
+        text = pref + text
+
+        # print(text)
+        ans_ids = self.model.generate(self.tokenizer([text], return_tensors='pt').to(self.device)["input_ids"],
+                                      num_beams=5, min_length=5, max_length=500)
+        ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+        text = ' '.join(ans_tokens)
+
+        # first space fix
+        # if text[0] == ' ':
+        #     text = text[1:]
+
+        # text = text.strip()
+
+        # dct = HunspellDetector()
+        # toks = text.split(' ')
+
+        # for ind, tok in enumerate(toks):
+        #     haspunct = False
+        #     for ch in tok:
+        #         if ch in string.punctuation:
+        #             haspunct = True
+        #     if dct.is_spelled(tok) and not haspunct:
+        #         fnd = False
+        #         for i in range(1, len(tok) - 1):
+        #             pr = tok[:i]
+        #             sf = tok[i:]
+        #             if not dct.is_spelled(pr) and not dct.is_spelled(sf):
+        #                 fnd = True
+        #                 toks = toks[:ind] + [pr, sf] + toks[ind + 1:]
+        #                 break
+        #         if fnd:
+        #             break
+
+        # text = ' '.join(toks)
+
+        if add_dot:
+            text = text[:-1]
+
+        if caps:
+            text = text.upper()
+
+        return text
+
+
 class DetectorCandidatorRanker(SpellCheckModelBase):
 
     def __init__(self):
@@ -220,10 +319,13 @@ def is_needed_to_add_dot_to_end(s: string):
 class BertBartChecker(SpellCheckModelBase):
 
     def __init__(self, checkpoint: str = 'No learning', model: BartForConditionalGeneration = None,
-                 device: torch.device = None):
+                 device: torch.device = None, tokenizer: RobertaTokenizer = None):
         self.checkpoint = checkpoint
         transformers.set_seed(42)
-        self.tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
+        if tokenizer is None:
+            self.tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
+        else:
+            self.tokenizer = tokenizer
         self.detector = HunspellDetector()
         # self.detector = BERTDetector(threshold=0.65)
         if device is None:
@@ -268,11 +370,12 @@ class BertBartChecker(SpellCheckModelBase):
 
         # Надо подравить инференс на все токены
         shift = 0
-        pref = ''
+        pref_words = []
         for spell in spells:
             text = text[: shift + spell.interval[0]] + '<mask>' + text[shift + spell.interval[1]:]
             shift += 6 - len(spell.word)
-            pref += spell.word + ' </s> '
+            pref_words.append(spell.word)
+        pref = ' </s> '.join(pref_words) + ' <sent> ' + text
         text = pref + text
 
         # print(text)
