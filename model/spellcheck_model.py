@@ -327,23 +327,22 @@ class BertBartChecker(SpellCheckModelBase):
             text = text.lower()
 
         # no dot at the end handle
-        add_dot = is_needed_to_add_dot_to_end(text)
-        if add_dot:
-            text += '.'
+        # add_dot = is_needed_to_add_dot_to_end(text)
+        # if add_dot:
+        #     text += '.'
 
         spells = self.detector.detect(text)
 
         # Надо подравить инференс на все токены
         shift = 0
-        pref_words = []
+        pref = ''
         for spell in spells:
             text = text[: shift + spell.interval[0]] + '<mask>' + text[shift + spell.interval[1]:]
             shift += 6 - len(spell.word)
-            pref_words.append(spell.word)
-        pref = ' </s> '.join(pref_words) + ' <sent> ' + text
+            pref += spell.word + ' </s> '
         text = pref + text
+        print(text)
 
-        # print(text)
         ans_ids = self.model.generate(self.tokenizer([text], return_tensors='pt').to(self.device)["input_ids"],
                                       num_beams=5, min_length=5, max_length=500)
         ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
@@ -351,13 +350,18 @@ class BertBartChecker(SpellCheckModelBase):
 
         # first space fix
         # if text[0] == ' ':
+        #     print('Prev res:', text)
+        #
         #     text = text[1:]
+        #     print('New res:', text)
+        #     print()
+
 
         # text = text.strip()
 
         # dct = HunspellDetector()
         # toks = text.split(' ')
-
+        #
         # for ind, tok in enumerate(toks):
         #     haspunct = False
         #     for ch in tok:
@@ -374,11 +378,11 @@ class BertBartChecker(SpellCheckModelBase):
         #                 break
         #         if fnd:
         #             break
-
+        #
         # text = ' '.join(toks)
 
-        if add_dot:
-            text = text[:-1]
+        # if add_dot:
+        #     text = text[:-1]
 
         if caps:
             text = text.upper()

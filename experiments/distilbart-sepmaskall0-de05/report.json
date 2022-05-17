@@ -1,0 +1,73 @@
+{
+    "Date": "17/05/2022 08:13",
+    "Model": "SepMaskBART, checkpoint: No learning",
+    "Metrics": {
+        "Precision": 0.84,
+        "Recall": 0.93,
+        "F_0_5": 0.86,
+        "Word-level accuracy": 0.99,
+        "Broken tokenization cases": 0.01
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "In my opinion, it might be better to have time with a variety of nationallites.",
+                "Word noise": "nationallites.",
+                "Word gt": "nationalities.",
+                "Word res": "nationalallots."
+            },
+            {
+                "Text noise": "MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT.",
+                "Word noise": "COMPLEINTS",
+                "Word gt": "COMPLAINTS",
+                "Word res": "NOT"
+            },
+            {
+                "Text noise": "I would like to travel at the beginning of the month, which could be between the first and the fifteeth of July, because afterwards I have several business meetings and it would be difficult for me to take a trip.",
+                "Word noise": "fifteeth",
+                "Word gt": "fifteenth",
+                "Word res": "fifth"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "When we arrived at the theatre we realised that there were no discount tickets available as were mentioned in your advertisment so we had to buy the most expensive ones.",
+                "Word noise": "realised",
+                "Word gt": "realised",
+                "Word res": "realized"
+            },
+            {
+                "Text noise": "I think you realise why I'm writting this letter to ask you to give me my money back.",
+                "Word noise": "realise",
+                "Word gt": "realise",
+                "Word res": "realize"
+            },
+            {
+                "Text noise": "With reference to our trip to London, on behalf of all of us, the English class in this college, we would like to thank you for your special atention in organising a good programme to learn about the interesting and cultural places in London.",
+                "Word noise": "programme",
+                "Word gt": "programme",
+                "Word res": "program"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "Circle Theater",
+                "Word noise": "Theater",
+                "Word gt": "Theatre",
+                "Word res": "Theater"
+            },
+            {
+                "Text noise": "Nowdays we have many big shopping centers.",
+                "Word noise": "centers.",
+                "Word gt": "centres.",
+                "Word res": "centers."
+            },
+            {
+                "Text noise": "I wonder if we could not feet between some short view of the laboratories, in which we could show a student doing experimentations.",
+                "Word noise": "experimentations.",
+                "Word gt": "experiments.",
+                "Word res": "experimentations."
+            }
+        ]
+    }
+}
