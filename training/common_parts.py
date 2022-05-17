@@ -47,6 +47,16 @@ def get_end_2_end_training_dataset(char_based: bool = False):
     return train, val
 
 
+def get_oldbart_training_dataset(char_based: bool = False):
+    train = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'dataset/1blm/1blm.train.noise.oldbart',
+                                          file2_path=PATH_PREFIX + 'dataset/1blm/1blm.train.gt.oldbart',
+                                          char_based=char_based)
+    val = get_parallel_texts_from_files(file1_path=PATH_PREFIX + 'dataset/1blm/1blm.test.noise.oldbart',
+                                        file2_path=PATH_PREFIX + 'dataset/1blm/1blm.test.gt.oldbart',
+                                        char_based=char_based)
+    return train, val
+
+
 def get_sep_mask_training_dataset(char_based: bool = False, all_mistakes: bool = True, sent: bool = True):
 
     if not all_mistakes:
