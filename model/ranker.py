@@ -89,10 +89,11 @@ class BartRanker(BaseRanker):
 class LogisticRegressionMetaRanker(BaseRanker):
     def __init__(self):
         self.model = LogisticRegressionRanker()
-        self.model.load(PATH_PREFIX + 'model/ranking_utils/oldbartLN_lev_ranker.pickle')
+        # self.model.load(PATH_PREFIX + 'model/ranking_utils/oldbartLN_lev_ranker.pickle')
+        self.model.load(PATH_PREFIX + 'model/ranking_utils/distilbart-re05_ranker.pickle')
 
     def rank(self, text: str, spelled_words: List[SpelledWord], candidates: List[List[str]], **kwargs) -> List[str]:
-        features_collector = FeaturesCollector(features_names=['bart_prob', 'levenshtein'])
+        features_collector = FeaturesCollector(features_names=['bart_prob'])
         all_features = features_collector.collect(spelled_words, candidates)
         print(all_features)
         scores = self.model.predict(all_features)

@@ -1,0 +1,43 @@
+{
+    "Date": "17/05/2022 10:25",
+    "Model": "<model.spellcheck_model.DetectorCandidatorRanker object at 0x7ff63f297940>",
+    "Metrics": {
+        "Precision@1": 0.98,
+        "True": 469,
+        "False": 12
+    },
+    "Mistakes examples": {
+        "Wrong candidate choosen": [
+            [
+                "Sentence: It gives us knowledge usefull for many school clubs, like the \"marathon shell\" club or the robotich club., Corr word: robotics, Res word: robotic"
+            ],
+            [
+                "Sentence: If I could go in July that would be greate., Corr word: grate., Res word: great."
+            ],
+            [
+                "Sentence: As they know about your interestings and personality, it is easy to help you., Corr word: interests, Res word: interesting"
+            ],
+            [
+                "Sentence: In addition to this, you may have some roboters bringing the newspaper to the table, tidying up the house, and doing the shopping. Maybe they will also be your life patners., Corr word: robots, Res word: robbers"
+            ],
+            [
+                "Sentence: When you buy something you were looking for a long time and, when you arrive at home, you discover some deffect on it and have to go back to the store to complain., Corr word: defect, Res word: effect"
+            ],
+            [
+                "Sentence: Suddenly I heard a noice from my garden and I wanted to know what it was, but it was impossible to do it., Corr word: noise, Res word: voice"
+            ],
+            [
+                "Sentence: The smokers in the school yard, the buffett and the other pupils, who are sitting at their tables doing their homework., Corr word: buffet, Res word: buffets"
+            ],
+            [
+                "Sentence: I am thinking here particularly of the fact that every event and action is wildely discussed in the mass - media., Corr word: widely, Res word: wildly"
+            ],
+            [
+                "Sentence: But the play started fourty - five minutes late, and the star of the show, of whom I'm a great fan an who was the main reason for why I decided to see the play, had been changed for another actor, who turned out to be really bad., Corr word: forty, Res word: fourth"
+            ],
+            [
+                "Sentence: sincinerly Ki, Corr word: sincerely, Res word: sinisterly"
+            ]
+        ]
+    }
+}

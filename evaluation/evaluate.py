@@ -3,6 +3,7 @@ import datetime
 import os
 from tqdm import tqdm
 from model.spellcheck_model import *
+from model.fst import FastProdModel
 from data_utils.utils import get_texts_from_file
 import string
 
@@ -219,26 +220,31 @@ if __name__ == '__main__':
     texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.gt'), \
                             get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.noise')
 
-    # distil bart dec 05
-    checkpoint_path = PATH_PREFIX + 'training/checkpoints/bart-sep-mask-all-sent-distil-dec05_v0_81396.pt'
-    config = BartConfig(vocab_size=50265, max_position_embeddings=1024, encoder_layers=6, encoder_ffn_dim=3072,
-                                            encoder_attention_heads=12, decoder_layers=3, decoder_ffn_dim=3072,
-                                            decoder_attention_heads=12, encoder_layerdrop=0.0, decoder_layerdrop=0.0,
-                                            activation_function='gelu', d_model=768, dropout=0.1, attention_dropout=0.0,
-                                            activation_dropout=0.0, init_std=0.02, classifier_dropout=0.0, scale_embedding=False,
-                                            use_cache=True, num_labels=3, pad_token_id=1, bos_token_id=0, eos_token_id=2,
-                                            is_encoder_decoder=True, decoder_start_token_id=2, forced_eos_token_id=2)
-    device = torch.device('cuda')
-    model = BartForConditionalGeneration(config)
-    model.load_state_dict(torch.load(checkpoint_path))
-    model = model.to(device)
-    model = BertBartChecker(model=model)
-    evaluate(model, texts_gt, texts_noise,
-             PATH_PREFIX + 'experiments/distilbart-sepmaskall0-de05/')
+    # FST
+    model = FastProdModel()
+    evaluate_ranker(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/fst-ranker/')
+
+
+    # distil bart de05
+    # checkpoint_path = PATH_PREFIX + 'training/checkpoints/bart-sep-mask-all-sent-distil-dec05_v0_81396.pt'
+    # config = BartConfig(vocab_size=50265, max_position_embeddings=1024, encoder_layers=6, encoder_ffn_dim=3072,
+    #                                         encoder_attention_heads=12, decoder_layers=3, decoder_ffn_dim=3072,
+    #                                         decoder_attention_heads=12, encoder_layerdrop=0.0, decoder_layerdrop=0.0,
+    #                                         activation_function='gelu', d_model=768, dropout=0.1, attention_dropout=0.0,
+    #                                         activation_dropout=0.0, init_std=0.02, classifier_dropout=0.0, scale_embedding=False,
+    #                                         use_cache=True, num_labels=3, pad_token_id=1, bos_token_id=0, eos_token_id=2,
+    #                                         is_encoder_decoder=True, decoder_start_token_id=2, forced_eos_token_id=2)
+    # device = torch.device('cuda')
+    # model = BartForConditionalGeneration(config)
+    # model.load_state_dict(torch.load(checkpoint_path))
+    # model = model.to(device)
+    # model = BertBartChecker(model=model)
+    # evaluate(model, texts_gt, texts_noise,
+    #          PATH_PREFIX + 'experiments/distilbart-sepmaskall0-de05/')
 
     # detector candidator ranker
     # model = DetectorCandidatorRanker()
-    # evaluate_ranker(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/3-stage-oldbartLN+lev-ranker/')
+    # evaluate_ranker(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/3-stage-oldbart-ranker/')
 
     # bert bart 214056 1236504
     # model_name = 'bart-sep-mask-all-sent_v0_214056'

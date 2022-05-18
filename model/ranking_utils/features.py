@@ -1,10 +1,10 @@
 import torch
-from transformers import BartForConditionalGeneration, BartTokenizer
+from transformers import BartForConditionalGeneration, BartTokenizer, BartConfig
 from model.base import SpelledWord
 from abc import ABC, abstractmethod
 from typing import List
-import math
 import nltk
+PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
 class BaseFeature(ABC):
@@ -14,15 +14,27 @@ class BaseFeature(ABC):
 
 
 class BartProbFeature(BaseFeature):
-    def __init__(self):
-        checkpoint_path = 'facebook/bart-base'
+    def __init__(self, bart_type: str = 'std'):
+        self.bart_type = bart_type
+        if bart_type == 'std':
+            checkpoint_path = 'facebook/bart-base'
+            self.model = BartForConditionalGeneration.from_pretrained(checkpoint_path)
+            self.tokenizer = BartTokenizer.from_pretrained(checkpoint_path)
+        if bart_type == 'distilbart-de05':
+            checkpoint_path = PATH_PREFIX + 'training/checkpoints/bart-sep-mask-all-sent-distil-dec05_v0_81396.pt'
+            config = BartConfig(vocab_size=50265, max_position_embeddings=1024, encoder_layers=6, encoder_ffn_dim=3072,
+                                encoder_attention_heads=12, decoder_layers=3, decoder_ffn_dim=3072,
+                                decoder_attention_heads=12, encoder_layerdrop=0.0, decoder_layerdrop=0.0,
+                                activation_function='gelu', d_model=768, dropout=0.1, attention_dropout=0.0,
+                                activation_dropout=0.0, init_std=0.02, classifier_dropout=0.0, scale_embedding=False,
+                                use_cache=True, num_labels=3, pad_token_id=1, bos_token_id=0, eos_token_id=2,
+                                is_encoder_decoder=True, decoder_start_token_id=2, forced_eos_token_id=2)
+            self.model = BartForConditionalGeneration(config)
+            self.model.load_state_dict(torch.load(checkpoint_path))
+            self.tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
         self.device = torch.device('cuda')
-        self.model = BartForConditionalGeneration.from_pretrained(checkpoint_path).to(self.device)
-        self.tokenizer = BartTokenizer.from_pretrained(checkpoint_path)
+        self.model = self.model.to(self.device)
         self.model.eval()
-
-    def __str__(self):
-        return 'BartProbFeature (facebook/bart-base)'
 
     def compute_candidates(self, spelled_words: List[SpelledWord], candidates: List[List[str]]) -> List[List[float]]:
 
@@ -33,20 +45,28 @@ class BartProbFeature(BaseFeature):
         cands_ranges = []
         for i, (spelled_word, cands) in enumerate(zip(spelled_words, candidates)):
             text, start, finish = spelled_word.text, spelled_word.interval[0], spelled_word.interval[1]
-            text_start = text[: start]
+            text_pref = text[: start]
+            text_suff = text[finish:]
             if (start == 0 or text[start - 1] == ' ') and (finish == len(text) or not text[finish].isalpha()):
                 texts_inds += [i for _ in cands]
-                input_text = text[:start] + '<mask>' + text[finish:]
-                texts += [input_text for _ in cands]
-                output_texts = [text_start + syn + text[finish:] for syn in cands]
+
+                if self.bart_type == 'std':
+                    input_texts = [text_pref + '<mask>' + text_suff for _ in cands]
+
+                if self.bart_type == 'distilbart-de05':
+                    input_texts = [spelled_word.word + ' </s> ' + text_pref + '<mask>' + text_suff for _ in cands]
+
+                output_texts = [text_pref + syn + text_suff for syn in cands]
+
+                texts += input_texts
                 outs += output_texts
-                cands_ranges += [(len(self.tokenizer.encode(text_start[:-1])),
+                cands_ranges += [(len(self.tokenizer.encode(text_pref[:-1])),
                                   len(self.tokenizer.encode(syn, add_special_tokens=False))) for syn in cands]
             else:
-                print("WTFWTFWTF")
-                print(spelled_word)
-                print(cands)
-                raise ArithmeticError
+                print('Error with SpelledWord')
+                print('SpelledWord:', spelled_word)
+                print('Candidates:', cands)
+                raise Exception
 
         batch_size = 16
 
@@ -73,6 +93,7 @@ class BartProbFeature(BaseFeature):
                     word_log_prob += log_probs[j, token_idx]
                 # scores[ind].append(math.exp(word_log_prob.item()))
                 scores[ind].append(word_log_prob.item())
+
 
 
         return scores

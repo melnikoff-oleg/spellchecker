@@ -108,8 +108,8 @@ class SpelledText:
 
 
 def prepare_ranking_training_data(features_collector: FeaturesCollector) -> List[RankQuery]:
-    texts_noise, texts_gt = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.noise'), \
-                            get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.gt')
+    texts_noise, texts_gt = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea50.noise'), \
+                            get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea50.gt')
     labeled_data = []
     spelled_words = []
     gt_words = []
@@ -148,10 +148,10 @@ def prepare_ranking_training_data(features_collector: FeaturesCollector) -> List
 
 def train():
     model = LogisticRegressionRanker()
-    data_ranker_train = prepare_ranking_training_data(FeaturesCollector(features_names=['bart_prob', 'levenshtein']))
+    data_ranker_train = prepare_ranking_training_data(FeaturesCollector(features_names=['bart_prob']))
     model.fit(data_ranker_train, data_ranker_train)
-    model.save(PATH_PREFIX + 'model/ranking_utils/oldbartLN_lev_ranker.pickle')
-    model.load(PATH_PREFIX + 'model/ranking_utils/oldbartLN_lev_ranker.pickle')
+    model.save(PATH_PREFIX + 'model/ranking_utils/distilbart-re05_ranker.pickle')
+    model.load(PATH_PREFIX + 'model/ranking_utils/distilbart-re05_ranker.pickle')
     model.importance_info()
 
 

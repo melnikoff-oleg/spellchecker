@@ -1,0 +1,73 @@
+{
+    "Date": "18/05/2022 04:14",
+    "Model": "<model.fst.FastProdModel object at 0x7f151757f940>",
+    "Metrics": {
+        "Precision": 0.73,
+        "Recall": 0.95,
+        "F_0_5": 0.77,
+        "Word-level accuracy": 0.98,
+        "Broken tokenization cases": 0.0
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "In the hopeness that you understand me.",
+                "Word noise": "hopeness",
+                "Word gt": "hope",
+                "Word res": "hopes"
+            },
+            {
+                "Text noise": "Therefore I would like are refund of my ticket and I would like an apolygists.",
+                "Word noise": "apolygists.",
+                "Word gt": "apology.",
+                "Word res": "apologists."
+            },
+            {
+                "Text noise": "I would like to ask a few things, specialy about the wheather: what is the weather like in July in the U.S.A? What kind of clothes will I need and how much money should I take with me? Because I have never been to the U.S.A. before I don't know anything about it.",
+                "Word noise": "specialy",
+                "Word gt": "especially",
+                "Word res": "specifically"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "Weapons and factories are destroing our planet and we need to realise that we have to use tecnology to impruve our lives, while always triying to respect nature.",
+                "Word noise": "realise",
+                "Word gt": "realise",
+                "Word res": "realize"
+            },
+            {
+                "Text noise": "I deciced to go and visit your theatre restaurant.",
+                "Word noise": "theatre",
+                "Word gt": "theatre",
+                "Word res": "theater"
+            },
+            {
+                "Text noise": "OH I'M GETING MAD AGAIN SO I AM GOING TO TELL YOU ONE LAST THING, IT WAS THE MOST HORRIBLE NIGHT I HAD EVER HAD SO I DEMEND MY MONEY BACK!",
+                "Word noise": "GETING",
+                "Word gt": "GETING",
+                "Word res": "GETTING"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "However such centers are very useful and necessary.",
+                "Word noise": "centers",
+                "Word gt": "centres",
+                "Word res": "centers"
+            },
+            {
+                "Text noise": "It is now possible to talk to a friend almost everywhere and anytime, even if we are two thousand kilometers away from each other.",
+                "Word noise": "kilometers",
+                "Word gt": "kilometres",
+                "Word res": "kilometers"
+            },
+            {
+                "Text noise": "As you know, I like pop music so much and the singer was one of my favorite singers.",
+                "Word noise": "favorite",
+                "Word gt": "favourite",
+                "Word res": "favorite"
+            }
+        ]
+    }
+}

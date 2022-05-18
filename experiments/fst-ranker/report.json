@@ -1,0 +1,43 @@
+{
+    "Date": "18/05/2022 04:18",
+    "Model": "<model.fst.FastProdModel object at 0x7f13f855e940>",
+    "Metrics": {
+        "Precision@1": 0.98,
+        "True": 469,
+        "False": 12
+    },
+    "Mistakes examples": {
+        "Wrong candidate choosen": [
+            [
+                "Sentence: MY NAME is JAMES CAMIREZ AND I AM WRITING THIS LETTER TO YOU BECAUSE I HAVE SOME COMPLEINTS REGARDING THE DISAPPOINTING EVENING I HAD LAST NIGHT., Corr word: COMPLAINTS, Res word: COMPLEMENTS"
+            ],
+            [
+                "Sentence: In addition to this, you may have some roboters bringing the newspaper to the table, tidying up the house, and doing the shopping. Maybe they will also be your life patners., Corr word: robots, Res word: robbers"
+            ],
+            [
+                "Sentence: It gives us knowledge usefull for many school clubs, like the \"marathon shell\" club or the robotich club., Corr word: robotics, Res word: robotic"
+            ],
+            [
+                "Sentence: sincinerly Ki, Corr word: sincerely, Res word: sinisterly"
+            ],
+            [
+                "Sentence: I am thinking here particularly of the fact that every event and action is wildely discussed in the mass - media., Corr word: widely, Res word: wildly"
+            ],
+            [
+                "Sentence: Because nowdays whereever you go there is a big queue and I hate waiting., Corr word: wherever, Res word: whenever"
+            ],
+            [
+                "Sentence: When you buy something you were looking for a long time and, when you arrive at home, you discover some deffect on it and have to go back to the store to complain., Corr word: defect, Res word: effect"
+            ],
+            [
+                "Sentence: Secondly, the show was meant to begin at 19.30 pm, actually it began at 20.15 pm and that was without giving any explainations!, Corr word: explanation!, Res word: explanations!"
+            ],
+            [
+                "Sentence: If I could go in July that would be greate., Corr word: grate., Res word: great."
+            ],
+            [
+                "Sentence: The smokers in the school yard, the buffett and the other pupils, who are sitting at their tables doing their homework., Corr word: buffet, Res word: buffets"
+            ]
+        ]
+    }
+}
