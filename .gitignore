@@ -9,3 +9,5 @@ __pycache__/
 training/checkpoints/
 training/tensorboard_logs/
 training/intermediate_reports/
+training/onx.py
+neuspell/*

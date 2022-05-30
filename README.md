@@ -67,7 +67,7 @@ simple interface.
     <br>
     <img src="https://github.com/melnikoff-oleg/jb-spellchecker/blob/main/images/bart-sep-mask-all.png?raw=true" width="800"/>
     <br>
-    This pipeline corresponds to the <i>BERT-detector + BART-rewriter</i> model.
+    This pipeline corresponds to the <i>BART Sep-Mask-All</i> model.
 <p>
 
 ##### Performances
