@@ -76,9 +76,9 @@ simple interface.
 |-------------------------------------|-----------------------|--------------------------------------|
 | ```Aspell```                        | 49%                  | 7.3*                                 |
 | ``` Jamspell```                     | 69%                | 2.6*                                 |
-| ```BART end-to-end```                      | 85%                  | 396                                  |
-| ```BART Sep-Mask-All```                       | 91%                  | 205                                  |
-| ```Detector Candidator Ranker```                   | 92%                  | 213                                  |
+| ```BART end-to-end```                      | 85%                  | 205                                  |
+| ```BART Sep-Mask-All```                       | 91%                  | 70                                  |
+| ```Detector Candidator Ranker```                   | 92%                  | 76                                  |
 
 Performance of different correctors in our toolkit on the  ```BEA-60K```  dataset with real-world spelling
 mistakes. ∗ indicates evaluation on a CPU (for others we use NVIDIA V100).
