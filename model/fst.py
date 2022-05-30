@@ -99,6 +99,7 @@ class FastProdModel(SpellCheckModelBase):
             mx = -1e18
             mx_ind = None
             for j, score in enumerate(cur_scores):
+                print(candidates[i][j], score)
                 if mx < score:
                     mx = score
                     mx_ind = j
@@ -124,8 +125,10 @@ class FastProdModel(SpellCheckModelBase):
 
 def main():
     model: SpellCheckModelBase = FastProdModel()
-    text_noise = 'Moroever I have chosen this month because I think the weather will be fine.'
-    text_gt = 'Moreover I have chosen this month because I think the weather will be fine.'
+    # text_noise = 'Moroever I have chosen this month because I think the weather will be fine.'
+    # text_gt = 'Moreover I have chosen this month because I think the weather will be fine.'
+    text_noise = 'I luk foward to receving from you'
+    text_gt = 'I look forward to receiving from you'
     text_result = model.correct(text_noise)
     print(f'\nSpellcheck model testing\n\nModel: {str(model)}\n\n{text_noise} - Noised text\n{text_gt} - GT text'
           f'\n{text_result} - Result text')

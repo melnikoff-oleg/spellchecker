@@ -94,11 +94,13 @@ class HunspellCandidator(BaseCandidator):
         return all_candidates
 
 
-def test():
-    sentence = 'Harry warks in cofee shop'
-    spelled_words: List[SpelledWord] = [SpelledWord(sentence, (6, 11)), SpelledWord(sentence, (15, 20))]
+def candidator_test():
+    # sentence = 'Harry warks in cofee shop'
+    sentence = 'I luk foward to receving from you'
+    spelled_words: List[SpelledWord] = [SpelledWord(sentence, (2, 5)), SpelledWord(sentence, (6, 12)),
+                                        SpelledWord(sentence, (16, 24))]
     print(HunspellCandidator().get_candidates(sentence, spelled_words))
 
 
 if __name__ == '__main__':
-    test()
+    candidator_test()

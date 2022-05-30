@@ -172,7 +172,11 @@ class HunspellDetector(WordBaseDetector):
         self._hunspell = Hunspell()
 
     def is_spelled(self, word: str) -> bool:
-        spelled = self.is_word(word) and not self._hunspell.spell(word)
+        try:
+            spelled = self.is_word(word) and not self._hunspell.spell(word)
+        except Exception as e: # for encoding exceptions
+            print('Word with exception:', word)
+            spelled = False
         return spelled
 
 

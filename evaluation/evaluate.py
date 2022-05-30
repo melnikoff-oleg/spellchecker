@@ -3,7 +3,6 @@ import datetime
 import os
 from tqdm import tqdm
 from model.spellcheck_model import *
-from model.fst import FastProdModel
 from data_utils.utils import get_texts_from_file
 import string
 
@@ -43,7 +42,8 @@ def evaluate(model: SpellCheckModelBase, texts_gt: List[str], texts_noise: List[
             broken_tokenization = True
 
         cur_tp, cur_fp_1, cur_fp_2, cur_tn, cur_fn = 0, 0, 0, 0, 0
-        for word_gt, word_init, word_res in zip(words_gt, words_noise, words_res):
+        for idx, (word_gt, word_init) in enumerate(zip(words_gt, words_noise)):
+            word_res = words_res[idx] if idx < len(words_res) else ''
             word_report = {'Text noise': text_noise, 'Word noise': word_init, 'Word gt': word_gt, 'Word res': word_res}
             if word_init == word_gt:
                 if word_res == word_gt:
@@ -217,12 +217,17 @@ def evaluation_test():
 
 
 if __name__ == '__main__':
-    texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.gt'), \
-                            get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea500.noise')
+    texts_gt, texts_noise = get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea10.gt'), \
+                            get_texts_from_file(PATH_PREFIX + 'dataset/bea/bea10.noise')
+
+    # neuspell
+    # model = SpellCheckModelNeuSpell()
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/neuspell-bert/')
+
 
     # FST
-    model = FastProdModel()
-    evaluate_ranker(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/fst-ranker/')
+    # model = FastProdModel()
+    # evaluate_ranker(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/fst-ranker/')
 
 
     # distil bart de05
@@ -237,10 +242,18 @@ if __name__ == '__main__':
     # device = torch.device('cuda')
     # model = BartForConditionalGeneration(config)
     # model.load_state_dict(torch.load(checkpoint_path))
+    # model.save_pretrained(PATH_PREFIX + 'training/checkpoints/distilbart-best')
+    # tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
+    # tokenizer.save_pretrained(PATH_PREFIX + 'training/checkpoints/distilbart-best')
+    # tokenizer.push_to_hub("distilbart-sep-mask-all")
     # model = model.to(device)
-    # model = BertBartChecker(model=model)
-    # evaluate(model, texts_gt, texts_noise,
-    #          PATH_PREFIX + 'experiments/distilbart-sepmaskall0-de05/')
+    # model.push_to_hub("distilbart-sep-mask-all")
+    # model = BartSepMaskAllChecker(model=model)
+    checker = DCR()
+    checker.from_pretrained()
+    evaluate(checker, texts_gt, texts_noise,
+             PATH_PREFIX + 'experiments/distilbart-sepmaskall0-de05-BEA500/')
+
 
     # detector candidator ranker
     # model = DetectorCandidatorRanker()
@@ -250,7 +263,7 @@ if __name__ == '__main__':
     # model_name = 'bart-sep-mask-all-sent_v0_214056'
     # checkpoint = f'training/checkpoints/{model_name}'
     # model = BertBartChecker(checkpoint=PATH_PREFIX + checkpoint + '.pt', device=torch.device('cuda'))
-    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bart-sep-mask-all_v0_214056_tokfixedCapsDotSpace/')
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bart-sep-mask-all-BEA60k/')
 
     # detector candidator ranker
     # model = DetectorCandidatorRanker()
@@ -258,8 +271,22 @@ if __name__ == '__main__':
 
     # bart-base
     # checkpoint = 'training/checkpoints/bart-base_v1_4.pt'
-    # model = BartChecker(checkpoint=PATH_PREFIX + checkpoint, device=torch.device('cuda:6'))
-    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bart-base_v1_4/')
+    # model = BartChecker(checkpoint=PATH_PREFIX + checkpoint, device=torch.device('cuda'))
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/bart-base/')
+
+    # char-based
+    # checkpoint = 'training/checkpoints/char-based-xl-explode_v1_9.pt'
+    # tokenizer = CharBasedTransformerChecker.BartTokenizer(
+    #     PATH_PREFIX + 'data_utils/char_based_transformer_vocab/url_vocab.json',
+    #     PATH_PREFIX + 'data_utils/char_based_transformer_vocab/url_merges.txt'
+    # )
+    # d_model = 512
+    # config = BartConfig(vocab_size=tokenizer.vocab_size, d_model=d_model, encoder_layers=6, decoder_layers=6,
+    #                     encoder_attention_heads=8, decoder_attention_heads=8, encoder_ffn_dim=d_model * 4,
+    #                     decoder_ffn_dim=d_model * 4)
+    # model = CharBasedTransformerChecker(checkpoint=PATH_PREFIX + checkpoint, device=torch.device('cuda:0'),
+    #                                     config=config)
+    # evaluate(model, texts_gt, texts_noise, PATH_PREFIX + 'experiments/char-level-bea50/')
 
     # with open(PATH_PREFIX + 'dataset/1blm/1blm.train.noise.sep_mask_all_sent') as f:
     #     for line in f:

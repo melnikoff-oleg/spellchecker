@@ -55,6 +55,9 @@ string f(string s){
             }
 
             // 'm, 's, 've, 're
+            if(i + 4 < n and s[i + 1] == '\'' and quote_suff.find(s.substr(i + 3, 2)) != quote_suff.end()){
+                continue;
+            }
             if(i + 3 < n and s[i + 1] == '\'' and quote_suff.find(s.substr(i + 2, 2)) != quote_suff.end()){
                 continue;
             }
@@ -116,10 +119,9 @@ void solve(){
     };
 }
 
-
 int main(){
-    freopen("/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/neuspell_bert/result_3.txt", "r", stdin);
-    freopen("/Users/olegmelnikov/PycharmProjects/jb-spellchecker/grazie/spell/main/data/experiments/neuspell_bert/result_4.txt", "w", stdout);
+    freopen("/Users/olegmelnikov/PycharmProjects/spellchecker/experiments/neuspell-scrnn/bea60k", "r", stdin);
+    freopen("/Users/olegmelnikov/PycharmProjects/spellchecker/experiments/neuspell-scrnn/bea60kdetok", "w", stdout);
     ios::sync_with_stdio(0);cin.tie(0);
     int t = 1;
     while(t--)

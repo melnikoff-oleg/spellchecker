@@ -9,7 +9,6 @@ from model.detector import *
 from model.candidator import *
 from model.ranker import *
 
-# PATH_PREFIX = '/home/ubuntu/omelnikov/grazie/spell/main/'
 PATH_PREFIX = '/home/ubuntu/omelnikov/spellchecker/'
 
 
@@ -93,6 +92,126 @@ class OldBartChecker(SpellCheckModelBase):
         return text
 
 
+class DCR(SpellCheckModelBase):
+    def __init__(self):
+        self.detector: BaseDetector = HunspellDetector()
+        self.candidator: BaseCandidator = HunspellCandidator()
+
+        checkpoint_path = PATH_PREFIX + 'training/checkpoints/bart-sep-mask-all-sent-distil-dec05_v0_81396.pt'
+        config = BartConfig(vocab_size=50265, max_position_embeddings=1024, encoder_layers=6, encoder_ffn_dim=3072,
+                                encoder_attention_heads=12, decoder_layers=3, decoder_ffn_dim=3072,
+                                decoder_attention_heads=12, encoder_layerdrop=0.0, decoder_layerdrop=0.0,
+                                activation_function='gelu', d_model=768, dropout=0.1, attention_dropout=0.0,
+                                activation_dropout=0.0, init_std=0.02, classifier_dropout=0.0, scale_embedding=False,
+                                use_cache=True, num_labels=3, pad_token_id=1, bos_token_id=0, eos_token_id=2,
+                                is_encoder_decoder=True, decoder_start_token_id=2, forced_eos_token_id=2)
+        model = BartForConditionalGeneration(config)
+        model.load_state_dict(torch.load(checkpoint_path))
+        self.device = torch.device('cuda')
+        model = model.to(self.device)
+        model.eval()
+        self.ranker_tokenizer = BartTokenizer.from_pretrained('facebook/bart-base')
+        self.ranker_model: BartForConditionalGeneration = model
+
+    def from_pretrained(self):
+        self.ranker_model = BartForConditionalGeneration.from_pretrained('melnikoff-oleg/distilbart-sep-mask-all')
+        self.ranker_model.to(self.device)
+        self.ranker_tokenizer = BartTokenizer.from_pretrained('melnikoff-oleg/distilbart-sep-mask-all')
+
+    def correct(self, text: str, return_all_stages: bool = False) -> str:
+
+        caps = (text.upper() == text)
+        if caps:
+            text = text.lower()
+
+        spelled_words = self.detector.detect(text)
+        candidates = self.candidator.get_candidates(text, spelled_words)
+
+        _spelled_words, _candidates = [], []
+        for idx, (spelled_word, cands) in enumerate(zip(spelled_words, candidates)):
+            if len(candidates[idx]) > 0:
+                _spelled_words.append(spelled_word)
+                _candidates.append(cands)
+        spelled_words, candidates = _spelled_words, _candidates
+
+        texts = []
+        outs = []
+        texts_inds = []
+        cands_ranges = []
+        for i, (spelled_word, cands) in enumerate(zip(spelled_words, candidates)):
+            text, start, finish = spelled_word.text, spelled_word.interval[0], spelled_word.interval[1]
+            text_pref = text[: start]
+            text_suff = text[finish:]
+            if (start == 0 or text[start - 1] == ' ') and (finish == len(text) or not text[finish].isalpha()):
+                texts_inds += [i for _ in cands]
+
+                input_texts = [spelled_word.word + ' </s> ' + text_pref + '<mask>' + text_suff for _ in cands]
+                output_texts = [text_pref + syn + text_suff for syn in cands]
+
+                texts += input_texts
+                outs += output_texts
+                cands_ranges += [(len(self.ranker_tokenizer.encode(text_pref[:-1])),
+                                  len(self.ranker_tokenizer.encode(syn, add_special_tokens=False))) for syn in cands]
+            else:
+                print('Error with SpelledWord')
+                print('SpelledWord:', spelled_word)
+                print('Candidates:', cands)
+                raise Exception
+
+        batch_size = 16
+
+        scores: List[List[float]] = [[] for _ in spelled_words]
+
+        for start in range(0, len(texts), batch_size):
+            end = min(start + batch_size, len(texts))
+
+            encoded_input = self.ranker_tokenizer(texts[start: end], return_tensors='pt', truncation=True,
+                                           padding=True).to(self.device)['input_ids']
+            encoded_output = self.ranker_tokenizer(outs[start: end], return_tensors='pt', truncation=True,
+                                            padding=True).to(self.device)['input_ids']
+
+            # BART eval
+            all_logits = self.ranker_model(encoded_input, labels=encoded_output).logits.cpu()
+
+            for i, logits in enumerate(all_logits):
+                ind = texts_inds[start + i]
+                syn_range = cands_ranges[start + i]
+                word_logits = logits[syn_range[0] - 1: syn_range[0] + syn_range[1] - 1]
+                log_probs = torch.log_softmax(word_logits, dim=1)
+                word_log_prob = torch.tensor(0.0)
+                for j, token_idx in enumerate(encoded_output[i][syn_range[0] - 1: syn_range[0] + syn_range[1] - 1]):
+                    word_log_prob += log_probs[j, token_idx]
+                scores[ind].append(word_log_prob.item())
+
+        result: List[str] = ['' for _ in spelled_words]
+
+        for i, cur_scores in enumerate(scores):
+            mx = -1e18
+            mx_ind = None
+            for j, score in enumerate(cur_scores):
+                if mx < score:
+                    mx = score
+                    mx_ind = j
+            result[i] = candidates[i][mx_ind]
+
+        corrections = result
+
+        shift = 0
+        res_text = text
+        for i, spelled_word in enumerate(spelled_words):
+            res_text = res_text[: shift + spelled_word.interval[0]] + corrections[i] + \
+                       res_text[shift + spelled_word.interval[1]:]
+            shift += len(corrections[i]) - len(spelled_word.word)
+
+        if caps:
+            res_text = res_text.upper()
+
+        if return_all_stages:
+            return res_text, spelled_words, candidates, corrections
+        else:
+            return res_text
+
+
 class DetectorCandidatorRanker(SpellCheckModelBase):
 
     def __init__(self):
@@ -171,7 +290,7 @@ class CharBasedTransformerChecker(SpellCheckModelBase):
         vocab_files_names = {"vocab_file": PATH_PREFIX + "data_utils/char_based_transformer_vocab/vocab.json",
                              "merges_file": PATH_PREFIX + "data_utils/char_based_transformer_vocab/merges.txt"}
 
-    def __init__(self, config: dict = None, checkpoint: str = 'No learning', model: BartForConditionalGeneration = None,
+    def __init__(self, config, checkpoint: str = 'No learning', model: BartForConditionalGeneration = None,
                  device: torch.device = None):
         self.checkpoint = checkpoint
         transformers.set_seed(42)
@@ -179,8 +298,6 @@ class CharBasedTransformerChecker(SpellCheckModelBase):
             PATH_PREFIX + "data_utils/char_based_transformer_vocab/url_vocab.json",
             PATH_PREFIX + "data_utils/char_based_transformer_vocab/url_merges.txt"
         )
-        if not config is None:
-            config['vocab_size'] = self.tokenizer.vocab_size
         if device is None:
             self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         else:
@@ -189,7 +306,7 @@ class CharBasedTransformerChecker(SpellCheckModelBase):
         if model is not None:
             self.model = model
         else:
-            model_config = BartConfig(**config)
+            model_config = config
             self.model = BartForConditionalGeneration(model_config)
             if checkpoint != 'No learning':
                 # Model was trained on GPU, maybe we are inferring on CPU
@@ -215,22 +332,25 @@ class CharBasedTransformerChecker(SpellCheckModelBase):
 
 class SpellCheckModelNeuSpell(SpellCheckModelBase):
 
-    def __str__(self):
-        return 'NeuSpell BERT'
-
-    def correct(self, text: str) -> str:
+    def __init__(self):
         with open(PATH_PREFIX + 'dataset/bea/bea60k.noise') as x:
             p = x.readlines()
-        with open(PATH_PREFIX + 'experiments/neuspell_bert/result_4.txt') as y:
+        with open(PATH_PREFIX + 'experiments/neuspell-bert/bea60kdetok') as y:
             q = y.readlines()
 
-        for i, j in zip(p, q):
-            if text == i[:-1]:
-                return j[:-1]
+        self.ans = {}
 
-        print(f'Text "{text}" not found in NeuSpell result file')
-        time.sleep(5)
-        return '--BUG--'
+        for i, j in zip(p, q):
+            self.ans[i[:-1]] = j[:-1]
+
+    def correct(self, text: str) -> str:
+        try:
+            return self.ans[text]
+        except Exception:
+
+            print(f'Text "{text}" not found in NeuSpell result file')
+            time.sleep(5)
+            return '--BUG--'
 
 
 class BartChecker(SpellCheckModelBase):
@@ -260,10 +380,10 @@ class BartChecker(SpellCheckModelBase):
                     self.model.load_state_dict(torch.load(checkpoint, map_location=self.device))
 
         self.model = self.model.to(self.device)
-        print(f'Device: {self.device}')
 
     def from_pretrained(self):
         self.model = BartForConditionalGeneration.from_pretrained("melnikoff-oleg/bart-end-to-end")
+        self.model.to(self.device)
 
     def __str__(self):
         return f'BART, checkpoint: {self.checkpoint.split("/")[-1]}'
@@ -281,7 +401,7 @@ def is_needed_to_add_dot_to_end(s: string):
     return not s[-1] in string.punctuation
 
 
-class BertBartChecker(SpellCheckModelBase):
+class BartSepMaskAllChecker(SpellCheckModelBase):
 
     def __init__(self, checkpoint: str = 'No learning', model: BartForConditionalGeneration = None,
                  device: torch.device = None, tokenizer: RobertaTokenizer = None):
@@ -314,16 +434,16 @@ class BertBartChecker(SpellCheckModelBase):
 
         self.model = self.model.to(self.device)
 
-    def __str__(self):
-        return f'SepMaskBART, checkpoint: {self.checkpoint.split("/")[-1]}'
+    def from_pretrained(self):
+        self.model = BartForConditionalGeneration.from_pretrained('melnikoff-oleg/distilbart-sep-mask-all')
+        self.model.to(self.device)
+        self.tokenizer = BartTokenizer.from_pretrained('melnikoff-oleg/distilbart-sep-mask-all')
 
     def correct(self, text: str) -> str:
 
         # CAPS handling
         caps = (text.upper() == text)
         if caps:
-            # print('Using CAPS:')
-            # print(text)
             text = text.lower()
 
         # no dot at the end handle
@@ -336,53 +456,25 @@ class BertBartChecker(SpellCheckModelBase):
         # Надо подравить инференс на все токены
         shift = 0
         pref = ''
-        for spell in spells:
+        for idx, spell in enumerate(spells):
             text = text[: shift + spell.interval[0]] + '<mask>' + text[shift + spell.interval[1]:]
             shift += 6 - len(spell.word)
-            pref += spell.word + ' </s> '
-        text = pref + text
-        print(text)
+            pref += spell.word
+            if idx < len(spells) - 1:
+                pref += ' </s> '
+        text = pref + ' </s> ' + text
+        # print('Input text:', text)
+        # from time import sleep
+        # sleep(5)
+
+        # print('Tokenized text:', self.tokenizer([text], return_tensors='pt')["input_ids"])
 
         ans_ids = self.model.generate(self.tokenizer([text], return_tensors='pt').to(self.device)["input_ids"],
                                       num_beams=5, min_length=5, max_length=500)
         ans_tokens = self.tokenizer.batch_decode(ans_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
         text = ' '.join(ans_tokens)
 
-        # first space fix
-        # if text[0] == ' ':
-        #     print('Prev res:', text)
-        #
-        #     text = text[1:]
-        #     print('New res:', text)
-        #     print()
-
-
-        # text = text.strip()
-
-        # dct = HunspellDetector()
-        # toks = text.split(' ')
-        #
-        # for ind, tok in enumerate(toks):
-        #     haspunct = False
-        #     for ch in tok:
-        #         if ch in string.punctuation:
-        #             haspunct = True
-        #     if dct.is_spelled(tok) and not haspunct:
-        #         fnd = False
-        #         for i in range(1, len(tok) - 1):
-        #             pr = tok[:i]
-        #             sf = tok[i:]
-        #             if not dct.is_spelled(pr) and not dct.is_spelled(sf):
-        #                 fnd = True
-        #                 toks = toks[:ind] + [pr, sf] + toks[ind + 1:]
-        #                 break
-        #         if fnd:
-        #             break
-        #
-        # text = ' '.join(toks)
-
-        # if add_dot:
-        #     text = text[:-1]
+        # print('Res text:', text)
 
         if caps:
             text = text.upper()
@@ -565,15 +657,9 @@ def bart_pretrain_test():
     # spellcheck_model_test(checker)
 
 
-def bert_bart_test():
-
-    # model = BertBartChecker(model=...)
-    # model.from_pretrained()
-
-    model_name = 'bart-sep-mask-all-sent_v0_60000'
-    checkpoint = f'training/checkpoints/{model_name}'
-    model = BertBartChecker(checkpoint=PATH_PREFIX + checkpoint + '.pt', device=torch.device('cuda'))
-
+def bert_sep_mask_all_test():
+    model = BartSepMaskAllChecker()
+    model.from_pretrained()
     spellcheck_model_test(model)
 
 
@@ -597,7 +683,5 @@ def detector_candidator_ranker_test():
     spellcheck_model_test(model)
 
 
-
 if __name__ == '__main__':
-    # bert_bart_test()
     print(HunspellDetector().is_spelled('allowed'))

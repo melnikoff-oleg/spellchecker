@@ -1,0 +1,73 @@
+{
+    "Date": "25/05/2022 12:27",
+    "Model": "<model.spellcheck_model.SpellCheckModelNeuSpell object at 0x7ff3a65f4dd8>",
+    "Metrics": {
+        "Precision": 0.74,
+        "Recall": 0.88,
+        "F_0_5": 0.76,
+        "Word-level accuracy": 0.97,
+        "Broken tokenization cases": 0.04
+    },
+    "Mistakes examples": {
+        "Wrong correction of real mistake": [
+            {
+                "Text noise": "This was because the House of Councilors election was held in Japan yesterday.",
+                "Word noise": "Councilors",
+                "Word gt": "Counselors",
+                "Word res": "Councillors"
+            },
+            {
+                "Text noise": "Analyze: SWOT for Yes (For SWOT)",
+                "Word noise": "Analyze:",
+                "Word gt": "Analysis:",
+                "Word res": "Analyses:"
+            },
+            {
+                "Text noise": "I worked at a nursery school in London last summer, which led to the improval of my English skills.",
+                "Word noise": "improval",
+                "Word gt": "improvement",
+                "Word res": "approval"
+            }
+        ],
+        "No mistake, but model corrected": [
+            {
+                "Text noise": "As for wiriting essay skills, I'm planning to receive support from a local English school in Japan and I want to try to polish up my writing skill enough to pass the bar exam in California in the future.",
+                "Word noise": "skill",
+                "Word gt": "skill",
+                "Word res": "skills"
+            },
+            {
+                "Text noise": "As well as me, my boss is also lookinng forward to meeting 'lang - 8' staffs because we use and like it a lot!",
+                "Word noise": "'lang",
+                "Word gt": "'lang",
+                "Word res": "'long"
+            },
+            {
+                "Text noise": "By lights, it was a bit strange that Erika, who is a beautiful young lady, married with Takashiro, who is over 40's and not so good looking with an ambiguous and susupicious job.",
+                "Word noise": "lights,",
+                "Word gt": "lights,",
+                "Word res": "rights,"
+            }
+        ],
+        "Not found mistake": [
+            {
+                "Text noise": "I had never eaten vienam noodles.",
+                "Word noise": "vienam",
+                "Word gt": "Vietnamese",
+                "Word res": "vienam"
+            },
+            {
+                "Text noise": "There is a very famous road called Savile Row in London.",
+                "Word noise": "Savile",
+                "Word gt": "Saville",
+                "Word res": "Savile"
+            },
+            {
+                "Text noise": "By the way, today we celebrated the `` green festival `` which is tradisional in my city.",
+                "Word noise": "tradisional",
+                "Word gt": "traditional",
+                "Word res": "tradisional"
+            }
+        ]
+    }
+}
